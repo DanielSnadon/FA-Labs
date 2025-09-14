@@ -1,0 +1,3 @@
+/home/snadon/FA_Labs/Lab1/build/CMakeFiles/main.dir
+/home/snadon/FA_Labs/Lab1/build/CMakeFiles/edit_cache.dir
+/home/snadon/FA_Labs/Lab1/build/CMakeFiles/rebuild_cache.dir

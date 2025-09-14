@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include "math_operations.h"  // Подключаем наш заголовок
 
 int main() {
-    printf("Hello, World!\n");
+    int result = add_numbers(5, 3);
+    printf("Result: %d\n", result);
     return 0;
 }

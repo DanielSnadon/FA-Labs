@@ -1,0 +1,103 @@
+Просто небольшой Cheat Sheet, напоминающий, как настроить окружение для выполнения очередной задачи лабораторной работы.
+@ Даниил Федосов - 2025 - https://github.com/DanielSnadon
+
+== Структура ==
+
+Примерная структура для каждой работы:
+
+fa_lab1/
+├── src/          < Исходные файлы (.c)
+├── include/      < Заголовочные файлы (.h)
+├── test/         < Тесты
+└── build/        < Сборка (Ненужные файлы)
+
+== Cmake ==
+
+ */ ЗАПУСКАТЬ ИЗ ПАПКИ, КУДА БУДУТ СКЛАДЫВАТЬСЯ НЕНУЖНЫЕ ФАЙЛЫ /*
+
+Объяснение базы cmake:
+"
+cmake_minimum_required(VERSION 3.10)  # Минимальная версия CMake
+project(Lab1 C)                    # Название проекта и язык (C)
+
+set(CMAKE_C_STANDARD 99)              # Используем стандарт C99
+set(CMAKE_C_STANDARD_REQUIRED ON)     # Требуем строгое соблюдение
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -pedantic")  # Флаги компиляции
+
+add_executable(main src/main.c) # Создаем исполняемый файл "main" из src/main.c
+
+target_include_directories(main PRIVATE include) # Подключаем папку include для поиска заголовочных файлов
+"
+
+== Valgrind ==
+- Инструмент для проверки:
+- Утечки памяти (memory leaks)
+- Неправильное использование памяти
+- Использование неинициализированной памяти
+
+$ Базовая проверка
+valgrind ./main
+
+$ Детальная проверка утечек
+valgrind --leak-check=full --track-origins=yes ./main
+
+$ Для программы с аргументами
+valgrind --leak-check=full ./main arg1 arg2
+
+== Пример лабораторной сразу из трёх программ ==
+
+[
+##############################################
+        < CMakeLists.txt >
+// Тут сборка происходит
+
+cmake_minimum_required(VERSION 3.10)
+project(Lab1 C)
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+add_executable(main
+    src/main.c
+    src/math_operations.c
+)
+
+target_include_directories(main PRIVATE include)
+
+##############################################
+        < math_operations.h >
+// Тут объявляются функции.
+
+#ifndef MATH_OPERATIONS_H
+#define MATH_OPERATIONS_H
+
+int add_numbers(int a, int b);
+
+#endif
+
+##############################################
+        < main.c >
+// Тут основная программа
+
+#include <stdio.h>
+#include "math_operations.h"  // Подключаем наш заголовок
+
+int main() {
+    int result = add_numbers(5, 3);
+    printf("Result: %d\n", result);
+    return 0;
+}
+
+##############################################
+
+        < math_operations.c >
+// Тут реализуются функции
+
+#include "math_operations.h" // Ссылка на .h файл
+
+int add_numbers(int a, int b) {
+    return a + b;
+}
+
+##############################################
+]
