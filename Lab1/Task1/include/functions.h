@@ -1,10 +1,12 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-int abs(int x);
+unsigned int abs(int x);
 
-int strToInt(const char* firstChar, const int base, int* result);
+unsigned short int strToInt(const char* firstChar, const int base, int* result);
 
-void find_kratnie(const int x);
+void findKratnie(const int x);
+unsigned short int checkPrime(const int x);
+void spellHex(const int x);
 
 #endif

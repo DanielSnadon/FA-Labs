@@ -29,6 +29,9 @@ int main(int argc, char* argv[]) {
     case 2:
         printf("Ошибка ввода числа: недопустимый символ в числе. \n");
         return 1;
+    case 3:
+        printf("Ошибка ввода числа: число слишком большое. \n");
+        return 1;
     default:
         break;
     }
@@ -38,7 +41,22 @@ int main(int argc, char* argv[]) {
     switch (flag[1])
     {
     case 'h':
-        find_kratnie(number);
+        findKratnie(number);
+        break;
+
+    case 'p':
+        switch(checkPrime(number))
+        {
+            case 0:
+                printf("%d - простое число. \n", number);
+                break;
+            case 1:
+                printf("%d - составное число. \n", number);
+                break;
+            default:
+                printf("%d - не является простым или составным числом. \n", number);
+                break;
+        }
         break;
     
     default:

@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <ctype.h>
 
-int abs(int x) {
+unsigned int abs(int x) {
     return (x < 0) ? -x : x;
 }
 
-int strToInt(const char* firstChar, const int base, int* result) {
+unsigned short int strToInt(const char* firstChar, const int base, int* result) {
     int trueNumber = 0;
     const char* curChar = firstChar;
     
@@ -35,6 +35,10 @@ int strToInt(const char* firstChar, const int base, int* result) {
             return 2;
         }
 
+        if (trueNumber > ((2147483647 - digit) / base)) {
+            return 3;
+        }
+
         trueNumber = trueNumber * base + digit;
         curChar++;
     }
@@ -43,18 +47,18 @@ int strToInt(const char* firstChar, const int base, int* result) {
     return 0;
 }
 
-void find_kratnie(const int x) {
+void findKratnie(const int x) {
     if (x == 0) {
         printf("Невозможно найти делители нуля. \n");
         return;
     }
 
     if (abs(x) > 100) {
-        printf("Чисел, кратных %d нет. \n", x);
+        printf("Чисел от 1 до 100, кратных %d нет. \n", x);
         return;
     }
 
-    printf("Числа, кратные %d: ", x);
+    printf("Числа от 1 до 100, кратные %d: ", x);
 
     for (int i = abs(x); i <= 100; i += abs(x)) {
         printf("%d ", i);
@@ -62,4 +66,22 @@ void find_kratnie(const int x) {
 
     printf("\n");
     return;
+}
+
+unsigned short int checkPrime(const int x) {
+    if (abs(x) <= 1) {
+        return 2;
+    }
+
+    for (int i = 2; i < (x / 2); i++) {
+        if (x % i == 0) {
+            return 1;
+        }   
+    }
+
+    return 0;
+}
+
+void spellHex(const int x) {
+    
 }
