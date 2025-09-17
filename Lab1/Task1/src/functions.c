@@ -59,15 +59,13 @@ short int strToInt(const char* firstChar, const int base, int* result) {
 
 short int findKratnie(const int x) { // Функция для пункта "a"
     if (x == 0) {
-        printf("Невозможно найти делители нуля. \n");
         return 1;
     }
 
     if (abs(x) > 100) {
-        printf("Чисел от 1 до 100, кратных %d нет. \n", x);
         return 2;
     }
-
+    
     printf("Числа от 1 до 100, кратные %d: ", x);
 
     for (int i = abs(x); i <= 100; i += abs(x)) {

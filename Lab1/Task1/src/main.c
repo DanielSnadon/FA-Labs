@@ -18,10 +18,8 @@ int main(int argc, char* argv[]) {
 
     // Перевод из строки в число
 
-    int error = 0;
     int number;
-    error = strToInt(argv[1], 10, &number);
-    switch (error)
+    switch (strToInt(argv[1], 10, &number))
     {
     case 1:
         printf("Ошибка ввода числа: после знака минуса нет цифр. \n");
@@ -41,7 +39,17 @@ int main(int argc, char* argv[]) {
     switch (flag[1])
     {
     case 'h':
-        findKratnie(number);
+        switch (findKratnie(number))
+        {
+            case 1:
+                printf("Невозможно найти делители нуля. \n");
+                break;
+            case 2:
+                printf("Чисел от 1 до 100, кратных %d нет. \n", number);
+                break;
+            default:
+                break;
+        }
         break;
 
     case 'p':
@@ -72,7 +80,8 @@ int main(int argc, char* argv[]) {
 
     case 'a':
         long int result;
-        switch (numberSum(number, &result)) {
+        switch (numberSum(number, &result))
+        {
             case 1:
                 printf("Ошибка ввода: число должно быть натуральным. \n");
                 return 1;
@@ -87,7 +96,8 @@ int main(int argc, char* argv[]) {
 
     case 'f':
         long long int answer;
-        switch (factorial(number, &answer)) {
+        switch (factorial(number, &answer))
+        {
             case 1:
                 printf("Ошибка ввода: число должно быть неотрицательным. \n");
                 return 1;
