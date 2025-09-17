@@ -6,7 +6,7 @@ unsigned int abs(int x) {
     return (x < 0) ? -x : x;
 }
 
-unsigned short int strToInt(const char* firstChar, const int base, int* result) {
+short int strToInt(const char* firstChar, const int base, int* result) {
     int trueNumber = 0;
     const char* curChar = firstChar;
     
@@ -47,15 +47,15 @@ unsigned short int strToInt(const char* firstChar, const int base, int* result) 
     return 0;
 }
 
-void findKratnie(const int x) { // Функция для пункта "a"
+short int findKratnie(const int x) { // Функция для пункта "a"
     if (x == 0) {
         printf("Невозможно найти делители нуля. \n");
-        return;
+        return 1;
     }
 
     if (abs(x) > 100) {
         printf("Чисел от 1 до 100, кратных %d нет. \n", x);
-        return;
+        return 2;
     }
 
     printf("Числа от 1 до 100, кратные %d: ", x);
@@ -65,10 +65,10 @@ void findKratnie(const int x) { // Функция для пункта "a"
     }
 
     printf("\n");
-    return;
+    return 0;
 }
 
-unsigned short int checkPrime(const int x) { // Функция для пункта "b"
+short int checkPrime(const int x) { // Функция для пункта "b"
     if (abs(x) <= 1) {
         return 2;
     }
@@ -82,46 +82,35 @@ unsigned short int checkPrime(const int x) { // Функция для пункт
     return 0;
 }
 
-void spellHex(const int x) { // Функция для пункта "c"
+short int spellHex(const int x) { // Функция для пункта "c"
 
     printf("Результат: ");
 
     if (x == 0) {
         printf("0 \n");
-        return;
+        return 1;
     }
 ;
     short unsigned int digit;
-
-    int number = abs(x);
-    
-    char buf[33];
-    char* curChar = buf + 32;
-
-    *curChar = '#';
-    curChar--;
+    char buf[32];
+    unsigned int number = abs(x);
+    short unsigned int count = 0;
 
     while (number) {
-        curChar--;
         digit = number % 16;
-        if (digit > 9) {
-            *curChar = 'A' + digit - 10;
-
-        } else {
-            *curChar = '0' + digit;
-        }
+        buf[count] = (digit < 10) ? '0' + digit : 'A' + digit - 10;
         number /= 16;
+        count++;
     }
 
     if (x < 0) {
         printf("- ");
     }
 
-    while (*curChar != '#') {
-        printf("%c ", *curChar);
-        curChar++;
+    for (int i = count - 1; i >= 0; i--) {
+        printf("%c ", buf[i]);
     }
-
+    
     printf("\n");
-    return;
+    return 0;
 }
