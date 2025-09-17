@@ -1,9 +1,19 @@
 #include "functions.h"
 #include <stdio.h>
 #include <ctype.h>
+#include <limits.h>
 
 unsigned int abs(int x) {
     return (x < 0) ? -x : x;
+}
+
+long power(const int base, const int exponent) {
+    long result = 1;
+    for (int i = 0; i < exponent; i++) {
+        result *= base;
+    }
+
+    return result;
 }
 
 short int strToInt(const char* firstChar, const int base, int* result) {
@@ -35,7 +45,7 @@ short int strToInt(const char* firstChar, const int base, int* result) {
             return 2;
         }
 
-        if (trueNumber > ((2147483647 - digit) / base)) {
+        if (trueNumber > ((INT_MAX - digit) / base)) {
             return 3;
         }
 
@@ -110,7 +120,67 @@ short int spellHex(const int x) { // Функция для пункта "c"
     for (int i = count - 1; i >= 0; i--) {
         printf("%c ", buf[i]);
     }
-    
+
     printf("\n");
+    return 0;
+}
+
+short int powerTable(const int x) { // Функция для пункта "d"
+    if (x > 10 || x <= 1) {
+        return 1;
+    }
+
+    printf("< Таблица степеней от 1 до %d для чисел 1-10 > \n\n", x);
+
+    for (int number = 0; number <= 10; number++) {
+
+        printf("Для %d: \n", number);
+
+        for (int exp = 1; exp <= x; exp++) {
+            long result = power(number, exp);
+            printf("%d ^ %d = %ld \n", number, exp, result);
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
+
+short int numberSum(const int x, long* result) { // Функция для пункта "e"
+    if (x <= 0) {
+        return 1;
+    }
+
+    int sum = 0;
+
+    for (int i = 1; i <= x; i++) {
+        if (LONG_MAX - i < sum) {
+            return 2;
+        }
+        sum += i;
+    }
+
+    *result = sum;
+
+    return 0;
+}
+
+short int factorial(const int x, long long* result) {
+    if (x < 0) {
+        return 1;
+    }
+
+    long long temp = 1;
+
+    for (int i = 1; i <= x; i++) {
+        if (temp > LLONG_MAX / i) {
+            return 2;
+        }
+        temp *= i;
+    }
+
+    *result = temp;
+    
     return 0;
 }

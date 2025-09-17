@@ -8,7 +8,12 @@ CMakeFiles/main.dir/src/functions.c.o: /home/snadon/FA_Labs/Lab1/Task1/src/funct
   /usr/include/bits/floatn-common.h \
   /usr/include/bits/floatn.h \
   /usr/include/bits/libc-header-start.h \
+  /usr/include/bits/local_lim.h \
   /usr/include/bits/long-double.h \
+  /usr/include/bits/posix1_lim.h \
+  /usr/include/bits/posix2_lim.h \
+  /usr/include/bits/pthread_stack_min-dynamic.h \
+  /usr/include/bits/pthread_stack_min.h \
   /usr/include/bits/stdio_lim.h \
   /usr/include/bits/time64.h \
   /usr/include/bits/timesize.h \
@@ -29,11 +34,15 @@ CMakeFiles/main.dir/src/functions.c.o: /home/snadon/FA_Labs/Lab1/Task1/src/funct
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/limits.h \
+  /usr/include/linux/limits.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdio.h \
   /usr/include/sys/cdefs.h \
+  /usr/lib/gcc/x86_64-redhat-linux/15/include/limits.h \
   /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h
+  /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h \
+  /usr/lib/gcc/x86_64-redhat-linux/15/include/syslimits.h
 
 CMakeFiles/main.dir/src/main.c.o: /home/snadon/FA_Labs/Lab1/Task1/src/main.c \
   /home/snadon/FA_Labs/Lab1/Task1/include/functions.h \
@@ -88,15 +97,13 @@ main: /lib64/ld-linux-x86-64.so.2 \
 
 /usr/lib/gcc/x86_64-redhat-linux/15/crtend.o:
 
-/usr/lib64/libc.so:
-
 /usr/lib64/crtn.o:
-
-/usr/lib64/crt1.o:
 
 /lib64/ld-linux-x86-64.so.2:
 
 /home/snadon/FA_Labs/Lab1/Task1/src/main.c:
+
+/usr/lib/gcc/x86_64-redhat-linux/15/include/syslimits.h:
 
 /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h:
 
@@ -104,19 +111,19 @@ main: /lib64/ld-linux-x86-64.so.2 \
 
 /usr/include/stdio.h:
 
-/usr/include/bits/types.h:
-
-/usr/include/bits/types/__locale_t.h:
-
-/home/snadon/FA_Labs/Lab1/Task1/include/functions.h:
+/usr/include/gnu/stubs.h:
 
 CMakeFiles/main.dir/src/functions.c.o:
 
 /usr/include/gnu/stubs-64.h:
 
-/lib64/libgcc_s.so.1:
+/usr/include/features.h:
 
-/usr/include/bits/stdio_lim.h:
+/usr/include/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/ctype.h:
+
+/usr/include/bits/posix1_lim.h:
 
 /usr/lib64/crti.o:
 
@@ -134,7 +141,39 @@ CMakeFiles/main.dir/src/main.c.o:
 
 /usr/include/bits/endianness.h:
 
+/usr/lib64/crt1.o:
+
+/usr/include/bits/posix2_lim.h:
+
 /usr/include/bits/endian.h:
+
+/usr/lib64/libc.so:
+
+/usr/include/bits/local_lim.h:
+
+/home/snadon/FA_Labs/Lab1/Task1/include/functions.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/15/crtbegin.o:
+
+/usr/include/features-time64.h:
+
+/usr/include/bits/types/__fpos64_t.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/15/include/limits.h:
+
+/usr/include/limits.h:
+
+/home/snadon/FA_Labs/Lab1/Task1/src/functions.c:
+
+/usr/include/bits/types/struct_FILE.h:
+
+/lib64/libgcc_s.so.1:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/types/cookie_io_functions_t.h:
+
+/usr/include/bits/typesizes.h:
 
 /lib64/libc.so.6:
 
@@ -142,15 +181,19 @@ CMakeFiles/main.dir/src/main.c.o:
 
 /usr/include/bits/types/locale_t.h:
 
-/home/snadon/FA_Labs/Lab1/Task1/src/functions.c:
+/usr/include/sys/cdefs.h:
 
-/usr/include/bits/typesizes.h:
+/usr/include/stdc-predef.h:
 
-/usr/include/bits/types/cookie_io_functions_t.h:
+/usr/include/bits/pthread_stack_min.h:
 
-/usr/include/bits/types/struct_FILE.h:
+/usr/include/bits/timesize.h:
 
-/usr/include/features.h:
+/usr/include/linux/limits.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/types/__locale_t.h:
 
 /usr/include/bits/types/FILE.h:
 
@@ -159,19 +202,3 @@ CMakeFiles/main.dir/src/main.c.o:
 /usr/include/bits/wordsize.h:
 
 /usr/include/bits/types/__fpos_t.h:
-
-/usr/lib/gcc/x86_64-redhat-linux/15/crtbegin.o:
-
-/usr/include/bits/types/__fpos64_t.h:
-
-/usr/include/features-time64.h:
-
-/usr/include/ctype.h:
-
-/usr/include/gnu/stubs.h:
-
-/usr/include/sys/cdefs.h:
-
-/usr/include/bits/timesize.h:
-
-/usr/include/stdc-predef.h:
