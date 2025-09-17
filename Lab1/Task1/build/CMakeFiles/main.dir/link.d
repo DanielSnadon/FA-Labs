@@ -3,7 +3,7 @@ main: \
   /usr/lib/gcc/x86_64-redhat-linux/15/../../../../lib64/crti.o \
   /usr/lib/gcc/x86_64-redhat-linux/15/crtbegin.o \
   CMakeFiles/main.dir/src/main.c.o \
-  CMakeFiles/main.dir/src/math_operations.c.o \
+  CMakeFiles/main.dir/src/functions.c.o \
   /usr/lib/gcc/x86_64-redhat-linux/15/libgcc.a \
   /usr/lib/gcc/x86_64-redhat-linux/15/libgcc_s.so \
   /usr/lib/gcc/x86_64-redhat-linux/15/libgcc_s.so \
@@ -34,7 +34,7 @@ main: \
 
 CMakeFiles/main.dir/src/main.c.o:
 
-CMakeFiles/main.dir/src/math_operations.c.o:
+CMakeFiles/main.dir/src/functions.c.o:
 
 /usr/lib/gcc/x86_64-redhat-linux/15/libgcc.a:
 

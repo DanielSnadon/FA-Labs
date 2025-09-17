@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/snadon/FA_Labs/Lab1
+CMAKE_SOURCE_DIR = /home/snadon/FA_Labs/Lab1/Task1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/snadon/FA_Labs/Lab1/build
+CMAKE_BINARY_DIR = /home/snadon/FA_Labs/Lab1/Task1/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/snadon/FA_Labs/Lab1/build/CMakeFiles /home/snadon/FA_Labs/Lab1/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/snadon/FA_Labs/Lab1/Task1/build/CMakeFiles /home/snadon/FA_Labs/Lab1/Task1/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/snadon/FA_Labs/Lab1/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/snadon/FA_Labs/Lab1/Task1/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -129,6 +129,30 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+src/functions.o: src/functions.c.o
+.PHONY : src/functions.o
+
+# target to build an object file
+src/functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/functions.c.o
+.PHONY : src/functions.c.o
+
+src/functions.i: src/functions.c.i
+.PHONY : src/functions.i
+
+# target to preprocess a source file
+src/functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/functions.c.i
+.PHONY : src/functions.c.i
+
+src/functions.s: src/functions.c.s
+.PHONY : src/functions.s
+
+# target to generate assembly for a file
+src/functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/functions.c.s
+.PHONY : src/functions.c.s
+
 src/main.o: src/main.c.o
 .PHONY : src/main.o
 
@@ -153,30 +177,6 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/math_operations.o: src/math_operations.c.o
-.PHONY : src/math_operations.o
-
-# target to build an object file
-src/math_operations.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/math_operations.c.o
-.PHONY : src/math_operations.c.o
-
-src/math_operations.i: src/math_operations.c.i
-.PHONY : src/math_operations.i
-
-# target to preprocess a source file
-src/math_operations.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/math_operations.c.i
-.PHONY : src/math_operations.c.i
-
-src/math_operations.s: src/math_operations.c.s
-.PHONY : src/math_operations.s
-
-# target to generate assembly for a file
-src/math_operations.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/math_operations.c.s
-.PHONY : src/math_operations.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +186,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... src/functions.o"
+	@echo "... src/functions.i"
+	@echo "... src/functions.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/math_operations.o"
-	@echo "... src/math_operations.i"
-	@echo "... src/math_operations.s"
 .PHONY : help
 
 

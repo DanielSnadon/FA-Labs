@@ -1,1 +1,1 @@
-/usr/bin/cc -Wl,--dependency-file=CMakeFiles/main.dir/link.d CMakeFiles/main.dir/src/main.c.o CMakeFiles/main.dir/src/math_operations.c.o -o main
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/main.dir/link.d CMakeFiles/main.dir/src/main.c.o CMakeFiles/main.dir/src/functions.c.o -o main
