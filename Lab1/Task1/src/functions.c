@@ -10,7 +10,7 @@ unsigned short int strToInt(const char* firstChar, const int base, int* result) 
     int trueNumber = 0;
     const char* curChar = firstChar;
     
-    int sign = 1;
+    short int sign = 1;
     if (*firstChar == '-') {
         sign = -1;
         curChar++;
@@ -47,7 +47,7 @@ unsigned short int strToInt(const char* firstChar, const int base, int* result) 
     return 0;
 }
 
-void findKratnie(const int x) {
+void findKratnie(const int x) { // Функция для пункта "a"
     if (x == 0) {
         printf("Невозможно найти делители нуля. \n");
         return;
@@ -68,7 +68,7 @@ void findKratnie(const int x) {
     return;
 }
 
-unsigned short int checkPrime(const int x) {
+unsigned short int checkPrime(const int x) { // Функция для пункта "b"
     if (abs(x) <= 1) {
         return 2;
     }
@@ -82,6 +82,46 @@ unsigned short int checkPrime(const int x) {
     return 0;
 }
 
-void spellHex(const int x) {
+void spellHex(const int x) { // Функция для пункта "c"
+
+    printf("Результат: ");
+
+    if (x == 0) {
+        printf("0 \n");
+        return;
+    }
+;
+    short unsigned int digit;
+
+    int number = abs(x);
     
+    char buf[33];
+    char* curChar = buf + 32;
+
+    *curChar = '#';
+    curChar--;
+
+    while (number) {
+        curChar--;
+        digit = number % 16;
+        if (digit > 9) {
+            *curChar = 'A' + digit - 10;
+
+        } else {
+            *curChar = '0' + digit;
+        }
+        number /= 16;
+    }
+
+    if (x < 0) {
+        printf("- ");
+    }
+
+    while (*curChar != '#') {
+        printf("%c ", *curChar);
+        curChar++;
+    }
+
+    printf("\n");
+    return;
 }

@@ -59,6 +59,10 @@ int main(int argc, char* argv[]) {
         }
         break;
     
+    case 's':
+        spellHex(number);
+        break;
+
     default:
         printf("Ошибка ввода: проверьте написание флага. \n");
         return 1;
