@@ -164,7 +164,7 @@ short int numberSum(const int x, long* result) { // Функция для пун
     return 0;
 }
 
-short int factorial(const int x, long long* result) {
+short int factorial(const int x, long long* result) { // Функция для пункта "f"
     if (x < 0) {
         return 1;
     }
