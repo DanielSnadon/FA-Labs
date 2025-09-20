@@ -1,0 +1,8 @@
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
+
+short int max(const int* numbers, const int size, int* result);
+
+short int generatePrimeNumbers(const int maxIndex, int* result);
+
+#endif
