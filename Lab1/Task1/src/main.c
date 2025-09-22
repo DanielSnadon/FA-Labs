@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
     // Проверка вызова
     
     if (argc != 3) {
-        printf("Ошибка ввода: неверное количество аргументов. Ожидается ввод в формате: \"./main [number] -[flag]\". \n");
+        printf("Ошибка ввода: неверное количество аргументов. Ожидается ввод в формате: \"./main [число] -[флаг]\". \n");
         return 1;
     }
 
@@ -29,6 +29,9 @@ int main(int argc, char* argv[]) {
             return 1;
         case 3:
             printf("Ошибка ввода числа: число переполняет ячейку памяти. \n");
+            return 1;
+        case 4:
+            printf("Ошибка функции: указатель не является валидным. \n");
             return 1;
         default:
             break;
@@ -88,6 +91,9 @@ int main(int argc, char* argv[]) {
                 case 2:
                     printf("Ошибка ввода условия: результат переполняет ячейку памяти. \n");
                     return 1;
+                case 3:
+                    printf("Ошибка функции: указатель не является валидным. \n");
+                    return 1;
                 default:
                     printf("Сумма всех натуральных чисел от 1 до %d - %ld \n", number, result);
                     break;
@@ -103,6 +109,9 @@ int main(int argc, char* argv[]) {
                     return 1;
                 case 2:
                     printf("Ошибка ввода условия: результат переполняет ячейку памяти. \n");
+                    return 1;
+                case 3:
+                    printf("Ошибка функции: указатель не является валидным. \n");
                     return 1;
                 default:
                     printf("Факториал числа %d - %lld \n", number, answer);

@@ -17,6 +17,10 @@ long power(const int base, const int exponent) {
 }
 
 short int strToInt(const char* firstChar, const int base, int* result) {
+    if (firstChar == NULL || result == NULL) {
+        return 4;
+    }
+
     int trueNumber = 0;
     const char* curChar = firstChar;
     
@@ -31,7 +35,7 @@ short int strToInt(const char* firstChar, const int base, int* result) {
     }
     while (*curChar) {
         char c = *curChar;
-        int digit;
+        short int digit;
         
         if (isdigit(c)) {
             digit = c - '0';
@@ -146,6 +150,10 @@ short int powerTable(const int x) { // Функция для пункта "d"
 }
 
 short int numberSum(const int x, long* result) { // Функция для пункта "e"
+    if (result == NULL) {
+        return 3;
+    }
+
     if (x <= 0) {
         return 1;
     }
@@ -165,6 +173,10 @@ short int numberSum(const int x, long* result) { // Функция для пун
 }
 
 short int factorial(const int x, long long* result) { // Функция для пункта "f"
+    if (result == NULL) {
+        return 3;
+    }
+
     if (x < 0) {
         return 1;
     }
