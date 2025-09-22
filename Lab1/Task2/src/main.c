@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
         printf("Ошибка: неверное число запросов. \n");
         return 1;
     }
+    clearBuffer();
 
     if (numbersCount == 0) {
         return 0;
@@ -29,6 +30,7 @@ int main(int argc, char* argv[]) {
             free(numbers);
             return 1;
         }
+        clearBuffer();
     }
 
     int maxNumber;
@@ -39,7 +41,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int* primeNumbers = (int*)calloc((maxNumber + 1), sizeof(int));
+    int* primeNumbers = (int*)calloc(maxNumber, sizeof(int));
 
     if (generatePrimeNumbers(maxNumber, primeNumbers) == 1) {
         printf("Ошибка: не удалось найти простые числа. \n");

@@ -77,7 +77,7 @@ short int findKratnie(const int x) { // Функция для пункта "a"
 }
 
 short int checkPrime(const int x) { // Функция для пункта "b"
-    if (abs(x) <= 1) {
+    if (x <= 1) {
         return 2;
     }
 
@@ -150,7 +150,7 @@ short int numberSum(const int x, long* result) { // Функция для пун
         return 1;
     }
 
-    int sum = 0;
+    long int sum = 0;
 
     for (int i = 1; i <= x; i++) {
         if (LONG_MAX - i < sum) {

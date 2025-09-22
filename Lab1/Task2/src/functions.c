@@ -4,7 +4,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-
+short int clearBuffer() {
+    char c;
+    while ((c = getchar()) != '\n' && c != '\0')
+    {
+    }
+    return 0;
+}
 
 short int max(const int* numbers, const int size, int* result) {
     if (numbers == NULL || result == NULL || size < 0) {
