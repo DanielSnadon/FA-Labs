@@ -96,13 +96,6 @@ short int checkPrime(const int x) { // Функция для пункта "b"
 
 short int spellHex(const int x) { // Функция для пункта "c"
 
-    printf("Результат: ");
-
-    if (x == 0) {
-        printf("0 \n");
-        return 1;
-    }
-;
     short unsigned int digit;
     char buf[32];
     unsigned int number = abs(x);
@@ -113,6 +106,15 @@ short int spellHex(const int x) { // Функция для пункта "c"
         buf[count] = (digit < 10) ? '0' + digit : 'A' + digit - 10;
         number /= 16;
         count++;
+    }
+
+    
+
+    printf("Результат: ");
+
+    if (x == 0) {
+        printf("0 \n");
+        return 1;
     }
 
     if (x < 0) {

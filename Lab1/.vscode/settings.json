@@ -6,6 +6,7 @@
         "limits.h": "c",
         "stdbool.h": "c",
         "limits": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "ctype.h": "c"
     }
 }

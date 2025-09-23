@@ -7,4 +7,4 @@
 #### Задача 3
 ![](https://geps.dev/progress/95)
 #### Задача 4
-![](https://geps.dev/progress/5)
+![](https://geps.dev/progress/40)

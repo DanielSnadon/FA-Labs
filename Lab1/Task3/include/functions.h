@@ -1,10 +1,11 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-int abs(int x);
-
+// Вспомогательные функции:
 short int strToInt(const char* firstChar, const int base, int* result);
 short int strToDouble(const char* firstChar, double* result);
+
+// Основные функции:
 
 short int solveEquation(const double epsilon,
     const double a, const double b, const double c,
