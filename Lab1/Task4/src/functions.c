@@ -42,7 +42,7 @@ double a, double b) {
     }
 
     if (func(a) * func(b) > 0) {
-        return 2;
+        return 4;
     }
 
     double middle;
@@ -127,8 +127,7 @@ short int eSeries(const double epsilon, double* result) {
         return 1;
     }
 
-    double prev = 0.0;
-    double curr = 0.0;
+    double prev, curr = 0.0;
 
     for (int n = 0; __INT_MAX__ - 1 > n; n++) {
 
@@ -214,8 +213,7 @@ short int piSeries(const double epsilon, double* result) {
         return 1;
     }
 
-    double prev = 0.0;
-    double curr = 0.0;
+    double prev, curr = 0.0;
 
     for (int n = 1; __INT_MAX__ / 2 > n; n++) {
 
@@ -271,8 +269,7 @@ short int ln2Series(const double epsilon, double* result) {
         return 1;
     }
 
-    double prev = 0.0;
-    double curr = 0.0;
+    double prev, curr = 0.0;
 
     for (int n = 1; __INT_MAX__ - 1 > n; n++) {
 
@@ -293,4 +290,60 @@ short int ln2Series(const double epsilon, double* result) {
 
 double ln2Func(const double x) {
     return exp(x) - 2.0;
+}
+
+// Функции для sqrt2
+
+short int sqrt2Limit(const double epsilon, double* result) {
+    if (result == NULL) {
+        return 1;
+    }
+
+    double prev, curr = -0.5;
+
+    short int flag = 1;
+
+    while (__DBL_MAX__ / fabs(curr) > fabs(curr)) {
+
+        prev = curr;
+
+        curr = curr - (curr * curr) / 2.0 + 1.0;
+
+        if (fabs(curr - prev) < epsilon) {
+            *result = curr;
+            return 0;
+        }
+    }
+
+    *result = curr;
+
+    return 2;
+}
+
+short int sqrt2Series(const double epsilon, double* result) {
+    if (result == NULL) {
+        return 1;
+    }
+
+    double prev, curr = 1.0;
+
+    for (int k = 2; __INT_MAX__ - 1 > k; k++) {
+
+        prev = curr;
+
+        curr *= pow(2.0, pow(2.0, -k));
+
+        if (fabs(curr - prev) < epsilon) {
+            *result = curr;
+            return 0;
+        }
+    }
+
+    *result = prev;
+
+    return 2;
+}
+
+double sqrt2Func(const double x) {
+    return pow(x, 2.0) - 2.0;
 }

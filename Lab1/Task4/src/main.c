@@ -212,7 +212,7 @@ int main(int argc, char* argv[]) {
                         case 1:
                             printf("Ошибка функции: указатель не является валидным. \n");
                             return 1;
-                        case 2:
+                        case 4:
                             printf("Ошибка вычисления функции: неверно выбран интервал для бисекции. \n");
                             return 1;
                         default:
@@ -223,6 +223,63 @@ int main(int argc, char* argv[]) {
             }
             break;
         case 4:
+            switch(chosenMethod) { // Вычисление sqrt(2)
+                case 1:
+                    switch(sqrt2Limit(epsilon, &answer)) {
+                        case 0:
+                            printf("Результат - %f \n", answer);
+                            break;
+                        case 1:
+                            printf("Ошибка функции: указатель не является валидным. \n");
+                            return 1;
+                        case 2:
+                            printf("Не удалось вычислить значение с заданной точностью. \n");
+                            printf("Ближайший результат - %f \n", answer);
+                            return 1;
+                        case 3:
+                            printf("Ошибка локальной функции: возможно отрицательный факториал или не валидный указатель? \n");
+                            return 1;
+                        default:
+                            break;
+                    }
+                    break;
+
+                case 2:
+                    switch(sqrt2Series(epsilon, &answer)) {
+                        case 0:
+                            printf("Результат - %f \n", answer);
+                            break;
+                        case 1:
+                            printf("Ошибка функции: указатель не является валидным. \n");
+                            return 1;
+                        case 2:
+                            printf("Не удалось вычислить значение с заданной точностью. \n");
+                            printf("Ближайший результат - %f \n", answer);
+                            return 1;
+                        default:
+                            break;
+                    }
+                    break;
+
+                case 3:
+                    double a = 1.0;
+                    double b = 2.0;
+                    switch(solveEquationBisection(sqrt2Func, epsilon, &answer, a, b)) {
+                        case 0:
+                            printf("Результат - %f \n", answer);
+                            break;
+                        case 1:
+                            printf("Ошибка функции: указатель не является валидным. \n");
+                            return 1;
+                        case 4:
+                            printf("Ошибка вычисления функции: неверно выбран интервал для бисекции. \n");
+                            return 1;
+                        default:
+                            break;
+                    }
+                default:
+                    break;
+            }
             break;
         case 5:
             break;
