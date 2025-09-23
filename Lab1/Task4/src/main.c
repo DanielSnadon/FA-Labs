@@ -25,9 +25,9 @@ int main(int argc, char* argv[]) {
     short int chosenMethod;
 
     printf("Выберите способ вычисления: \n");
-    printf("1 - предел \n");
-    printf("2 - ряд/произведение \n");
-    printf("3 - уравнение \n");
+    printf("1 - Предел \n");
+    printf("2 - Ряд/Произведение \n");
+    printf("3 - Уравнение \n");
 
     if (scanf("%hd", &chosenMethod) != 1 || chosenMethod < 1 || chosenMethod > 3) {
         printf("Ошибка ввода: проверьте правильность ввода выбранного значения метода вычисления. \n");
@@ -162,14 +162,70 @@ int main(int argc, char* argv[]) {
                     break;
             }
             break;
-            
-        break;
+        
         case 3:
-        break;
+            switch(chosenMethod) { // Вычисление ln2
+                case 1:
+                    switch(ln2Limit(epsilon, &answer)) {
+                        case 0:
+                            printf("Результат - %f \n", answer);
+                            break;
+                        case 1:
+                            printf("Ошибка функции: указатель не является валидным. \n");
+                            return 1;
+                        case 2:
+                            printf("Не удалось вычислить значение с заданной точностью. \n");
+                            printf("Ближайший результат - %f \n", answer);
+                            return 1;
+                        case 3:
+                            printf("Ошибка локальной функции: возможно отрицательный факториал или не валидный указатель? \n");
+                            return 1;
+                        default:
+                            break;
+                    }
+                    break;
+
+                case 2:
+                    switch(ln2Series(epsilon, &answer)) {
+                        case 0:
+                            printf("Результат - %f \n", answer);
+                            break;
+                        case 1:
+                            printf("Ошибка функции: указатель не является валидным. \n");
+                            return 1;
+                        case 2:
+                            printf("Не удалось вычислить значение с заданной точностью. \n");
+                            printf("Ближайший результат - %f \n", answer);
+                            return 1;
+                        default:
+                            break;
+                    }
+                    break;
+
+                case 3:
+                    double a = 0.0;
+                    double b = 1.0;
+                    switch(solveEquationBisection(ln2Func, epsilon, &answer, a, b)) {
+                        case 0:
+                            printf("Результат - %f \n", answer);
+                            break;
+                        case 1:
+                            printf("Ошибка функции: указатель не является валидным. \n");
+                            return 1;
+                        case 2:
+                            printf("Ошибка вычисления функции: неверно выбран интервал для бисекции. \n");
+                            return 1;
+                        default:
+                            break;
+                    }
+                default:
+                    break;
+            }
+            break;
         case 4:
-        break;
+            break;
         case 5:
-        break;
+            break;
         default:
             break;
     }

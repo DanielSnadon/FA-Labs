@@ -103,7 +103,7 @@ short int eLimit(const double epsilon, double* result) {
         return 1;
     }
 
-    double curr, prev = 2.0;
+    double prev, curr = 2.0;
     short int flag = 1;
 
     for (int n = 1; __INT_MAX__ / 2 > n; n*=2) {
@@ -168,7 +168,7 @@ short int piLimit(const double epsilon, double* result) {
         return 1;
     }
 
-    double curr, prev = 2.0;
+    double prev, curr = 3.0;
     short int flag = 1;
 
     for (int n = 1; __INT_MAX__ / 2 > n; n*=2) {
@@ -214,14 +214,14 @@ short int piSeries(const double epsilon, double* result) {
         return 1;
     }
 
-    double prev = 1.0;
-    double curr = 1.0;
+    double prev = 0.0;
+    double curr = 0.0;
 
     for (int n = 1; __INT_MAX__ / 2 > n; n++) {
 
         prev = curr;
 
-        curr += (n % 2 == 0) ? 1.0/(2*n + 1) : -1.0/(2*n + 1);
+        curr += (pow(-1.0, n - 1.0) / (2.0 * n - 1.0));
 
         if (fabs(4.0 * curr - 4.0 * prev) < epsilon) {
             *result = curr * 4.0;
@@ -238,3 +238,59 @@ double piFunc(const double x) {
     return cos(x) + 1.0;
 }
 
+// Функции для ln2
+
+short int ln2Limit(const double epsilon, double* result) {
+    if (result == NULL) {
+        return 1;
+    }
+
+    double prev, curr = 0.0;
+
+    short int flag = 1;
+
+    for (int n = 1; __INT_MAX__ / 2 > n; n*=2) {
+
+        prev = curr;
+
+        curr = n * (pow(2, 1.0 / n) - 1);
+
+        if (fabs(curr - prev) < epsilon) {
+            *result = curr;
+            return 0;
+        }
+    }
+
+    *result = curr;
+
+    return 2;
+}
+
+short int ln2Series(const double epsilon, double* result) {
+    if (result == NULL) {
+        return 1;
+    }
+
+    double prev = 0.0;
+    double curr = 0.0;
+
+    for (int n = 1; __INT_MAX__ - 1 > n; n++) {
+
+        prev = curr;
+
+        curr += (pow(-1.0, n - 1.0) / n);
+
+        if (fabs(curr - prev) < epsilon) {
+            *result = curr;
+            return 0;
+        }
+    }
+
+    *result = prev;
+
+    return 2;
+}
+
+double ln2Func(const double x) {
+    return exp(x) - 2.0;
+}
