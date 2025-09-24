@@ -8,6 +8,7 @@ double eFunc(const double x);
 double piFunc(const double x);
 double ln2Func(const double x);
 double sqrt2Func(const double x);
+double gammaFunc(const double x);
 
 // Основные функции:
 
@@ -30,5 +31,8 @@ short int ln2Series(const double epsilon, double* result);
 
 short int sqrt2Limit(const double epsilon, double* result);
 short int sqrt2Series(const double epsilon, double* result);
+
+short int gammaLimit(const double epsilon, double* result);
+short int gammaSeries(const double epsilon, double* result);
 
 #endif
