@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "functions.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "cmath": "c",
+        "stdlib.h": "c"
     }
 }
