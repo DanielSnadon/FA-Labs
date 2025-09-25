@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-short int clearBuffer() {
+short int clearBuffer()
+{
     char c;
     while ((c = getchar()) != '\n' && c != '\0')
     {
@@ -12,7 +13,8 @@ short int clearBuffer() {
     return 0;
 }
 
-short int max(const int* numbers, const int size, int* result) {
+short int max(const int* numbers, const int size, int* result)
+{
     if (numbers == NULL || result == NULL || size < 0) {
         return 1;
     }
@@ -28,7 +30,8 @@ short int max(const int* numbers, const int size, int* result) {
     return 0;
 }
 
-short int generatePrimeNumbers(const int maxIndex, int* primeNumbers) {
+short int generatePrimeNumbers(const int maxIndex, int* primeNumbers)
+{
     if (maxIndex <= 0 || primeNumbers == NULL) {
         return 1;
     }

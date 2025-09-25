@@ -9,4 +9,6 @@
 #### Задача 4
 ![](https://geps.dev/progress/90)
 #### Задача 5
-![](https://geps.dev/progress/65)
+![](https://geps.dev/progress/85)
+#### Задача 6
+![](https://geps.dev/progress/5)
