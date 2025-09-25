@@ -6,7 +6,8 @@
 
 // Локальные функции
 
-bool isPrime(int x) {
+bool isPrime(int x)
+{
     if (x <= 1) {
         return false;
     }
@@ -26,7 +27,8 @@ bool isPrime(int x) {
     return true;
 }
 
-short int clearBuffer() {
+short int clearBuffer()
+{
     char c;
     while ((c = getchar()) != '\n' && c != '\0')
     {
@@ -34,7 +36,8 @@ short int clearBuffer() {
     return 0;
 }
 
-double factorial(const int x) {
+double factorial(const int x)
+{
     double result = 1;
     
     for (int i = 1; i <= x; i++) {
@@ -47,7 +50,8 @@ double factorial(const int x) {
     return result;
 }
 
-double combinationsNumber(int m, int k) {
+double combinationsNumber(int m, int k)
+{
     double factorM = factorial(m);
 
     if (factorM < 0) {
@@ -73,7 +77,8 @@ double combinationsNumber(int m, int k) {
 
 short int solveEquationBisection(double (*func)(double),
 const double epsilon, double* result,
-double a, double b) {
+double a, double b)
+{
     if (result == NULL || func == NULL) {
         return 1;
     }
@@ -107,7 +112,8 @@ double a, double b) {
 
 short int solveEquationBinary(double (*func)(double),
 const double epsilon, double* result,
-double a, double b) {
+double a, double b)
+{
     if (result == NULL || func == NULL) {
         return 1;
     }
@@ -136,7 +142,8 @@ double a, double b) {
 
 // Функции для e
 
-short int eLimit(const double epsilon, double* result) {
+short int eLimit(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -160,7 +167,8 @@ short int eLimit(const double epsilon, double* result) {
     return 2;
 }
 
-short int eSeries(const double epsilon, double* result) {
+short int eSeries(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -191,13 +199,15 @@ short int eSeries(const double epsilon, double* result) {
     return 2;
 }
 
-double eFunc(const double x) {
+double eFunc(const double x)
+{
     return log(x) - 1.0;
 }
 
 // Функции для pi
 
-short int piLimit(const double epsilon, double* result) {
+short int piLimit(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -233,7 +243,8 @@ short int piLimit(const double epsilon, double* result) {
     return 2;
 }
 
-short int piSeries(const double epsilon, double* result) {
+short int piSeries(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -257,13 +268,15 @@ short int piSeries(const double epsilon, double* result) {
     return 2;
 }
 
-double piFunc(const double x) {
+double piFunc(const double x)
+{
     return cos(x) + 1.0;
 }
 
 // Функции для ln2
 
-short int ln2Limit(const double epsilon, double* result) {
+short int ln2Limit(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -289,7 +302,8 @@ short int ln2Limit(const double epsilon, double* result) {
     return 2;
 }
 
-short int ln2Series(const double epsilon, double* result) {
+short int ln2Series(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -313,13 +327,15 @@ short int ln2Series(const double epsilon, double* result) {
     return 2;
 }
 
-double ln2Func(const double x) {
+double ln2Func(const double x)
+{
     return exp(x) - 2.0;
 }
 
 // Функции для sqrt2
 
-short int sqrt2Limit(const double epsilon, double* result) {
+short int sqrt2Limit(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -345,7 +361,8 @@ short int sqrt2Limit(const double epsilon, double* result) {
     return 2;
 }
 
-short int sqrt2Series(const double epsilon, double* result) {
+short int sqrt2Series(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -369,13 +386,15 @@ short int sqrt2Series(const double epsilon, double* result) {
     return 2;
 }
 
-double sqrt2Func(const double x) {
+double sqrt2Func(const double x)
+{
     return pow(x, 2.0) - 2.0;
 }
 
 // Функции для γ
 
-short int gammaLimit(const double epsilon, double* result) {
+short int gammaLimit(const double epsilon, double* result)
+{
     if (result == NULL) {
         return 1;
     }
@@ -433,7 +452,8 @@ short int gammaLimit(const double epsilon, double* result) {
     return 2;
 }
 
-short int gammaSeries(const double epsilon, double* result) { // НЕ РАБОТАЕТ
+short int gammaSeries(const double epsilon, double* result) // НЕ РАБОТАЕТ
+{ 
     if (result == NULL) {
         return 1;
     }
@@ -461,7 +481,8 @@ short int gammaSeries(const double epsilon, double* result) { // НЕ РАБОТ
     return 2;
 }
 
-double gammaFunc(const double x) {
+double gammaFunc(const double x)
+{
 
     double result;
 
@@ -479,13 +500,13 @@ double gammaFunc(const double x) {
     // printf("%f * %f\n", log(t), sum);
 
     /*
-    Troubles!
+    Почему такая неточность?
     
     Разбор вручную:
     
     Попробуем разные значения t, используя функцию вывода выше.
 
-    Заметим, что меняя значение t мы меняем значение ln(t), а sum ~= const, так как
+    Заметим, что меняя значение t мы меняем значение ln(t), а sum ~= const ~= 0.16, так как
     в определённый момент домножение на значение, близкое к единице становится бесполезным.
     
     ln(t) тем временем будет принимать значения, зависящие от максимального t. Если предел
@@ -500,7 +521,8 @@ double gammaFunc(const double x) {
 
     Что в сравнении с константой эйлера (0.5772) находится достаточно далеко.
 
-    Скорее всего проблема заключается в неточности double и в лимитах чисел.
+    Скорее всего проблема заключается в неточности double, в лимитах чисел и
+    вычислительных способностях компьютера.
 
     P.S. Хотя если рассматривать в промежутке от -100 до 100, то значение найдено
     относительно точно.

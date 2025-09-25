@@ -71,12 +71,9 @@ int main(int argc, char* argv[]) {
             return 1;
     }
 
-
-
-
     fclose(inputFile);
     fclose(outputFile);
 
-    printf("Программа завершена успешна. Результат записан в файл. \n");
+    printf("Программа завершена успешно. Результат записан в файл. \n");
     return 0;
 }

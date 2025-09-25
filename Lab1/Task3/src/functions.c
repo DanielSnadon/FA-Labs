@@ -6,19 +6,23 @@
 #include <stdbool.h>
 #include <math.h>
 
-double doubleAbs(double x) {
+double doubleAbs(double x)
+{
     return (x < 0) ? -x : x;
 }
 
-int abs(int x) {
+int abs(int x)
+{
     return (x < 0) ? -x : x;
 }
 
-bool isEquals(const double epsilon, const double a, const double b) {
+bool isEquals(const double epsilon, const double a, const double b)
+{
     return doubleAbs(a - b) < epsilon;
 }
 
-short int strToInt(const char* firstChar, const int base, int* result) {
+short int strToInt(const char* firstChar, const int base, int* result)
+{
     if (result == NULL || firstChar == NULL) {
         return 4;
     }
@@ -63,7 +67,8 @@ short int strToInt(const char* firstChar, const int base, int* result) {
     return 0;
 }
 
-short int strToDouble(const char* firstChar, double* result) {
+short int strToDouble(const char* firstChar, double* result)
+{
     if (firstChar == NULL || result == NULL) {
         return 3;
     }
@@ -84,7 +89,8 @@ short int strToDouble(const char* firstChar, double* result) {
 
 short int solveEquation(const double epsilon,
     const double a, const double b, const double c,
-    double* otv1, double* otv2) {
+    double* otv1, double* otv2)
+{
     if (otv1 == NULL || otv2 == NULL) {
         return 5;
     }
@@ -115,7 +121,8 @@ short int solveEquation(const double epsilon,
     }
 }
 
-short int checkKratnost(const int a, const int b, short int *otv) {
+short int checkKratnost(const int a, const int b, short int *otv) 
+{
     if (otv == NULL) {
         return 2;
     }
@@ -135,7 +142,8 @@ short int checkKratnost(const int a, const int b, short int *otv) {
 }
 
 short int checkTriangle(const double epsilon,
-    double a, const double b, const double c, short int *otv) {
+    double a, const double b, const double c, short int *otv)
+{
     if (a <= 0 || b <= 0 || c <= 0) {
         return 1;
     }

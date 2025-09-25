@@ -3,11 +3,15 @@
 #include <ctype.h>
 #include <limits.h>
 
-unsigned int abs(int x) {
+// Вспомогательные функции:
+
+unsigned int abs(int x)
+{
     return (x < 0) ? -x : x;
 }
 
-long power(const int base, const int exponent) {
+long power(const int base, const int exponent)
+{
     long result = 1;
     for (int i = 0; i < exponent; i++) {
         result *= base;
@@ -16,7 +20,8 @@ long power(const int base, const int exponent) {
     return result;
 }
 
-short int strToInt(const char* firstChar, const int base, int* result) {
+short int strToInt(const char* firstChar, const int base, int* result)
+{
     if (firstChar == NULL || result == NULL) {
         return 4;
     }
@@ -61,7 +66,8 @@ short int strToInt(const char* firstChar, const int base, int* result) {
     return 0;
 }
 
-short int findKratnie(const int x) { // Функция для пункта "a"
+short int findKratnie(const int x) // Функция для пункта "a"
+{ 
     if (x == 0) {
         return 1;
     }
@@ -80,7 +86,8 @@ short int findKratnie(const int x) { // Функция для пункта "a"
     return 0;
 }
 
-short int checkPrime(const int x) { // Функция для пункта "b"
+short int checkPrime(const int x) // Функция для пункта "b"
+{ 
     if (x <= 1) {
         return 2;
     }
@@ -94,7 +101,8 @@ short int checkPrime(const int x) { // Функция для пункта "b"
     return 0;
 }
 
-short int spellHex(const int x) { // Функция для пункта "c"
+short int spellHex(const int x) // Функция для пункта "c"
+{ 
 
     short unsigned int digit;
     char buf[32];
@@ -129,7 +137,8 @@ short int spellHex(const int x) { // Функция для пункта "c"
     return 0;
 }
 
-short int powerTable(const int x) { // Функция для пункта "d"
+short int powerTable(const int x) // Функция для пункта "d"
+{ 
     if (x > 10 || x <= 1) {
         return 1;
     }
@@ -151,7 +160,8 @@ short int powerTable(const int x) { // Функция для пункта "d"
     return 0;
 }
 
-short int numberSum(const int x, long* result) { // Функция для пункта "e"
+short int numberSum(const int x, long* result) // Функция для пункта "e"
+{ 
     if (result == NULL) {
         return 3;
     }
@@ -174,7 +184,8 @@ short int numberSum(const int x, long* result) { // Функция для пун
     return 0;
 }
 
-short int factorial(const int x, long long* result) { // Функция для пункта "f"
+short int factorial(const int x, long long* result) // Функция для пункта "f"
+{ 
     if (result == NULL) {
         return 3;
     }
