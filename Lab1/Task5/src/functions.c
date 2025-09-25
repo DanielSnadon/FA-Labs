@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdbool.h>
 
+// Локальные функции
+
 short int charLength(char byte)
 {
     if  ((byte & 0x80) == 0) {
@@ -25,6 +27,31 @@ bool isAcceptableLetter(const char c)
     return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
+// И ещё проверка файлов
+
+short int isThatFileGood(const char *name)
+{
+    if (name == NULL) {
+        return 1;
+    }
+    const char *fileTypes[] = {".txt", ".docx", "doc", "rtf", ".c", ".h", ".cpp", ".hpp", ".java", ".py", ".csv", ".json", ".xml", ".html", ".css", ".js", ".md", ".log", ".conf", ".config", NULL};
+
+    char *splitter = strrchr(name, '.');
+
+    if (splitter == NULL) {
+        return 2;
+    }
+
+    for (int i = 0; fileTypes[i] != NULL; i++) {
+        if (strcmp(splitter, fileTypes[i]) == 0) {
+            return 0;
+        }
+    }
+
+    return 3;
+}
+
+// The важные функции 
 
 short int digitRemove(FILE *input, FILE *output)
 {
@@ -93,3 +120,26 @@ short int countEveryoneElse(FILE *input, FILE *output)
     return 0;
 }
 
+short int hexReplace(FILE *input, FILE *output)
+{
+    if (input == NULL || output == NULL) {
+        return 1;
+    }
+
+    char c;
+
+    while ((c = fgetc(input)) != EOF) {
+
+        if (isdigit(c)) {
+            fputc(c, output);
+        } else {
+            int firstLetter = c / 16;
+            int secondLetter = c % 16;
+
+            fputc(firstLetter < 10 ? '0' + firstLetter : 'A' + firstLetter - 10, output);
+            fputc(secondLetter < 10 ? '0' + secondLetter : 'A' + secondLetter - 10, output);
+        }        
+    }
+
+    return 0;
+}

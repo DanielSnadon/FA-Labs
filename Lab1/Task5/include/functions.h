@@ -6,5 +6,8 @@
 short int digitRemove(FILE *input, FILE *output);
 short int letterCount(FILE *input, FILE *output);
 short int countEveryoneElse(FILE *input, FILE *output);
+short int hexReplace(FILE *input, FILE *output);
+
+short int isThatFileGood(const char *name);
 
 #endif
