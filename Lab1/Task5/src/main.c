@@ -12,12 +12,43 @@ int main(int argc, char* argv[]) {
     char *inputFileName = argv[2];
     char outputFileName[256];
 
+    switch(isThatFileGood(inputFileName)) {
+        case 1:
+            printf("Ошибка функции проверки расширения файла: указатель на файл не является валидным. \n");
+            break;
+        case 2:
+            printf("Ошибка входного файла: у входного файла отсутсвует расширение. Убедитесь, что работаете с правильным файлом. \n");
+            break;
+        case 3:
+            printf("Ошибка входного файла: расширение файла не входит в число проверенных, результат может отличаться от ожидаемого. Продолжить? [y/n]: ");
+            if (getchar() != 'y') {
+                return 1;
+            }
+            break;
+    }
+    
     char *flag = argv[1];
 
     if (flag[0] == '-' || flag[0] == '/') {
 
         if (flag[1] == 'n' && argc == 4) {
+            
             strcpy(outputFileName, argv[3]);
+
+            switch(isThatFileGood(inputFileName)) {
+                case 1:
+                    printf("Ошибка функции проверки расширения файла: указатель на файл не является валидным. \n");
+                    break;
+                case 2:
+                    printf("Ошибка входного файла: у входного файла отсутсвует расширение. Убедитесь, что работаете с правильным файлом. \n");
+                    break;
+                case 3:
+                    printf("Ошибка входного файла: расширение файла не входит в число проверенных, результат может отличаться от ожидаемого. Продолжить? [y/n]: ");
+                    if (getchar() != 'y') {
+                        return 1;
+                    }
+                    break;
+            }       
             
         } else {
             strcpy(outputFileName, "out_");
@@ -43,7 +74,7 @@ int main(int argc, char* argv[]) {
 
     FILE *outputFile = fopen(outputFileName, "w");
     
-    if (inputFile == NULL) {
+    if (outputFile == NULL) {
         perror("Ошибка открытия выходного файла. \n");
         fclose(inputFile);
         return 1;
@@ -53,16 +84,28 @@ int main(int argc, char* argv[]) {
 
     switch (chosenFlag) {
         case 'd':
-            digitRemove(inputFile, outputFile);
+            if (digitRemove(inputFile, outputFile)) {
+                printf("Ошибка: указатель на файл не является валидным. \n");
+                return 1;
+            }
             break;
         case 'i':
-            letterCount(inputFile, outputFile);
+            if (letterCount(inputFile, outputFile)) {
+                printf("Ошибка: указатель на файл не является валидным. \n");
+                return 1;
+            }
             break;
         case 's':
-            countEveryoneElse(inputFile, outputFile);
+            if (countEveryoneElse(inputFile, outputFile)) {
+                printf("Ошибка: указатель на файл не является валидным. \n");
+                return 1;
+            }
             break;
         case 'a':
-
+            if (hexReplace(inputFile, outputFile)) {
+                printf("Ошибка: указатель на файл не является валидным. \n");
+                return 1;
+            }
             break;
         default:
             printf("Ошибка: проверьте написание значения флага. \n");
