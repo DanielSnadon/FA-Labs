@@ -11,4 +11,8 @@
 #### Задача 5
 ![](https://geps.dev/progress/100)
 #### Задача 6
+![](https://geps.dev/progress/30)
+#### Задача 7
+![](https://geps.dev/progress/5)
+#### Задача 8
 ![](https://geps.dev/progress/5)
