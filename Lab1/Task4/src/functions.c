@@ -79,6 +79,10 @@ short int solveEquationBisection(double (*func)(double),
 const double epsilon, double* result,
 double a, double b)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL || func == NULL) {
         return 1;
     }
@@ -114,6 +118,10 @@ short int solveEquationBinary(double (*func)(double),
 const double epsilon, double* result,
 double a, double b)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL || func == NULL) {
         return 1;
     }
@@ -144,6 +152,10 @@ double a, double b)
 
 short int eLimit(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -169,6 +181,10 @@ short int eLimit(const double epsilon, double* result)
 
 short int eSeries(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -208,6 +224,10 @@ double eFunc(const double x)
 
 short int piLimit(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -245,6 +265,10 @@ short int piLimit(const double epsilon, double* result)
 
 short int piSeries(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -277,6 +301,10 @@ double piFunc(const double x)
 
 short int ln2Limit(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -304,6 +332,10 @@ short int ln2Limit(const double epsilon, double* result)
 
 short int ln2Series(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -336,6 +368,10 @@ double ln2Func(const double x)
 
 short int sqrt2Limit(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -363,6 +399,10 @@ short int sqrt2Limit(const double epsilon, double* result)
 
 short int sqrt2Series(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+    
     if (result == NULL) {
         return 1;
     }
@@ -395,6 +435,10 @@ double sqrt2Func(const double x)
 
 short int gammaLimit(const double epsilon, double* result)
 {
+    if (epsilon < 0) {
+        return 5;
+    }
+
     if (result == NULL) {
         return 1;
     }
@@ -454,6 +498,10 @@ short int gammaLimit(const double epsilon, double* result)
 
 short int gammaSeries(const double epsilon, double* result) // НЕ РАБОТАЕТ
 { 
+    if (epsilon < 0) {
+        return 5;
+    }
+    
     if (result == NULL) {
         return 1;
     }
@@ -506,10 +554,13 @@ double gammaFunc(const double x)
     
     Попробуем разные значения t, используя функцию вывода выше.
 
-    Заметим, что меняя значение t мы меняем значение ln(t), а sum ~= const ~= 0.16, так как
-    в определённый момент домножение на значение, близкое к единице становится бесполезным.
+    Заметим, что меняя значение t мы меняем значение ln(t),
+    а sum ~= const ~= 0.16, так как
+    в определённый момент домножение на значение,
+    близкое к единице становится бесполезным.
     
-    ln(t) тем временем будет принимать значения, зависящие от максимального t. Если предел
+    ln(t) тем временем будет принимать значения, зависящие от
+    максимального t. Если предел
     стремится к бесконечности, то выставим t = INT_MAX и получим
     ln(INT_MAX) ~= 21 соответственно.
 
@@ -519,13 +570,14 @@ double gammaFunc(const double x)
 
     Вычисляем вручную и получаем x ~= -1.21
 
-    Что в сравнении с константой эйлера (0.5772) находится достаточно далеко.
+    Что в сравнении с константой эйлера (0.5772) находится
+    достаточно далеко.
 
-    Скорее всего проблема заключается в неточности double, в лимитах чисел и
-    вычислительных способностях компьютера.
+    Скорее всего проблема заключается в неточности double,
+    в лимитах чисел и вычислительных способностях компьютера.
 
-    P.S. Хотя если рассматривать в промежутке от -100 до 100, то значение найдено
-    относительно точно.
+    P.S. Хотя если рассматривать в промежутке от -100 до 100,
+    то значение найдено относительно точно ;)
     */
 
     result = log(__INT_MAX__) * sum;
