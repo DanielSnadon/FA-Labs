@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     short int errorNumber = 0;
     double answer;
 
-    switch(chosenConst) {
+    switch(chosenConst) { // Таблица
         case 1: 
             switch(chosenMethod) { // Вычисление e
                 case 1:

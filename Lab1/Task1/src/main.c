@@ -21,16 +21,16 @@ int main(int argc, char* argv[]) {
     int number;
     switch (strToInt(argv[1], 10, &number))
     {
-        case 1:
+        case ERROR_NO_DIGITS_AFTER_MINUS:
             printf("Ошибка ввода числа: после знака минуса нет цифр. \n");
             return 1;
-        case 2:
+        case ERROR_NOT_ALLOWED_SYMBOL:
             printf("Ошибка ввода числа: недопустимый символ в числе. \n");
             return 1;
-        case 3:
+        case ERROR_OVERFLOW:
             printf("Ошибка ввода числа: число переполняет ячейку памяти. \n");
             return 1;
-        case 4:
+        case ERROR_NULL_POINTER:
             printf("Ошибка функции: указатель не является валидным. \n");
             return 1;
         default:
@@ -44,10 +44,10 @@ int main(int argc, char* argv[]) {
         case 'h':
             switch (findKratnie(number))
             {
-                case 1:
+                case ERROR_ZERO_DIVISION:
                     printf("Невозможно найти делители нуля. \n");
                     break;
-                case 2:
+                case ERROR_NO_NUMBERS_FOUND:
                     printf("Чисел от 1 до 100, кратных %d нет. \n", number);
                     break;
                 default:
@@ -58,13 +58,13 @@ int main(int argc, char* argv[]) {
         case 'p':
             switch(checkPrime(number))
             {
-                case 0:
+                case SUCCESS:
                     printf("%d - простое число. \n", number);
                     break;
-                case 1:
+                case ALTERNATIVE_SUCCESS:
                     printf("%d - составное число. \n", number);
                     break;
-                default:
+                case ERROR_NOT_PRIME_OR_COMPOSITE:
                     printf("%d - не является простым или составным числом. \n", number);
                     break;
             }
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
         case 'e':
             if (powerTable(number)) {
                 printf("Ошибка ввода: число должно находиться в промежутке между 1 и 10. \n");
-                return 1;
+                return ERROR_NUMBER_OUT_OF_RANGE;
             }
             break;
 
@@ -85,16 +85,16 @@ int main(int argc, char* argv[]) {
             long int result;
             switch (numberSum(number, &result))
             {
-                case 1:
+                case ERROR_NUMBER_MUST_BE_NATURAL:
                     printf("Ошибка ввода: число должно быть натуральным. \n");
                     return 1;
-                case 2:
+                case ERROR_OVERFLOW:
                     printf("Ошибка ввода условия: результат переполняет ячейку памяти. \n");
                     return 1;
-                case 3:
+                case ERROR_NULL_POINTER:
                     printf("Ошибка функции: указатель не является валидным. \n");
                     return 1;
-                default:
+                case SUCCESS:
                     printf("Сумма всех натуральных чисел от 1 до %d - %ld \n", number, result);
                     break;
             }
@@ -104,16 +104,16 @@ int main(int argc, char* argv[]) {
             long long int answer;
             switch (factorial(number, &answer))
             {
-                case 1:
+                case ERROR_NUMBER_CANT_BE_NEGATIVE:
                     printf("Ошибка ввода: число должно быть неотрицательным. \n");
                     return 1;
-                case 2:
+                case ERROR_OVERFLOW:
                     printf("Ошибка ввода условия: результат переполняет ячейку памяти. \n");
                     return 1;
-                case 3:
+                case ERROR_NULL_POINTER:
                     printf("Ошибка функции: указатель не является валидным. \n");
                     return 1;
-                default:
+                case SUCCESS:
                     printf("Факториал числа %d - %lld \n", number, answer);
                     break;
             }

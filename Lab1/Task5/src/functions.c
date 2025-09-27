@@ -77,7 +77,7 @@ short int letterCount(FILE *input, FILE *output)
 
     char line[1024];
 
-    while (fgets(line, 1024, input) != NULL) {
+    while (fgets(line, 1024, input) != NULL) { // длинная строка
         unsigned int counter = 0;
 
         for (int i = 0; line[i] != '\0'; i++) {

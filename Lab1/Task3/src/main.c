@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
                             return 1;
                         default:
                             break;
-                    }
+                    } // perestanovki
                     temp = a;
                     a = b;
                     b = c;

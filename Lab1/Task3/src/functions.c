@@ -151,7 +151,7 @@ short int checkTriangle(const double epsilon,
         return 2;
     }
     if ((a > sqrt(__DBL_MAX__)) || (b > sqrt(__DBL_MAX__)) || (c > sqrt(__DBL_MAX__))) {
-        return 3;
+        return 3; // proverka predelov
     }
     if (doubleAbs(a * a + b * b - c * c) < epsilon || doubleAbs(c * c + b * b - a * a) < epsilon || doubleAbs(a * a + c * c - b * b) < epsilon) {
         *otv = 0;

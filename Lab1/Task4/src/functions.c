@@ -504,8 +504,7 @@ short int gammaSeries(const double epsilon, double* result) // НЕ РАБОТА
     
     if (result == NULL) {
         return 1;
-    }
-
+    } // CONST! Скобки округление вниз.
     const double pi = 3.14159265358979323846;
 
     double prev, curr = 0.0;
@@ -527,7 +526,7 @@ short int gammaSeries(const double epsilon, double* result) // НЕ РАБОТА
     *result = prev - (pi * pi) / 6;
 
     return 2;
-}
+} // Можно использовать функции.
 
 double gammaFunc(const double x)
 {

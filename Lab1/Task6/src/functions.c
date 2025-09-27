@@ -35,7 +35,7 @@ short int solve(double (*func)(double),
     unsigned int maxIters = 1e5;
     unsigned int iters = 0;
 
-    while (iters < maxIters) {
+    while (iters < maxIters) { // INSERT BUILDER-CAT HERE
         iters++;
 
         double h = (b - a) / amoutOfSteps;
