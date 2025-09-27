@@ -13,7 +13,7 @@ short int clearBuffer()
     return 0;
 }
 
-short int max(const int* numbers, const int size, int* result)
+ErrorCode max(const int* numbers, const int size, int* result)
 {
     if (numbers == NULL || result == NULL || size < 0) {
         return 1;
@@ -27,10 +27,10 @@ short int max(const int* numbers, const int size, int* result)
     }
 
     *result = maxNumber;
-    return 0;
+    return SUCCESS;
 }
 
-short int generatePrimeNumbers(const int maxIndex, int* primeNumbers)
+ErrorCode generatePrimeNumbers(const int maxIndex, int* primeNumbers)
 {
     if (maxIndex <= 0 || primeNumbers == NULL) {
         return 1;
@@ -59,5 +59,5 @@ short int generatePrimeNumbers(const int maxIndex, int* primeNumbers)
         return 1;
     }
     
-    return 0;
+    return SUCCESS;
 }

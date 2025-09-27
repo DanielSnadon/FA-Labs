@@ -20,10 +20,10 @@ long power(const int base, const int exponent)
     return result;
 }
 
-short int strToInt(const char* firstChar, const int base, int* result)
+ErrorCode strToInt(const char* firstChar, const int base, int* result)
 {
     if (firstChar == NULL || result == NULL) {
-        return 4;
+        return ERROR_NULL_POINTER;
     }
 
     int trueNumber = 0;
@@ -36,7 +36,7 @@ short int strToInt(const char* firstChar, const int base, int* result)
     }
 
     if (*curChar == '\0') {
-        return 1;
+        return ERROR_NO_DIGITS_AFTER_MINUS;
     }
     while (*curChar) {
         char c = *curChar;
@@ -51,11 +51,11 @@ short int strToInt(const char* firstChar, const int base, int* result)
         }
         
         if (digit >= base) {
-            return 2;
+            return ERROR_NOT_ALLOWED_SYMBOL;
         }
 
         if (trueNumber > ((INT_MAX - digit) / base)) {
-            return 3;
+            return ERROR_OVERFLOW;
         }
 
         trueNumber = trueNumber * base + digit;
@@ -63,17 +63,17 @@ short int strToInt(const char* firstChar, const int base, int* result)
     }
 
     *result = trueNumber * sign;
-    return 0;
+    return SUCCESS;
 }
 
-short int findKratnie(const int x) // Функция для пункта "a"
+ErrorCode findKratnie(const int x) // Функция для пункта "a"
 { 
     if (x == 0) {
-        return 1;
+        return ERROR_ZERO_DIVISION;
     }
 
     if (abs(x) > 100) {
-        return 2;
+        return ERROR_NO_NUMBERS_FOUND;
     }
     
     printf("Числа от 1 до 100, кратные %d: ", x);
@@ -83,27 +83,26 @@ short int findKratnie(const int x) // Функция для пункта "a"
     }
 
     printf("\n");
-    return 0;
+    return SUCCESS;
 }
 
-short int checkPrime(const int x) // Функция для пункта "b"
+ErrorCode checkPrime(const int x) // Функция для пункта "b"
 { 
     if (x <= 1) {
-        return 2;
+        return ERROR_NOT_PRIME_OR_COMPOSITE;
     }
 
     for (int i = 2; i < (x / 2); i++) {
         if (x % i == 0) {
-            return 1;
+            return ALTERNATIVE_SUCCESS;
         }   
     }
 
-    return 0;
+    return SUCCESS;
 }
 
-short int spellHex(const int x) // Функция для пункта "c"
+ErrorCode spellHex(const int x) // Функция для пункта "c"
 { 
-
     short unsigned int digit;
     char buf[32];
     unsigned int number = abs(x);
@@ -122,7 +121,7 @@ short int spellHex(const int x) // Функция для пункта "c"
 
     if (x == 0) {
         printf("0 \n");
-        return 1;
+        return SUCCESS;
     }
 
     if (x < 0) {
@@ -134,13 +133,13 @@ short int spellHex(const int x) // Функция для пункта "c"
     }
 
     printf("\n");
-    return 0;
+    return SUCCESS;
 }
 
-short int powerTable(const int x) // Функция для пункта "d"
+ErrorCode powerTable(const int x) // Функция для пункта "d"
 { 
     if (x > 10 || x <= 1) {
-        return 1;
+        return ERROR_NUMBER_OUT_OF_RANGE;
     }
 
     printf("< Таблица степеней от 1 до %d для чисел 1-10 > \n\n", x);
@@ -157,53 +156,53 @@ short int powerTable(const int x) // Функция для пункта "d"
         printf("\n");
     }
 
-    return 0;
+    return SUCCESS;
 }
 
-short int numberSum(const int x, long* result) // Функция для пункта "e"
+ErrorCode numberSum(const int x, long* result) // Функция для пункта "e"
 { 
     if (result == NULL) {
-        return 3;
+        return ERROR_NULL_POINTER;
     }
 
     if (x <= 0) {
-        return 1;
+        return ERROR_NUMBER_MUST_BE_NATURAL;
     }
 
     long int sum = 0;
 
     for (int i = 1; i <= x; i++) {
         if (LONG_MAX - i < sum) {
-            return 2;
+            return ERROR_OVERFLOW;
         }
         sum += i;
     }
 
     *result = sum;
 
-    return 0;
+    return SUCCESS;
 }
 
-short int factorial(const int x, long long* result) // Функция для пункта "f"
+ErrorCode factorial(const int x, long long* result) // Функция для пункта "f"
 { 
     if (result == NULL) {
-        return 3;
+        return ERROR_NULL_POINTER;
     }
 
     if (x < 0) {
-        return 1;
+        return ERROR_NUMBER_CANT_BE_NEGATIVE;
     }
 
     long long temp = 1;
 
     for (int i = 1; i <= x; i++) {
         if (temp > LLONG_MAX / i) {
-            return 2;
+            return ERROR_OVERFLOW;
         }
         temp *= i;
     }
 
     *result = temp;
     
-    return 0;
+    return SUCCESS;
 }
