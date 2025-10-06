@@ -21,7 +21,7 @@ bool isEquals(const double epsilon, const double a, const double b)
     return doubleAbs(a - b) < epsilon;
 }
 
-short int strToInt(const char* firstChar, const int base, int* result)
+ErrorCode strToInt(const char* firstChar, const int base, int* result)
 {
     if (result == NULL || firstChar == NULL) {
         return 4;
@@ -67,7 +67,7 @@ short int strToInt(const char* firstChar, const int base, int* result)
     return 0;
 }
 
-short int strToDouble(const char* firstChar, double* result)
+ErrorCode strToDouble(const char* firstChar, double* result)
 {
     if (firstChar == NULL || result == NULL) {
         return 3;
@@ -87,7 +87,7 @@ short int strToDouble(const char* firstChar, double* result)
     return 0;
 }
 
-short int solveEquation(const double epsilon,
+ErrorCode solveEquation(const double epsilon,
     const double a, const double b, const double c,
     double* otv1, double* otv2)
 {
@@ -121,7 +121,7 @@ short int solveEquation(const double epsilon,
     }
 }
 
-short int checkKratnost(const int a, const int b, short int *otv) 
+ErrorCode checkKratnost(const int a, const int b, short int *otv) 
 {
     if (otv == NULL) {
         return 2;
@@ -141,7 +141,7 @@ short int checkKratnost(const int a, const int b, short int *otv)
     return 0;
 }
 
-short int checkTriangle(const double epsilon,
+ErrorCode checkTriangle(const double epsilon,
     double a, const double b, const double c, short int *otv)
 {
     if (a <= 0 || b <= 0 || c <= 0) {

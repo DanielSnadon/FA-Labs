@@ -1,5 +1,5 @@
 CMakeFiles/main.dir/src/main.c.o: \
- /home/snadon/FA_Labs/Lab1/Task1/src/main.c /usr/include/stdc-predef.h \
+ /home/snadon/FA-Labs/Lab1/Task1/src/main.c /usr/include/stdc-predef.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/bits/wordsize.h /usr/include/bits/timesize.h \
@@ -15,4 +15,4 @@ CMakeFiles/main.dir/src/main.c.o: \
  /usr/include/bits/types/cookie_io_functions_t.h \
  /usr/include/bits/stdio_lim.h /usr/include/bits/floatn.h \
  /usr/include/bits/floatn-common.h \
- /home/snadon/FA_Labs/Lab1/Task1/include/functions.h
+ /home/snadon/FA-Labs/Lab1/Task1/include/functions.h

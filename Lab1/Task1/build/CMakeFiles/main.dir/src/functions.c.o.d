@@ -1,7 +1,7 @@
 CMakeFiles/main.dir/src/functions.c.o: \
- /home/snadon/FA_Labs/Lab1/Task1/src/functions.c \
+ /home/snadon/FA-Labs/Lab1/Task1/src/functions.c \
  /usr/include/stdc-predef.h \
- /home/snadon/FA_Labs/Lab1/Task1/include/functions.h /usr/include/stdio.h \
+ /home/snadon/FA-Labs/Lab1/Task1/include/functions.h /usr/include/stdio.h \
  /usr/include/bits/libc-header-start.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
  /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \

@@ -1,15 +1,6 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-ErrorCode strToInt(const char* firstChar, const int base, int* result);
-
-ErrorCode findKratnie(const int x);
-ErrorCode checkPrime(const int x);
-ErrorCode spellHex(const int x);
-ErrorCode powerTable(const int x);
-ErrorCode numberSum(const int x, long int* result);
-ErrorCode factorial(const int x, long long int* result);
-
 typedef enum {
     SUCCESS = 0,
     ALTERNATIVE_SUCCESS,
@@ -24,5 +15,14 @@ typedef enum {
     ERROR_NUMBER_MUST_BE_NATURAL,
     ERROR_NUMBER_CANT_BE_NEGATIVE
 } ErrorCode;
+
+ErrorCode strToInt(const char* firstChar, const int base, int* result);
+
+ErrorCode findKratnie(const int x);
+ErrorCode checkPrime(const int x);
+ErrorCode spellHex(const int x);
+ErrorCode powerTable(const int x);
+ErrorCode numberSum(const int x, long int* result);
+ErrorCode factorial(const int x, long long int* result);
 
 #endif

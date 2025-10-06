@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/snadon/FA_Labs/Lab1/Task1/src/functions.c" "CMakeFiles/main.dir/src/functions.c.o" "gcc" "CMakeFiles/main.dir/src/functions.c.o.d"
-  "/home/snadon/FA_Labs/Lab1/Task1/src/main.c" "CMakeFiles/main.dir/src/main.c.o" "gcc" "CMakeFiles/main.dir/src/main.c.o.d"
+  "/home/snadon/FA-Labs/Lab1/Task1/src/functions.c" "CMakeFiles/main.dir/src/functions.c.o" "gcc" "CMakeFiles/main.dir/src/functions.c.o.d"
+  "/home/snadon/FA-Labs/Lab1/Task1/src/main.c" "CMakeFiles/main.dir/src/main.c.o" "gcc" "CMakeFiles/main.dir/src/main.c.o.d"
   "" "main" "gcc" "CMakeFiles/main.dir/link.d"
   )
 
