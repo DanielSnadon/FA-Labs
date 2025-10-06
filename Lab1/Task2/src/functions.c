@@ -4,19 +4,19 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-short int clearBuffer()
+ErrorCode clearBuffer()
 {
     char c;
     while ((c = getchar()) != '\n' && c != '\0')
     {
     }
-    return 0;
+    return SUCCESS;
 }
 
 ErrorCode max(const int* numbers, const int size, int* result)
 {
     if (numbers == NULL || result == NULL || size < 0) {
-        return 1;
+        return ERROR_INVALID_FUNCTION_ARGUMENTS;
     }
 
     int maxNumber = numbers[0];
@@ -33,7 +33,7 @@ ErrorCode max(const int* numbers, const int size, int* result)
 ErrorCode generatePrimeNumbers(const int maxIndex, int* primeNumbers)
 {
     if (maxIndex <= 0 || primeNumbers == NULL) {
-        return 1;
+        return ERROR_INVALID_FUNCTION_ARGUMENTS;
     }
 
     primeNumbers[0] = 2;
@@ -56,7 +56,7 @@ ErrorCode generatePrimeNumbers(const int maxIndex, int* primeNumbers)
     } while (numberGenerated != maxIndex || currentNumber == INT_MAX);
 
     if (numberGenerated != maxIndex) {
-        return 1;
+        return ERROR_CANT_FIND_PRIME_NUMBERS;
     }
     
     return SUCCESS;
