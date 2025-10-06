@@ -27,13 +27,13 @@ bool isPrime(int x)
     return true;
 }
 
-short int clearBuffer()
+ErrorCode clearBuffer()
 {
     char c;
     while ((c = getchar()) != '\n' && c != '\0')
     {
     }
-    return 0;
+    return SUCCESS;
 }
 
 double factorial(const int x)
@@ -75,20 +75,20 @@ double combinationsNumber(int m, int k)
 
 // Общие функции решения уравнений
 
-short int solveEquationBisection(double (*func)(double),
+ErrorCode solveEquationBisection(double (*func)(double),
 const double epsilon, double* result,
 double a, double b)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL || func == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     if (func(a) * func(b) > 0) {
-        return 4;
+        return ERROR_INVALID_BISECTION_ARRAY;
     }
 
     double middle;
@@ -98,7 +98,7 @@ double a, double b)
         
         if (fabs(func(middle)) < epsilon) {
             *result = middle;
-            return 0;
+            return SUCCESS;
         }
 
         if (func(a) * func(middle) < 0) {
@@ -110,20 +110,20 @@ double a, double b)
 
     *result = middle;
 
-    return 0;
+    return SUCCESS;
 }
 
 
-short int solveEquationBinary(double (*func)(double),
+ErrorCode solveEquationBinary(double (*func)(double),
 const double epsilon, double* result,
 double a, double b)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL || func == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double middle;
@@ -133,7 +133,7 @@ double a, double b)
         
         if (fabs(func(middle)) < epsilon) {
             *result = middle;
-            return 0;
+            return SUCCESS;
         }
 
         if (func(a) < func(b)) {
@@ -145,19 +145,19 @@ double a, double b)
 
     *result = middle;
 
-    return 0;
+    return SUCCESS;
 }
 
 // Функции для e
 
-short int eLimit(const double epsilon, double* result)
+ErrorCode eLimit(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 2.0;
@@ -170,23 +170,23 @@ short int eLimit(const double epsilon, double* result)
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = curr;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
-short int eSeries(const double epsilon, double* result)
+ErrorCode eSeries(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 0.0;
@@ -198,7 +198,7 @@ short int eSeries(const double epsilon, double* result)
         double factorN = factorial(n);
         if (factorN < 0) {
             *result = curr;
-            return 2;
+            return ERROR_BAD_CALCULATIONS;
         }
 
         curr += 1 / factorN;
@@ -206,13 +206,13 @@ short int eSeries(const double epsilon, double* result)
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = curr;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
 double eFunc(const double x)
@@ -222,14 +222,14 @@ double eFunc(const double x)
 
 // Функции для pi
 
-short int piLimit(const double epsilon, double* result)
+ErrorCode piLimit(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 3.0;
@@ -240,13 +240,13 @@ short int piLimit(const double epsilon, double* result)
         double factorN = factorial(n);
         if (factorial < 0) {
             *result = prev;
-            return 2;
+            return ERROR_BAD_CALCULATIONS;
         }
 
         double dbFactorN = factorial(2 * n);
         if (factorial < 0) {
             *result = prev;
-            return 2;
+            return ERROR_BAD_CALCULATIONS;
         }
 
         prev = curr;
@@ -254,23 +254,23 @@ short int piLimit(const double epsilon, double* result)
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = curr;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
-short int piSeries(const double epsilon, double* result)
+ErrorCode piSeries(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 0.0;
@@ -283,13 +283,13 @@ short int piSeries(const double epsilon, double* result)
 
         if (fabs(4.0 * curr - 4.0 * prev) < epsilon) {
             *result = curr * 4.0;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = 4.0 * prev;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
 double piFunc(const double x)
@@ -299,14 +299,14 @@ double piFunc(const double x)
 
 // Функции для ln2
 
-short int ln2Limit(const double epsilon, double* result)
+ErrorCode ln2Limit(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 0.0;
@@ -321,23 +321,23 @@ short int ln2Limit(const double epsilon, double* result)
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = curr;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
-short int ln2Series(const double epsilon, double* result)
+ErrorCode ln2Series(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 0.0;
@@ -350,13 +350,13 @@ short int ln2Series(const double epsilon, double* result)
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = prev;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
 double ln2Func(const double x)
@@ -366,14 +366,14 @@ double ln2Func(const double x)
 
 // Функции для sqrt2
 
-short int sqrt2Limit(const double epsilon, double* result)
+ErrorCode sqrt2Limit(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = -0.5;
@@ -388,23 +388,23 @@ short int sqrt2Limit(const double epsilon, double* result)
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = curr;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
-short int sqrt2Series(const double epsilon, double* result)
+ErrorCode sqrt2Series(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
     
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 1.0;
@@ -417,13 +417,13 @@ short int sqrt2Series(const double epsilon, double* result)
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = prev;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
 double sqrt2Func(const double x)
@@ -433,14 +433,14 @@ double sqrt2Func(const double x)
 
 // Функции для γ
 
-short int gammaLimit(const double epsilon, double* result)
+ErrorCode gammaLimit(const double epsilon, double* result)
 {
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
 
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     }
 
     double prev, curr = 0.0;
@@ -458,7 +458,7 @@ short int gammaLimit(const double epsilon, double* result)
 
             if (combNum < 0) {
                 *result = closestRez;
-                return 2;
+                return ERROR_BAD_CALCULATIONS;
             }
 
             double cof = pow(-1.0, k) / k;
@@ -467,14 +467,14 @@ short int gammaLimit(const double epsilon, double* result)
 
             if (__DBL_MAX__ / fabs(temp) < fabs(logNum)) {
                 *result = closestRez;
-                return 2;
+                return ERROR_BAD_CALCULATIONS;
             }
 
             temp *= logNum;
 
             if (__DBL_MAX__ - curr < temp) {
                 *result = closestRez;
-                return 2;
+                return ERROR_BAD_CALCULATIONS;
             }
             
             curr += temp;
@@ -493,39 +493,39 @@ short int gammaLimit(const double epsilon, double* result)
 
     *result = closestRez;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 }
 
-short int gammaSeries(const double epsilon, double* result) // НЕ РАБОТАЕТ
+ErrorCode gammaSeries(const double epsilon, double* result) // НЕ РАБОТАЕТ
 { 
     if (epsilon < 0) {
-        return 5;
+        return ERROR_NEGATIVE_EPSILON;
     }
     
     if (result == NULL) {
-        return 1;
+        return ERROR_INVALID_POINTER;
     } // CONST! Скобки округление вниз.
     const double pi = 3.14159265358979323846;
 
     double prev, curr = 0.0;
 
-    for (int k = 2; __INT_MAX__ - 1 > k; k++) {
+    for (int k = 10; __INT_MAX__ - 1 > k; k++) {
 
         prev = curr;
 
-        double temp = 1.0/sqrt(k * k) - 1.0/k;
+        double temp = 1.0/(floor(sqrt(k * k)) * floor(sqrt(k * k))) *  - 1.0/k;
 
         curr += temp;
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr - (pi * pi) / 6;
-            return 0;
+            return SUCCESS;
         }
     }
 
     *result = prev - (pi * pi) / 6;
 
-    return 2;
+    return ERROR_BAD_CALCULATIONS;
 } // Можно использовать функции.
 
 double gammaFunc(const double x)

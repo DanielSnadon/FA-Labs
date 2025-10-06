@@ -125,7 +125,6 @@ int main(int argc, char* argv[]) {
                     break;
 
                 case 2:
-                    printf("Ошибка в записи формулы в условии задачи. \n"); // Troubles!
                     errorNumber = gammaSeries(epsilon, &answer);
                     break;
 
@@ -141,25 +140,29 @@ int main(int argc, char* argv[]) {
     }
 
     switch (errorNumber) {
-        case 0:
+        case SUCCESS:
             printf("Результат - %f \n", answer);
             return 0;
-        case 1:
+        case ERROR_INVALID_POINTER:
             printf("Ошибка функции: указатель не является валидным. \n");
             return 1;
-        case 2:
+        case ERROR_BAD_CALCULATIONS:
             printf("Не удалось вычислить значение с заданной точностью. \n");
             printf("Ближайший результат - %f \n", answer);
             return 0;
-        case 3:
+        case ERROR_LOCAL_FUNCTION_ERROR:
             printf("Ошибка локальной функции: возможно отрицательный факториал или не валидный указатель? \n");
             return 1;
-        case 4:
+        case ERROR_INVALID_BISECTION_ARRAY:
             printf("Ошибка вычисления функции: неверно выбран интервал для бисекции. \n");
             return 1;
+        case ERROR_NEGATIVE_EPSILON:
+            printf("Ошибка значения эпсилон: эпсилон не может быть отрицательным. \n");
+            return 1;   
         default:
             break;
     }
     
     return 1;
 }
+
