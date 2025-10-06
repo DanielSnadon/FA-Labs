@@ -54,7 +54,7 @@ ErrorCode strToInt(const char* firstChar, const int base, int* result)
             return ERROR_NOT_ALLOWED_SYMBOL;
         }
 
-        if (trueNumber > ((INT_MAX - digit) / base)) {
+        if (trueNumber > ((INT_MAX - digit) / base) || trueNumber < 0) {
             return ERROR_OVERFLOW;
         }
 
@@ -172,7 +172,7 @@ ErrorCode numberSum(const int x, long* result) // Функция для пунк
     long int sum = 0;
 
     for (int i = 1; i <= x; i++) {
-        if (LONG_MAX - i < sum) {
+        if (LONG_MAX - i < sum || sum < 0) {
             return ERROR_OVERFLOW;
         }
         sum += i;
@@ -196,7 +196,7 @@ ErrorCode factorial(const int x, long long* result) // Функция для п�
     long long temp = 1;
 
     for (int i = 1; i <= x; i++) {
-        if (temp > LLONG_MAX / i) {
+        if (temp > LLONG_MAX / i || temp < 0) {
             return ERROR_OVERFLOW;
         }
         temp *= i;
