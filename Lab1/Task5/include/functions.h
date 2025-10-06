@@ -3,11 +3,18 @@
 
 #include <stdio.h>
 
-short int digitRemove(FILE *input, FILE *output);
-short int letterCount(FILE *input, FILE *output);
-short int countEveryoneElse(FILE *input, FILE *output);
-short int hexReplace(FILE *input, FILE *output);
+typedef enum {
+    SUCCESS = 0,
+    ERROR_INVALID_FILE_POINTER,
+    ERROR_NO_FILE_TYPE,
+    UNKNOWN_FILE_TYPE
+} ErrorCode;
 
-short int isThatFileGood(const char *name);
+ErrorCode digitRemove(FILE *input, FILE *output);
+ErrorCode letterCount(FILE *input, FILE *output);
+ErrorCode countEveryoneElse(FILE *input, FILE *output);
+ErrorCode hexReplace(FILE *input, FILE *output);
+
+ErrorCode isThatFileGood(const char *name);
 
 #endif

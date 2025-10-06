@@ -29,34 +29,34 @@ bool isAcceptableLetter(const char c)
 
 // И ещё проверка файлов
 
-short int isThatFileGood(const char *name)
+ErrorCode isThatFileGood(const char *name)
 {
     if (name == NULL) {
-        return 1;
+        return ERROR_INVALID_FILE_POINTER;
     }
     const char *fileTypes[] = {".txt", ".docx", "doc", "rtf", ".c", ".h", ".cpp", ".hpp", ".java", ".py", ".csv", ".json", ".xml", ".html", ".css", ".js", ".md", ".log", ".conf", ".config", NULL};
 
     char *splitter = strrchr(name, '.');
 
     if (splitter == NULL) {
-        return 2;
+        return ERROR_NO_FILE_TYPE;
     }
 
     for (int i = 0; fileTypes[i] != NULL; i++) {
         if (strcmp(splitter, fileTypes[i]) == 0) {
-            return 0;
+            return SUCCESS;
         }
     }
 
-    return 3;
+    return UNKNOWN_FILE_TYPE;
 }
 
 // The важные функции 
 
-short int digitRemove(FILE *input, FILE *output)
+ErrorCode digitRemove(FILE *input, FILE *output)
 {
     if (input == NULL || output == NULL) {
-        return 1;
+        return ERROR_INVALID_FILE_POINTER;
     }
     char c;
 
@@ -66,13 +66,13 @@ short int digitRemove(FILE *input, FILE *output)
         }
     }
 
-    return 0;
+    return SUCCESS;
 }
 
-short int letterCount(FILE *input, FILE *output)
+ErrorCode letterCount(FILE *input, FILE *output)
 {
     if (input == NULL || output == NULL) {
-        return 1;
+        return ERROR_INVALID_FILE_POINTER;
     }
 
     char line[1024];
@@ -89,13 +89,13 @@ short int letterCount(FILE *input, FILE *output)
         fprintf(output, "%d\n", counter);
     }
 
-    return 0;
+    return SUCCESS;
 }
 
-short int countEveryoneElse(FILE *input, FILE *output)
+ErrorCode countEveryoneElse(FILE *input, FILE *output)
 {
     if (input == NULL || output == NULL) {
-        return 1;
+        return ERROR_INVALID_FILE_POINTER;
     }
 
     char line[1024];
@@ -117,13 +117,13 @@ short int countEveryoneElse(FILE *input, FILE *output)
         fprintf(output, "%d\n", counter);
     }
 
-    return 0;
+    return SUCCESS;
 }
 
-short int hexReplace(FILE *input, FILE *output)
+ErrorCode hexReplace(FILE *input, FILE *output)
 {
     if (input == NULL || output == NULL) {
-        return 1;
+        return ERROR_INVALID_FILE_POINTER;
     }
 
     char c;
@@ -141,5 +141,5 @@ short int hexReplace(FILE *input, FILE *output)
         }        
     }
 
-    return 0;
+    return SUCCESS;
 }

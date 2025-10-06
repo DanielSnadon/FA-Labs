@@ -13,13 +13,13 @@ int main(int argc, char* argv[]) {
     char outputFileName[256];
 
     switch(isThatFileGood(inputFileName)) {
-        case 1:
+        case ERROR_INVALID_FILE_POINTER:
             printf("Ошибка функции проверки расширения файла: указатель на файл не является валидным. \n");
             break;
-        case 2:
+        case ERROR_NO_FILE_TYPE:
             printf("Ошибка входного файла: у входного файла отсутсвует расширение. Убедитесь, что работаете с правильным файлом. \n");
             break;
-        case 3:
+        case UNKNOWN_FILE_TYPE:
             printf("Ошибка входного файла: расширение файла не входит в число проверенных, результат может отличаться от ожидаемого. Продолжить? [y/n]: ");
             if (getchar() != 'y') {
                 return 1;
@@ -36,13 +36,13 @@ int main(int argc, char* argv[]) {
             strcpy(outputFileName, argv[3]);
 
             switch(isThatFileGood(inputFileName)) {
-                case 1:
+                case ERROR_INVALID_FILE_POINTER:
                     printf("Ошибка функции проверки расширения файла: указатель на файл не является валидным. \n");
                     break;
-                case 2:
+                case ERROR_NO_FILE_TYPE:
                     printf("Ошибка входного файла: у входного файла отсутсвует расширение. Убедитесь, что работаете с правильным файлом. \n");
                     break;
-                case 3:
+                case UNKNOWN_FILE_TYPE:
                     printf("Ошибка входного файла: расширение файла не входит в число проверенных, результат может отличаться от ожидаемого. Продолжить? [y/n]: ");
                     if (getchar() != 'y') {
                         return 1;
