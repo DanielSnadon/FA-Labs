@@ -10,7 +10,10 @@ int main(int argc, char* argv[]) {
         printf("Ошибка: неверное число запросов. \n");
         return 1;
     }
-    clearBuffer();
+    if (clearBuffer()) {
+        printf("Ошибка: неверный ввод. \n");
+        return 1;
+    }
 
     if (numbersCount == 0) {
         return 0;
@@ -21,7 +24,6 @@ int main(int argc, char* argv[]) {
         printf ("Ошибка: не удалось выделить необходимую память. \n");
         return 1;
     }
-
     printf("Введите %d запросов: \n", numbersCount);
 
     for (int i = 0; i < numbersCount; i++) {
@@ -30,7 +32,10 @@ int main(int argc, char* argv[]) {
             free(numbers);
             return 1;
         }
-        clearBuffer();
+        if (clearBuffer()) {
+            printf("Ошибка: неверный ввод. \n");
+            return 1;
+        }
     }
 
     int maxNumber;

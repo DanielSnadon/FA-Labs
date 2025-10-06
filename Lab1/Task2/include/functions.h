@@ -4,7 +4,8 @@
 typedef enum {
     SUCCESS = 0,
     ERROR_INVALID_FUNCTION_ARGUMENTS,
-    ERROR_CANT_FIND_PRIME_NUMBERS
+    ERROR_CANT_FIND_PRIME_NUMBERS,
+    ERROR_INVALID_INPUT
 } ErrorCode;
 
 ErrorCode clearBuffer();

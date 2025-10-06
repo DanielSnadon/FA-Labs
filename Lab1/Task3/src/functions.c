@@ -24,7 +24,7 @@ bool isEquals(const double epsilon, const double a, const double b)
 ErrorCode strToInt(const char* firstChar, const int base, int* result)
 {
     if (result == NULL || firstChar == NULL) {
-        return 4;
+        return ERROR_INVALID_POINTER;
     }
 
     int trueNumber = 0;
@@ -37,7 +37,7 @@ ErrorCode strToInt(const char* firstChar, const int base, int* result)
     }
 
     if (*curChar == '\0') {
-        return 1;
+        return ERROR_NOTHING_AFTER_MINUS;
     }
     while (*curChar) {
         char c = *curChar;
@@ -48,15 +48,15 @@ ErrorCode strToInt(const char* firstChar, const int base, int* result)
         } else if (isalpha(c)) {
             digit = c - 'A' + 10;
         } else {
-            return 2;
+            return ERROR_INVALID_LETTER;
         }
         
         if (digit >= base) {
-            return 2;
+            return ERROR_INVALID_LETTER;
         }
 
         if (trueNumber > ((INT_MAX - digit) / base)) {
-            return 3;
+            return ERROR_OVERFLOW;
         }
 
         trueNumber = trueNumber * base + digit;
@@ -64,27 +64,27 @@ ErrorCode strToInt(const char* firstChar, const int base, int* result)
     }
 
     *result = trueNumber * sign;
-    return 0;
+    return SUCCESS;
 }
 
 ErrorCode strToDouble(const char* firstChar, double* result)
 {
     if (firstChar == NULL || result == NULL) {
-        return 3;
+        return ERROR_INVALID_POINTER;
     }
     
     char* remainingChars;
     *result = strtod(firstChar, &remainingChars);
 
     if (*remainingChars != '\0' || remainingChars == firstChar) {
-        return 1;
+        return ERROR_INVALID_INPUT;
     }
     
     if (isnan(*result) || isinf(*result)) {
-        return 2;
+        return ERROR_INF_OR_NAN_APPEARED;
     }
 
-    return 0;
+    return SUCCESS;
 }
 
 ErrorCode solveEquation(const double epsilon,
@@ -92,18 +92,18 @@ ErrorCode solveEquation(const double epsilon,
     double* otv1, double* otv2)
 {
     if (otv1 == NULL || otv2 == NULL) {
-        return 5;
+        return ERROR_INVALID_POINTER;
     }
 
     if (isEquals(epsilon, a, 0.0)) {
         if (isEquals(epsilon, b, 0.0)) {
             if (isEquals(epsilon, c, 0.0)) {
-                return 1;
+                return INF_ROOTS;
             }
-            return 2;
+            return NO_ROOTS;
         }
         *otv1 = -c / b;
-        return 3;
+        return NOT_A_SQUARE_EQUATION;
     }
 
     double d = b * b - 4 * a * c;
@@ -111,24 +111,24 @@ ErrorCode solveEquation(const double epsilon,
     if (isEquals(epsilon, d, 0.0)) {
         *otv1 = -b / (2 * a);
         *otv2 = *otv1;
-        return 0;
+        return SUCCESS;
     } else if (d > 0) {
         *otv1 = (-b + sqrt(d)) / (2 * a);
         *otv2 = (-b - sqrt(d)) / (2 * a);
-        return 0;
+        return SUCCESS;
     } else {
-        return 4;
+        return NEGATIVE_DISCRIMINANT;
     }
 }
 
 ErrorCode checkKratnost(const int a, const int b, short int *otv) 
 {
     if (otv == NULL) {
-        return 2;
+        return ERROR_INVALID_POINTER;
     }
 
     if (a == 0 || b == 0) {
-        return 1;
+        return ERROR_INVALID_ARGUMENTS;
     }
 
     if (abs(a) % abs(b) == 0) {
@@ -138,20 +138,21 @@ ErrorCode checkKratnost(const int a, const int b, short int *otv)
         *otv = 1;
     }
 
-    return 0;
+    return SUCCESS;
 }
 
 ErrorCode checkTriangle(const double epsilon,
     double a, const double b, const double c, short int *otv)
 {
     if (a <= 0 || b <= 0 || c <= 0) {
-        return 1;
+        return ERROR_INVALID_ARGUMENTS;
     }
     if (otv == NULL) {
-        return 2;
+        return ERROR_INVALID_POINTER;
     }
-    if ((a > sqrt(__DBL_MAX__)) || (b > sqrt(__DBL_MAX__)) || (c > sqrt(__DBL_MAX__))) {
-        return 3; // proverka predelov
+    if ((a > sqrt(__DBL_MAX__)) || (b > sqrt(__DBL_MAX__)) || (c > sqrt(__DBL_MAX__))
+    || (a * a > (__DBL_MAX__ - b * b)) || (b * b > (__DBL_MAX__ - c * c)) || (c * c > (__DBL_MAX__ - a * a))) {
+        return ERROR_OVERFLOW;
     }
     if (doubleAbs(a * a + b * b - c * c) < epsilon || doubleAbs(c * c + b * b - a * a) < epsilon || doubleAbs(a * a + c * c - b * b) < epsilon) {
         *otv = 0;
@@ -159,5 +160,5 @@ ErrorCode checkTriangle(const double epsilon,
         *otv = 1;
     }
 
-    return 0;
+    return SUCCESS;
 }

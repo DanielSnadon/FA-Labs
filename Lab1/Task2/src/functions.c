@@ -9,6 +9,9 @@ ErrorCode clearBuffer()
     char c;
     while ((c = getchar()) != '\n' && c != '\0')
     {
+        if (c != ' ') {
+            return ERROR_INVALID_INPUT;
+        }
     }
     return SUCCESS;
 }
