@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
-        printf("Ошибка вызова программы: недостаточно аргументов. \nОжидается ввод в формате: \"./main [флаг] [входной файл] [выходной файл (опционально)].\" \n");
+        printf("Ошибка вызова программы: недостаточно аргументов. \nОжидается ввод в формате: \"./main [флаг] [входной файл] [выходной файл (опционально)]\". \n");
         return 1;
     }
 
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     char* shrtOutptFlNm = strrchr(outputFileName, '/');
 
     shrtInptFlNm = (shrtInptFlNm != NULL) ? shrtInptFlNm + 1 : inputFileName;
-    shrtOutptFlNm = (shrtOutptFlNm != NULL) ? shrtOutptFlNm + 1 : inputFileName;
+    shrtOutptFlNm = (shrtOutptFlNm != NULL) ? shrtOutptFlNm + 1 : outputFileName;
 
 
     if (flag[1] == 'n' && strcmp(shrtInptFlNm, shrtOutptFlNm) == 0) {
