@@ -66,7 +66,7 @@ ErrorCode digitRemove(FILE *input, FILE *output)
         }
     }
 
-    return SUCCESS;
+    return SUCCESS; 
 }
 
 ErrorCode letterCount(FILE *input, FILE *output)
@@ -75,11 +75,11 @@ ErrorCode letterCount(FILE *input, FILE *output)
         return ERROR_INVALID_FILE_POINTER;
     }
 
-    char line[1024];
+    size_t lineLen = 0;
+    char *line = NULL; // ДОДЕЛАТЬ ЛАЙНЫ ДЛЯ ВСЕХ ОСТАЛЬНЫХ
 
-    while (fgets(line, 1024, input) != NULL) { // длинная строка
+    while (getline(&line, &lineLen, input) != -1) { 
         unsigned int counter = 0;
-
         for (int i = 0; line[i] != '\0'; i++) {
             if (isAcceptableLetter(line[i])) {
                 counter++;

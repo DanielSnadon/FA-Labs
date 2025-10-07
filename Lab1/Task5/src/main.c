@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     
     char *flag = argv[1];
 
-    if (flag[0] == '-' || flag[0] == '/') { // абсолютная позиция
+    if (flag[0] == '-' || flag[0] == '/') {
 
         if (flag[1] == 'n' && argc == 4) {
             
