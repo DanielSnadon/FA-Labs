@@ -27,7 +27,7 @@ bool isAcceptableLetter(const char c)
     return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
-// И ещё проверка файлов
+// И ещё проверка файлов!
 
 ErrorCode isThatFileGood(const char *name)
 {
@@ -62,7 +62,9 @@ ErrorCode digitRemove(FILE *input, FILE *output)
 
     while ((c = fgetc(input)) != EOF) {
         if (!isdigit(c)) {
-            fputc(c, output);
+            if (fputc(c, output) == EOF) {
+                return ERROR_OUTPUT_FILE_ERROR;
+            }
         }
     }
 
@@ -75,18 +77,24 @@ ErrorCode letterCount(FILE *input, FILE *output)
         return ERROR_INVALID_FILE_POINTER;
     }
 
-    size_t lineLen = 0;
-    char *line = NULL; // ДОДЕЛАТЬ ЛАЙНЫ ДЛЯ ВСЕХ ОСТАЛЬНЫХ
+    int c;
+    unsigned int counter = 0;
 
-    while (getline(&line, &lineLen, input) != -1) { 
-        unsigned int counter = 0;
-        for (int i = 0; line[i] != '\0'; i++) {
-            if (isAcceptableLetter(line[i])) {
-                counter++;
+    while ((c = fgetc(input)) != EOF) {
+        if (c == '\n') {
+            if (fprintf(output, "%d \n", counter) <= 0) {
+                return ERROR_OUTPUT_FILE_ERROR;
             }
+            counter = 0;
+        } else if (isAcceptableLetter(c)) {
+            counter++;
         }
+    }
 
-        fprintf(output, "%d\n", counter);
+    if (counter > 0) {
+        if (fprintf(output, "%d \n", counter) <= 0) {
+            return ERROR_OUTPUT_FILE_ERROR;
+        }
     }
 
     return SUCCESS;
@@ -98,23 +106,40 @@ ErrorCode countEveryoneElse(FILE *input, FILE *output)
         return ERROR_INVALID_FILE_POINTER;
     }
 
-    char line[1024];
+    int pureChar;
+    unsigned int counter = 0;
+    short int length;
 
-    while (fgets(line, 1024, input) != NULL) {
-        unsigned int counter = 0;
-        int i = 0;
-        while (line[i] != '\0') {
-            unsigned char ch = line[i];
-            short int length = charLength(ch);
-
-            if (!isAcceptableLetter(ch) && !isdigit(ch) && !isspace(ch)) {
-                counter++;
+    while ((pureChar = fgetc(input)) != EOF) {
+        unsigned char c = (unsigned char)pureChar;
+        
+        if (c == '\n') {
+            if (fprintf(output, "%d \n", counter) <= 0) {
+                return ERROR_OUTPUT_FILE_ERROR;
             }
+            counter = 0;
 
-            i += length;
+        } else {
+
+            if (!isAcceptableLetter(c) && !isdigit(c) && !isspace(c)) {
+                counter++;
+                length = charLength(c);
+
+                if (length == 0) {
+                    return ERROR_FILE_CORRUPTED;
+                }
+
+                for (int i = 1; i < length; i++) {
+                    fgetc(input);
+                }
+            }
         }
+    }
 
-        fprintf(output, "%d\n", counter);
+    if (counter > 0) {
+        if (fprintf(output, "%d \n", counter) <= 0) {
+            return ERROR_OUTPUT_FILE_ERROR;
+        }
     }
 
     return SUCCESS;
@@ -126,18 +151,24 @@ ErrorCode hexReplace(FILE *input, FILE *output)
         return ERROR_INVALID_FILE_POINTER;
     }
 
-    char c;
+    int pureChar;
 
-    while ((c = fgetc(input)) != EOF) {
+    while ((pureChar = fgetc(input)) != EOF) {
+        unsigned char c = (unsigned char)pureChar;
 
-        if (isdigit(c)) {
+        if (isdigit(c) || c == '\n') {
             fputc(c, output);
-        } else {
-            int firstLetter = c / 16;
-            int secondLetter = c % 16;
 
-            fputc(firstLetter < 10 ? '0' + firstLetter : 'A' + firstLetter - 10, output);
-            fputc(secondLetter < 10 ? '0' + secondLetter : 'A' + secondLetter - 10, output);
+        } else {
+            int firstDigit = c / 16;
+            int secondDigit = c % 16;
+
+            char firstChar = firstDigit < 10 ? '0' + firstDigit : 'A' + firstDigit - 10;
+            char secondChar = secondDigit < 10 ? '0' + secondDigit : 'A' + secondDigit - 10;
+
+            if (fputc(firstChar, output) == EOF || fputc(secondChar, output) == EOF) {
+                return ERROR_OUTPUT_FILE_ERROR;
+            }
         }        
     }
 

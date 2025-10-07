@@ -7,5 +7,6 @@
         "math.h": "c",
         "string.h": "c",
         "ctype.h": "c"
-    }
+    },
+    "cmake.ignoreCMakeListsMissing": true
 }

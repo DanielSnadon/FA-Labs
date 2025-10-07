@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "functions.h"
 
 int main(int argc, char* argv[]) {
@@ -53,6 +54,13 @@ int main(int argc, char* argv[]) {
         } else {
             strcpy(outputFileName, "out_");
             strcat(outputFileName, inputFileName);
+
+            if (argc == 4) {
+                printf("Ошибка ввода: При вводе флага без символа \"n\" имя четвёртого файла не требуется - алгоритм задаст имя самостоятельно. Продолжить? [y/n]: ");
+                if (getchar() != 'y') {
+                    return 1;
+                }
+            }
         }
 
     } else {
@@ -60,9 +68,18 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if (strcmp(inputFileName, outputFileName) == 0) {
-        printf("Ошибка: имена входного и выходного файлов совпадают, возможна потеря данных. \n");
-        return 1;
+    char* shrtInptFlNm = strrchr(inputFileName, '/');
+    char* shrtOutptFlNm = strrchr(outputFileName, '/');
+
+    shrtInptFlNm = (shrtInptFlNm != NULL) ? shrtInptFlNm + 1 : inputFileName;
+    shrtOutptFlNm = (shrtOutptFlNm != NULL) ? shrtOutptFlNm + 1 : inputFileName;
+
+
+    if (strcmp(shrtInptFlNm, shrtOutptFlNm) == 0) {
+        printf("Ошибка: имена входного и выходного файлов совпадают, возможна потеря данных. Продолжить? [y/n]: ");
+        if (getchar() != 'y') {
+            return 1;
+        }
     }
 
     FILE *inputFile = fopen(inputFileName, "r");
@@ -80,42 +97,84 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    char chosenFlag = flag[1] == 'n' ? flag[2] : flag[1];
+    char chosenFlag = (flag[1] == 'n') ? flag[2] : flag[1];
+
+    if (!((strlen(flag) == 2) || (flag[1] == 'n' && strlen(flag) == 3))) {
+        printf("Ошибка: некорректная запись флага. \n");
+        fclose(inputFile);
+        fclose(outputFile);
+        return 1;
+    }
+
+    bool succesful = false;
 
     switch (chosenFlag) {
         case 'd':
-            if (digitRemove(inputFile, outputFile)) {
-                printf("Ошибка: указатель на файл не является валидным. \n");
-                return 1;
+            switch (digitRemove(inputFile, outputFile)) {
+                case ERROR_INVALID_FILE_POINTER:
+                    printf("Ошибка: указатель на файл не является валидным. \n");
+                    break;
+                case ERROR_OUTPUT_FILE_ERROR:
+                    printf("Ошибка: не удалось записать данные в выходной файл. \n");
+                    break;
+                case SUCCESS:
+                    succesful = true;
+                    break;
             }
             break;
         case 'i':
-            if (letterCount(inputFile, outputFile)) {
-                printf("Ошибка: указатель на файл не является валидным. \n");
-                return 1;
+            switch (letterCount(inputFile, outputFile)) {
+                case ERROR_INVALID_FILE_POINTER:
+                    printf("Ошибка: указатель на файл не является валидным. \n");
+                    break;
+                case ERROR_OUTPUT_FILE_ERROR:
+                    printf("Ошибка: не удалось записать данные в выходной файл. \n");
+                    break;
+                case SUCCESS:
+                    succesful = true;
+                    break;
             }
             break;
         case 's':
-            if (countEveryoneElse(inputFile, outputFile)) {
-                printf("Ошибка: указатель на файл не является валидным. \n");
-                return 1;
+            switch (countEveryoneElse(inputFile, outputFile)) {
+                case ERROR_INVALID_FILE_POINTER:
+                    printf("Ошибка: указатель на файл не является валидным. \n");
+                    break;
+                case ERROR_OUTPUT_FILE_ERROR:
+                    printf("Ошибка: не удалось записать данные в выходной файл. \n");
+                    break;
+                case ERROR_FILE_CORRUPTED:
+                    printf("Ошибка: неопознанный символ во входном файле. \n");
+                    break;
+                case SUCCESS:
+                    succesful = true;
+                    break;
             }
             break;
         case 'a':
-            if (hexReplace(inputFile, outputFile)) {
-                printf("Ошибка: указатель на файл не является валидным. \n");
-                return 1;
+            switch (hexReplace(inputFile, outputFile)) {
+                case ERROR_INVALID_FILE_POINTER:
+                    printf("Ошибка: указатель на файл не является валидным. \n");
+                    break;
+                case ERROR_OUTPUT_FILE_ERROR:
+                    printf("Ошибка: не удалось записать данные в выходной файл. \n");
+                    break;
+                case SUCCESS:
+                    succesful = true;
+                    break;
             }
             break;
         default:
             printf("Ошибка: проверьте написание значения флага. \n");
-            fclose(inputFile);
-            fclose(outputFile);
-            return 1;
+            break;
     }
 
     fclose(inputFile);
     fclose(outputFile);
+
+    if (!succesful) {
+        return 1;
+    }
 
     printf("Программа завершена успешно. Результат записан в файл. \n");
     return 0;
