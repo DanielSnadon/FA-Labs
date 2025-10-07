@@ -7,11 +7,11 @@
 #### Задача 3
 ![](https://geps.dev/progress/99)
 #### Задача 4
-![](https://geps.dev/progress/95)
+![](https://geps.dev/progress/90)
 #### Задача 5
 ![](https://geps.dev/progress/99)
 #### Задача 6
-![](https://geps.dev/progress/30)
+![](https://geps.dev/progress/99)
 #### Задача 7
 ![](https://geps.dev/progress/5)
 #### Задача 8

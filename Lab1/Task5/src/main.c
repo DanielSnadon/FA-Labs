@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
     shrtOutptFlNm = (shrtOutptFlNm != NULL) ? shrtOutptFlNm + 1 : inputFileName;
 
 
-    if (strcmp(shrtInptFlNm, shrtOutptFlNm) == 0) {
+    if (flag[1] == 'n' && strcmp(shrtInptFlNm, shrtOutptFlNm) == 0) {
         printf("Ошибка: имена входного и выходного файлов совпадают, возможна потеря данных. Продолжить? [y/n]: ");
         if (getchar() != 'y') {
             return 1;
