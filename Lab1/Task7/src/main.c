@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    switch(func(inputFile, outputFile)) {
+    switch(completeTask(inputFile, outputFile)) {
         case SUCCESS:
             printf("Программа завершена успешно. Результат записан в файл. \n");
             break;

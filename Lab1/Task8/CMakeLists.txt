@@ -10,3 +10,4 @@ add_executable(main
 )
 
 target_include_directories(main PRIVATE include)
+target_link_libraries(main m)

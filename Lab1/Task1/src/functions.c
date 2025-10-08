@@ -47,7 +47,7 @@ ErrorCode strToInt(const char* firstChar, const int base, int* result)
         } else if (isalpha(c)) {
             digit = c - 'A' + 10;
         } else {
-            return 2;
+            return ERROR_NOT_ALLOWED_SYMBOL;
         }
         
         if (digit >= base) {

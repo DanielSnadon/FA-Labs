@@ -36,7 +36,7 @@ ErrorCode translateNumber (const char* buff, const short int currCharPosition,
 
             int digit = (isdigit(buff[i]) ? buff[i] -'0' : buff[i] -'A'+ 10);
 
-            if (answer > ((__INT_MAX__ - digit) / base) || value < 0) {
+            if (answer > ((__DBL_MAX__ - digit) / base) || answer < 0 || isinf(answer) || isnan(answer)) {
                 if (fprintf(output, "\nОснование системы счисления: %d\nОшибка: [Переполнение ячейки памяти]", base) <= 0) {
                     return ERROR_CANT_WRITE_ERROR;
                 }
@@ -65,7 +65,7 @@ short int symbolType(char c) {
     return 0;
 }
 
-ErrorCode func(FILE *input, FILE *output)
+ErrorCode completeTask(FILE *input, FILE *output)
 {
     if (input == NULL || output == NULL) {
         return ERROR_INVALID_FILE_POINTER;
@@ -79,7 +79,7 @@ ErrorCode func(FILE *input, FILE *output)
     buff[0] = 0;
     short int currCharPosition = 0;
 
-    bool numberStarted;
+    bool numberStarted = false;
 
     while ((c = fgetc(input)) != EOF) {
         if (symbolType(c) == 0) {

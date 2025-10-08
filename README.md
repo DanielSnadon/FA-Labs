@@ -15,4 +15,4 @@
 #### Задача 7
 ![](https://geps.dev/progress/99)
 #### Задача 8
-![](https://geps.dev/progress/5)
+![](https://geps.dev/progress/98)
