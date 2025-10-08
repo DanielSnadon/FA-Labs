@@ -85,14 +85,14 @@ int main(int argc, char* argv[]) {
     FILE *inputFile = fopen(inputFileName, "r");
 
     if (inputFile == NULL) {
-        perror("Ошибка открытия входного файла. \n");
+        printf("Ошибка открытия входного файла. \n");
         return 1;
     }
 
     FILE *outputFile = fopen(outputFileName, "w");
     
     if (outputFile == NULL) {
-        perror("Ошибка открытия выходного файла. \n");
+        printf("Ошибка открытия выходного файла. \n");
         fclose(inputFile);
         return 1;
     }
