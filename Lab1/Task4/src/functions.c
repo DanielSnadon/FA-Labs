@@ -496,7 +496,7 @@ ErrorCode gammaLimit(const double epsilon, double* result)
     return ERROR_BAD_CALCULATIONS;
 }
 
-ErrorCode gammaSeries(const double epsilon, double* result) // НЕ РАБОТАЕТ
+ErrorCode gammaSeries(const double epsilon, double* result)
 { 
     if (epsilon < 0) {
         return ERROR_NEGATIVE_EPSILON;
@@ -504,7 +504,7 @@ ErrorCode gammaSeries(const double epsilon, double* result) // НЕ РАБОТА
     
     if (result == NULL) {
         return ERROR_INVALID_POINTER;
-    } // CONST! Скобки округление вниз.
+    }
     const double pi = 3.14159265358979323846;
 
     double prev, curr = 0.0;
@@ -526,7 +526,7 @@ ErrorCode gammaSeries(const double epsilon, double* result) // НЕ РАБОТА
     *result = prev - (pi * pi) / 6;
 
     return ERROR_BAD_CALCULATIONS;
-} // Можно использовать функции.
+}
 
 double gammaFunc(const double x)
 {
