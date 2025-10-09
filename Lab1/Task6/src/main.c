@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
             Поскольку нужно вычислить точное значение,
             то будем использовать конечное приближение к единице.
         */
-            status = solve(thirdIntegral, 0, 1 - 1e-10, epsilon, &answer);
+            status = solve(thirdIntegral, 0, 1 - 1e-16, epsilon, &answer);
             break;
         case 4:
             status = solve(fourthIntegral, 0, 1, epsilon, &answer);
