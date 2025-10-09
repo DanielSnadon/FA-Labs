@@ -11,7 +11,7 @@ double doubleAbs(double x)
     return (x < 0) ? -x : x;
 }
 
-int abs(int x)
+unsigned int intAbs(int x)
 {
     return (x < 0) ? -x : x;
 }
@@ -131,7 +131,7 @@ ErrorCode checkKratnost(const int a, const int b, short int *otv)
         return ERROR_INVALID_ARGUMENTS;
     }
 
-    if (abs(a) % abs(b) == 0) {
+    if (intAbs(a) % intAbs(b) == 0) {
         *otv = 0;
     }
     else {
