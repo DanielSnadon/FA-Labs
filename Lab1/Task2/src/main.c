@@ -1,23 +1,24 @@
 #include "functions.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int main(int argc, char* argv[]) {
-    int numbersCount;
+    if (argc != 1) {
+        printf("Ошибка: программа не принимает аргументов. \n");
+        return 1;
+    }
+
+    long long readedValue;
     printf("Введите количество запросов: ");
 
-    if (scanf("%d", &numbersCount) != 1 || numbersCount < 0) {
+    if (scanf("%lld", &readedValue) != 1 || readedValue < 0 || readedValue > __INT_MAX__) {
         printf("Ошибка: неверное число запросов. \n");
         return 1;
     }
     if (clearBuffer()) {
-        printf("Ошибка: неверный ввод. \n");
+        printf("Ошибка: неверный ввод, после значения количества запросов были введены лишние данные. \n");
         return 1;
     }
 
-    if (numbersCount == 0) {
-        return 0;
-    }
+    int numbersCount = (int)readedValue;
 
     int* numbers = (int*)malloc(numbersCount * sizeof(int));
     if (numbers == NULL) {
@@ -33,7 +34,8 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         if (clearBuffer()) {
-            printf("Ошибка: неверный ввод. \n");
+            printf("Ошибка: неверный ввод, после значения запроса были введены лишние данные. \n");
+            free(numbers);
             return 1;
         }
     }
@@ -49,6 +51,8 @@ int main(int argc, char* argv[]) {
     int* primeNumbers = (int*)calloc(maxNumber, sizeof(int));
 
     if (generatePrimeNumbers(maxNumber, primeNumbers) == 1) {
+        free(primeNumbers);
+        free(numbers);
         printf("Ошибка: не удалось найти простые числа. \n");
         return 1;
     }

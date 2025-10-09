@@ -1,6 +1,9 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef enum {
     SUCCESS = 0,
     ERROR_INVALID_FUNCTION_ARGUMENTS,

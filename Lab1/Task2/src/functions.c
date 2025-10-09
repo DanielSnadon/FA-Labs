@@ -1,8 +1,6 @@
 #include "functions.h"
 #include <limits.h>
 #include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 ErrorCode clearBuffer()
 {
@@ -45,6 +43,10 @@ ErrorCode generatePrimeNumbers(const int maxIndex, int* primeNumbers)
     bool flag;
 
     do {
+        if (currentNumber > INT_MAX - 2) {
+            break;
+        }
+        
         currentNumber += 2;
         flag = true;
         for (int p = 0; p < numberGenerated; p++) {
