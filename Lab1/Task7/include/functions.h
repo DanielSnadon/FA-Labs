@@ -25,6 +25,6 @@ ErrorCode isThatFileGood(const char *name);
 
 // Основные функции:
 
-ErrorCode func(FILE *input, FILE *output);
+ErrorCode completeTask(FILE *input, FILE *output);
 
 #endif

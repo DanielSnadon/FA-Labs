@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <ctype.h>
+#include <math.h>
 
 ErrorCode isThatFileGood(const char *name)
 {
@@ -72,7 +73,8 @@ ErrorCode completeTask(FILE *input, FILE *output)
     }
 
     char c;
-    char base = 2;
+    char lastUselessChar = 0;
+    char base = '2';
     short int sign = 1;
 
     char buff[1024];
@@ -126,6 +128,22 @@ ErrorCode completeTask(FILE *input, FILE *output)
             continue;
         }
 
+        if (symbolType(c) == 1 && lastUselessChar == '0' && !numberStarted) {
+            if (buff[0] != 0) {
+                fprintf(output, "\n");
+            }
+
+            buff[0] = '0';
+
+            if (fprintf(output, "Число: 0") <= 0) {
+                return ERROR_OUTPUT_FILE_ERROR;
+            }
+
+            if (fprintf(output, "\nОснование системы счисления: 2\nДесятичное представление: 0") <= 0) {
+                return ERROR_OUTPUT_FILE_ERROR;
+            }
+        }
+
         if (numberStarted && symbolType(c) == 1) {            
             double value = 0;
             base = 1 + (isdigit(base) ? base -'0' : base -'A'+ 10);
@@ -145,12 +163,15 @@ ErrorCode completeTask(FILE *input, FILE *output)
                 return ERROR_OUTPUT_FILE_ERROR;
             }
 
-            base = 2;
+            base = '2';
             currCharPosition = 0;
+            lastUselessChar = 0;
             numberStarted = false;
             sign = 1;
             continue;
         }
+
+        lastUselessChar = c;
     }
 
     if (buff[0] == '-') {
@@ -176,6 +197,22 @@ ErrorCode completeTask(FILE *input, FILE *output)
         }
 
         if (fprintf(output, "\nОснование системы счисления: %d\nДесятичное представление: %.0lf", base, value) <= 0) {
+            return ERROR_OUTPUT_FILE_ERROR;
+        }
+    }
+
+    if (lastUselessChar == '0') {
+        if (buff[0] != 0) {
+            fprintf(output, "\n");
+        }
+
+        buff[0] = '0';
+
+        if (fprintf(output, "Число: 0") <= 0) {
+            return ERROR_OUTPUT_FILE_ERROR;
+        }
+
+        if (fprintf(output, "\nОснование системы счисления: 2\nДесятичное представление: 0") <= 0) {
             return ERROR_OUTPUT_FILE_ERROR;
         }
     }
