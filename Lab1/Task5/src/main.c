@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
             
             strcpy(outputFileName, argv[3]);
 
-            switch(isThatFileGood(inputFileName)) {
+            switch(isThatFileGood(outputFileName)) {
                 case ERROR_INVALID_FILE_POINTER:
                     printf("Ошибка функции проверки расширения файла: указатель на файл не является валидным. \n");
                     break;

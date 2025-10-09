@@ -60,7 +60,7 @@ double combinationsNumber(int m, int k)
 
     double factorK = factorial(k);
 
-    if (factorM < 0) {
+    if (factorK < 0) {
         return -1;
     }
 
@@ -238,13 +238,13 @@ ErrorCode piLimit(const double epsilon, double* result)
     for (int n = 1; __INT_MAX__ / 2 > n; n*=2) {
 
         double factorN = factorial(n);
-        if (factorial < 0) {
+        if (factorN < 0) {
             *result = prev;
             return ERROR_BAD_CALCULATIONS;
         }
 
         double dbFactorN = factorial(2 * n);
-        if (factorial < 0) {
+        if (dbFactorN < 0) {
             *result = prev;
             return ERROR_BAD_CALCULATIONS;
         }
