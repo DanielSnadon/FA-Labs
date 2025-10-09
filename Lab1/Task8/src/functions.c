@@ -1,5 +1,6 @@
 #include "functions.h"
 #include <ctype.h>
+#include <stdlib.h>
 
 ErrorCode clearBuffer()
 {
@@ -62,7 +63,7 @@ ErrorCode translate(char* line, const short int base, long long* maxNumber) {
 
     answer *= sign;
 
-    if (answer > *maxNumber) {
+    if (llabs(answer) > llabs(*maxNumber)) {
         *maxNumber = answer;
     }
 

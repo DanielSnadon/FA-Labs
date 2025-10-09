@@ -1,7 +1,8 @@
 #include "functions.h"
 #include <string.h>
+#include <stdbool.h>
 
- main(int argc, char* argv[]) {
+ int main(int argc, char* argv[]) {
     short int base;
     printf("Введите основание системы счисления: ");
 
@@ -19,7 +20,8 @@
 
     const short int BUFSIZE = 8096;
     char buff[BUFSIZE];
-    long long bestNumber = -__LONG_LONG_MAX__;
+    long long bestNumber = 0;
+    bool isInputStarted = false;
 
     while (1) {
         if (fgets(buff, BUFSIZE - 1, stdin) == NULL) {
@@ -28,8 +30,14 @@
         }
 
         if (!strcmp(buff, "Stop\n") || !strcmp(buff, "Stop")) {
+            if (!isInputStarted) {
+                printf("Ошибка ввода: закончен ввод, но числа переданы не были. \n");
+                return 1;
+            }
             break;
         }
+
+        isInputStarted = true;
 
         switch (translate(buff, base, &bestNumber)) {
             case SUCCESS:
