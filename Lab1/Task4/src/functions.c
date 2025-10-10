@@ -36,43 +36,6 @@ ErrorCode clearBuffer()
     return SUCCESS;
 }
 
-double factorial(const int x)
-{
-    double result = 1;
-    
-    for (int i = 1; i <= x; i++) {
-        if (result > __DBL_MAX__ / i) {
-            return -1;
-        }
-        result *= i;
-    }
-
-    return result;
-}
-
-double combinationsNumber(int m, int k)
-{
-    double factorM = factorial(m);
-
-    if (factorM < 0) {
-        return -1;
-    }
-
-    double factorK = factorial(k);
-
-    if (factorK < 0) {
-        return -1;
-    }
-
-    double factorR = factorial(m - k);
-
-    if (__DBL_MAX__ / factorK < factorR) {
-        return -1;
-    }
-
-    return factorM / (factorK * factorR);
-}
-
 // Общие функции решения уравнений
 
 ErrorCode solveEquationBisection(double (*func)(double),
@@ -160,13 +123,14 @@ ErrorCode eLimit(const double epsilon, double* result)
         return ERROR_INVALID_POINTER;
     }
 
-    double prev, curr = 1.0;
+    double prev = 1.0; 
+    double curr = 1.0;
     short int flag = 1;
 
-    for (int n = 1; __INT_MAX__ / 2 > n; n*=2) {
+    for (int n = 1; __INT_MAX__ / 2 > n; n++) {
 
         prev = curr;
-        curr = pow(1.0 + 1.0/n, n);
+        curr = pow(1.0 + (1.0 / n), n);
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
@@ -189,20 +153,16 @@ ErrorCode eSeries(const double epsilon, double* result)
         return ERROR_INVALID_POINTER;
     }
 
-    double prev, curr = 0.0;
+    double prev, curr = 1.0;
+    double prevFactor = 1.0;
 
-    for (int n = 0; __INT_MAX__ - 1 > n; n++) {
+    for (int n = 1; __INT_MAX__ - 1 > n; n++) {
 
         prev = curr;
 
-        double factorN = factorial(n);
-        if (factorN < 0) {
-            *result = curr;
-            return ERROR_BAD_CALCULATIONS;
-        }
+        prevFactor *= 1.0 / n;
 
-        curr += 1 / factorN;
-
+        curr = prev + prevFactor;
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
@@ -232,25 +192,13 @@ ErrorCode piLimit(const double epsilon, double* result)
         return ERROR_INVALID_POINTER;
     }
 
-    double prev, curr = 3.0;
+    double prev, curr = 2; 
+
     short int flag = 1;
 
-    for (int n = 1; __INT_MAX__ / 2 > n; n*=2) {
-
-        double factorN = factorial(n);
-        if (factorN < 0) {
-            *result = prev;
-            return ERROR_BAD_CALCULATIONS;
-        }
-
-        double dbFactorN = factorial(2 * n);
-        if (dbFactorN < 0) {
-            *result = prev;
-            return ERROR_BAD_CALCULATIONS;
-        }
-
+    for (int n = 1; __INT_MAX__ / 2 > n; n++) {
         prev = curr;
-        curr = pow((pow(2.0, n) * factorN), 4) / (n * pow(dbFactorN, 2));
+        curr = prev * (4.0 * n * n) / (4.0 * n * n - 1.0);
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
@@ -279,7 +227,7 @@ ErrorCode piSeries(const double epsilon, double* result)
 
         prev = curr;
 
-        curr += (pow(-1.0, n - 1.0) / (2.0 * n - 1.0));
+        curr = prev + (pow(-1.0, n - 1.0) / (2.0 * n - 1.0));
 
         if (fabs(4.0 * curr - 4.0 * prev) < epsilon) {
             *result = curr * 4.0;
@@ -346,7 +294,7 @@ ErrorCode ln2Series(const double epsilon, double* result)
 
         prev = curr;
 
-        curr += (pow(-1.0, n - 1.0) / n);
+        curr = prev + (pow(-1.0, n - 1.0) / n);
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
@@ -384,7 +332,7 @@ ErrorCode sqrt2Limit(const double epsilon, double* result)
 
         prev = curr;
 
-        curr = curr - (curr * curr) / 2.0 + 1.0;
+        curr = prev - (prev * prev) / 2.0 + 1.0;
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
@@ -413,7 +361,7 @@ ErrorCode sqrt2Series(const double epsilon, double* result)
 
         prev = curr;
 
-        curr *= pow(2.0, pow(2.0, -k));
+        curr = prev * pow(2.0, pow(2.0, -k));
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr;
@@ -444,26 +392,41 @@ ErrorCode gammaLimit(const double epsilon, double* result)
     }
 
     double prev, curr = 0.0;
-
     double minimalRaz = 10.0;
     double closestRez = curr;
-    
-    for (int m = 10; __INT_MAX__ - 1 > m; m+=1) {
+    double prevFactor = 1;
+    double combNum = 1.0;
+
+    for (int m = 10; m < __INT_MAX__ - 1; m += 1) {
 
         prev = curr;
         curr = 0.0;
+        prevFactor = 1.0;
 
-        for (int k = 1; k <= m; k++) {
-            double combNum = combinationsNumber(m, k);
+        for (int k = 1; k <= m; k++) {            
+            double factorialNum = (m - k + 1.0);
 
-            if (combNum < 0) {
-                *result = closestRez;
-                return ERROR_BAD_CALCULATIONS;
+            if (__DBL_MAX__ / fabs(factorialNum) < fabs(combNum)) {
+                 *result = closestRez;
+                 return ERROR_BAD_CALCULATIONS;
             }
-
-            double cof = pow(-1.0, k) / k;
-            double logNum = log(factorial(k));
-            double temp = cof * combNum;
+            
+            combNum *= factorialNum / k;
+            
+            if (isinf(combNum)) {
+                 *result = closestRez;
+                 return ERROR_BAD_CALCULATIONS;
+            }
+            
+            prevFactor *= k;
+            
+            if (isinf(prevFactor)) {
+                 *result = closestRez;
+                 return ERROR_BAD_CALCULATIONS;
+            }
+            
+            double logNum = log(prevFactor);
+            double temp = pow(-1.0, k) / k * combNum;
 
             if (__DBL_MAX__ / fabs(temp) < fabs(logNum)) {
                 *result = closestRez;
@@ -472,7 +435,7 @@ ErrorCode gammaLimit(const double epsilon, double* result)
 
             temp *= logNum;
 
-            if (__DBL_MAX__ - curr < temp) {
+            if ((temp > 0 && __DBL_MAX__ - curr < temp) || (temp < 0 && __DBL_MAX__ + curr < -temp)) {
                 *result = closestRez;
                 return ERROR_BAD_CALCULATIONS;
             }
@@ -515,7 +478,7 @@ ErrorCode gammaSeries(const double epsilon, double* result)
 
         double temp = 1.0/(floor(sqrt(k * k)) * floor(sqrt(k * k))) *  - 1.0/k;
 
-        curr += temp;
+        curr = prev + temp;
 
         if (fabs(curr - prev) < epsilon) {
             *result = curr - (pi * pi) / 6;
