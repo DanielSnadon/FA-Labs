@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
             for (short int k = 0; k < 2; k++) {
                 for (short int i = 0; i < 3; i++) {
                     bool flag = 0;
-                    for (int check; check < kolvoPerestanovok; check++) {
+                    for (int check = 0; check < kolvoPerestanovok; check++) {
                         if ((perestanovki[check][0] - a < epsilon) & (perestanovki[check][1] - b < epsilon) & (perestanovki[check][2] - c < epsilon)) {
                             flag = 1;
                             break;
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
                     perestanovki[kolvoPerestanovok][1] = b;
                     perestanovki[kolvoPerestanovok][2] = c;
                     kolvoPerestanovok++;
-                    
+
                     printf("\n Случай a = %f, b = %f, c = %f. \n", a, b, c);
                     switch (solveEquation(epsilon, a, b, c, &otv1, &otv2)) {
                         case SUCCESS:
