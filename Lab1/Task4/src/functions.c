@@ -160,7 +160,7 @@ ErrorCode eLimit(const double epsilon, double* result)
         return ERROR_INVALID_POINTER;
     }
 
-    double prev, curr = 2.0;
+    double prev, curr = 1.0;
     short int flag = 1;
 
     for (int n = 1; __INT_MAX__ / 2 > n; n*=2) {

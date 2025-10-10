@@ -79,6 +79,7 @@ ErrorCode completeTask(FILE *input, FILE *output)
 
     char buff[1024];
     buff[0] = 0;
+    buff[1] = 0;
     short int currCharPosition = 0;
 
     bool numberStarted = false;
@@ -174,7 +175,7 @@ ErrorCode completeTask(FILE *input, FILE *output)
         lastUselessChar = c;
     }
 
-    if (buff[0] == '-') {
+    if (buff[0] == '-' & buff[1] == 0) {
         if (fprintf(output, "\nНеопознанный символ -> %c", buff[0]) <= 0) {
             return ERROR_CANT_WRITE_ERROR;
         }

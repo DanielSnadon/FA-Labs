@@ -80,7 +80,7 @@ ErrorCode solve(double (*func)(double),
             return SUCCESS;
         }
 
-        // Проверить промежуточные результаты:
+        // Проверить промежуточные результаты)
         // printf("%f VS %f \n", prev, curr);
 
         prev = curr;

@@ -52,8 +52,16 @@ int main(int argc, char* argv[]) {
             }       
             
         } else {
-            strcpy(outputFileName, "out_");
-            strcat(outputFileName, inputFileName);
+            char *posledniSlash = strrchr(inputFileName, '/');
+            if (posledniSlash != NULL) {
+                short int nomerSlasha = posledniSlash - inputFileName + 1;
+                strncpy(outputFileName, inputFileName, nomerSlasha);
+                strcat(outputFileName, "out_");
+                strcat(outputFileName, posledniSlash + 1);
+            } else {
+                strcpy(outputFileName, "out_");
+                strcat(outputFileName, inputFileName);
+            }
 
             if (argc == 4) {
                 printf("Ошибка ввода: При вводе флага без символа \"n\" имя четвёртого файла не требуется - алгоритм задаст имя самостоятельно. Продолжить? [y/n]: ");

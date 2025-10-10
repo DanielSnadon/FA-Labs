@@ -90,9 +90,26 @@ int main(int argc, char* argv[]) {
         }
         
         if (flag[1] == 'q') { // Флаг -q
+            double perestanovki[6][3] = {};
+            short int kolvoPerestanovok = 0;
             double otv1, otv2;
             for (short int k = 0; k < 2; k++) {
                 for (short int i = 0; i < 3; i++) {
+                    bool flag = 0;
+                    for (int check; check < kolvoPerestanovok; check++) {
+                        if ((perestanovki[check][0] - a < epsilon) & (perestanovki[check][1] - b < epsilon) & (perestanovki[check][2] - c < epsilon)) {
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    if (flag == 1) {
+                        continue;
+                    }
+                    perestanovki[kolvoPerestanovok][0] = a;
+                    perestanovki[kolvoPerestanovok][1] = b;
+                    perestanovki[kolvoPerestanovok][2] = c;
+                    kolvoPerestanovok++;
+                    
                     printf("\n Случай a = %f, b = %f, c = %f. \n", a, b, c);
                     switch (solveEquation(epsilon, a, b, c, &otv1, &otv2)) {
                         case SUCCESS:
