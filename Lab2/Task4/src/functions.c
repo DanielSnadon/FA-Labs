@@ -4,6 +4,42 @@
 #include <string.h>
 #include <ctype.h>
 
+// Конструкция, ведущая себя как поток из файла и строка одновременно.
+// (в зависимости от надобности)
+
+typedef struct {
+    FILE *file;
+    const char **str;
+} universalInput;
+
+int getter(universalInput *in) {
+    if (in->file) {
+        return fgetc(in->file);
+    }
+    if (in->str && **in->str != '\0') {
+        char c = **in->str;
+        (*in->str)++;
+        return (int)c;
+    }
+    return EOF;
+}
+
+int ungetter(int c, universalInput *in) {
+    if (c == EOF) {
+        return EOF;
+    }
+    if (in->file) {
+        return ungetc(c, in->file);
+    }
+    if (in->str && *in->str != NULL) {
+        (*in->str)--;
+        return c;
+    }
+    return EOF;
+}
+
+// Типы флагов
+
 typedef enum {
     OTHER,
     ROMAN, // %Ro
@@ -15,7 +51,8 @@ typedef enum {
 
 // Вспомогательныя функции
 
-int getValue(char c, bool capitalize) {
+int getValue(char c, bool capitalize)
+{
     c = capitalize ? toupper(c) : tolower(c);
 
     if (c >= '0' && c <= '9') {
@@ -30,7 +67,8 @@ int getValue(char c, bool capitalize) {
     return -1;
 }
 
-int getRomanValue(char c) {
+int getRomanValue(char c)
+{
     switch (toupper(c)) {
         case 'I':
             return 1;
@@ -51,7 +89,7 @@ int getRomanValue(char c) {
     }
 }
 
-static unsigned int getFibonacciValue(int n)
+unsigned int getFibonacciValue(int n)
 {
     if (n <= 0 || n > 47) {
         return 0;
@@ -74,13 +112,13 @@ static unsigned int getFibonacciValue(int n)
 
 // Фунции пунктов
 
-int zeckendorfFlag(FILE *stream, unsigned int *output)
+int zeckendorfFlag(universalInput *in, unsigned int *out)
 {
     char buff[48];
     int count = 0;
-    char c;
+    int c;
     
-    while (isspace(c = fgetc(stream))) {
+    while (isspace(c = getter(in))) {
         if (c == EOF) {
             return 0;
         }
@@ -90,22 +128,22 @@ int zeckendorfFlag(FILE *stream, unsigned int *output)
         
         if (c == '0') {
             buff[count++] = c;
-            c = fgetc(stream);
+            c = getter(in);
 
         } else if (c == '1') {
 
             buff[count++] = c;
-            c = fgetc(stream);
+            c = getter(in);
             
             if (c == EOF || isspace(c)) {
                 if (c != EOF) {
-                    ungetc(c, stream);
+                    ungetter(c, in);
                 }
                 break;
             }
 
         } else {
-            ungetc(c, stream);
+            ungetter(c, in);
             return 0;
         }
     }
@@ -116,54 +154,53 @@ int zeckendorfFlag(FILE *stream, unsigned int *output)
     
     unsigned int result = 0;
     
-    for (int i = 0; i < count - 1; i++) {
+    for (int i = 0; i < count; i++) {
         if (buff[i] == '1') {
-            result += getFibonacciValue(i + 1);
+            result += getFibonacciValue(count - i);
         }
     }
     
-    *output = result;
+    *out = result;
     return 1;
 }
 
-int romanFlag(FILE *stream, int *output)
+int romanFlag(universalInput *in, int *out)
 {
     char buff[32];
     int count = 0;
     char c;
     
-    while (isspace(c = fgetc(stream))) {
+    while (isspace(c = getter(in))) {
         if (c == EOF) {
             return 0;
         }
     }
 
     while (c != EOF && count < 31) {
-        if (getRomanValue(c) == 0) {
-            ungetc(c, stream);
+        if (getRomanValue(c) == -1) {
+            ungetter(c, in);
             break;
         }
 
         buff[count++] = c;
-        c = fgetc(stream);
+        c = getter(in);
     }
     
     if (count == 0) {
         if (c != EOF) {
-            ungetc(c, stream);
+            ungetter(c, in);
         }
         return 0; 
     }
     
     if (c != EOF) {
-        ungetc(c, stream);
+        ungetter(c, in);
     }
 
     int otv = 0;
     for (int i = 0; i < count; i++) {
         int numOne = getRomanValue(buff[i]);
         int numTwo = (i + 1 < count) ? getRomanValue(buff[i+1]) : 0;
-
         if (numOne < numTwo) {
             otv += (numTwo - numOne);
             i++;
@@ -176,11 +213,12 @@ int romanFlag(FILE *stream, int *output)
         return 0;
     }
 
-    *output = otv;
+    *out = otv;
+
     return 1; 
 }
 
-int baseFlag(FILE *stream, int *output, int base, bool capitalize)
+int baseFlag(universalInput *in, int *out, int base, bool capitalize)
 {
     if (base < 2 || base > 36) {
         base = 10;
@@ -191,7 +229,7 @@ int baseFlag(FILE *stream, int *output, int base, bool capitalize)
     int sign = 1;
     bool empty = true;
 
-    while (isspace(c = fgetc(stream))) {
+    while (isspace(c = getter(in))) {
         if (c == EOF) {
             return 0;
         }
@@ -199,14 +237,14 @@ int baseFlag(FILE *stream, int *output, int base, bool capitalize)
 
     if (c == '-') {
         sign = -1;
-        c = fgetc(stream);
+        c = getter(in);
     }
 
     while (c != EOF && !isspace(c)) {
         int value = getValue(c, capitalize);
 
         if (value < 0 || value >= base) {
-            ungetc(c, stream);
+            ungetter(c, in);
             break;
         }
 
@@ -214,29 +252,29 @@ int baseFlag(FILE *stream, int *output, int base, bool capitalize)
 
         if ((otv > (2147483647 / base)) || (otv < 0)) {
             while (c != EOF && !isspace(c)) {
-                c = fgetc(stream);
+                c = getter(in);
             }
             if (c != EOF) {
-                ungetc(c, stream);
+                ungetter(c, in);
             }
 
-            *output = 0;
+            *out = 0;
             return 1;
         }
         
         otv = otv * base + value;
-        c = fgetc(stream);
+        c = getter(in);
     }
     
     if (c != EOF) {
-        ungetc(c, stream);
+        ungetter(c, in);
     }
 
     if (empty) {
         return 0;
     }
 
-    *output = (int)(otv * sign);
+    *out = (int)(otv * sign);
     return 1;
 }
 
@@ -270,7 +308,7 @@ FlagType flagTyper(const char* format)
 
 // Для нормальных флагов
 
-int boringFlag(FILE *stream, const char **format, va_list *args)
+int fileBoringFlag(FILE *stream, const char **format, va_list *args)
 {
 
     char flag[128];    
@@ -298,20 +336,51 @@ int boringFlag(FILE *stream, const char **format, va_list *args)
     return vfscanf(stream, flag, *args);
 }
 
-int completeFlag(FlagType flag, FILE *stream, va_list *args)
+int strBoringFlag(const char *str, const char **format, va_list *args)
+{
+    char flag[128];    
+    char *currWrite = flag;
+    const char *standart = "diuoxXfFeEgGaAcspn%%";
+
+    *currWrite++ = '%';
+    
+    const char *curr = *format;
+
+    while ((currWrite - flag < 127) && *curr != '\0' && strchr(standart, *curr) == NULL) {
+        *currWrite++ = *curr;
+        curr++;
+    }
+
+    if (*curr != '\0') {
+        *currWrite++ = *curr;
+        curr++;
+    }
+
+    *currWrite = '\0';
+
+    *format = curr;
+
+    return vsscanf(str, flag, *args);
+}
+
+// Распределитель
+
+int completeFlag(FlagType flag, universalInput *in, va_list *args)
 {
     switch (flag) {
         case ROMAN:
-            return romanFlag(stream, va_arg(*args, int*));
+            return romanFlag(in, va_arg(*args, int*));
         case ZECKENDORF:
-            return zeckendorfFlag(stream, va_arg(*args, unsigned int*));
+            return zeckendorfFlag(in, va_arg(*args, unsigned int*));
         case LOWER:
         case UPPER:
-            return baseFlag(stream, va_arg(*args, int*), va_arg(*args, int), (flag == UPPER));
+            return baseFlag(in, va_arg(*args, int*), va_arg(*args, int), (flag == UPPER));
         default:
             return -1;
     }
 }
+
+// Основные функции
 
 int overfscanf(FILE * stream, const char *format, ...)
 {
@@ -321,6 +390,10 @@ int overfscanf(FILE * stream, const char *format, ...)
     const char *curr = format;
     int written = 0;
 
+    universalInput in;
+    in.file = stream;
+    in.str = NULL;
+
     while (*curr != '\0') 
     {
         if (*curr == '%') 
@@ -328,7 +401,7 @@ int overfscanf(FILE * stream, const char *format, ...)
             curr++;
             
             if (*curr == '%') {
-                int c = fgetc(stream);
+                int c = getter(&in);
                 curr++;
                 continue;
             }
@@ -337,24 +410,85 @@ int overfscanf(FILE * stream, const char *format, ...)
             int currWritten = 0;
             
             if (typeOfFlag == OTHER) {
-                // Все остальные флаги
-                currWritten = boringFlag(stream, &curr, &args);
+                // Нормальные флаги
+                currWritten = fileBoringFlag(stream, &curr, &args);
 
             } else {
                 curr+= 2;
-                // Обработка кастомного флага
-                currWritten = completeFlag(typeOfFlag, stream, &args);
+                // Обработка кастомных флагов
+                currWritten = completeFlag(typeOfFlag, &in, &args);
             }
             
-            if (currWritten == 1) {
-                written++;
+            if (currWritten > 0) {
+                written += currWritten;
             } else {
                 va_end(args);
                 return written;
             }
 
         } else {
-            int c = fgetc(stream);
+
+            int c = getter(&in);
+            curr++;
+        }
+    }
+
+    va_end(args);
+    return written;
+}
+
+int oversscanf(const char *str, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    const char *curr = format;
+    int written = 0;
+    
+    universalInput in;
+    in.file = NULL;
+    in.str = &str;
+
+    while (*curr != '\0') 
+    {
+        if (*curr == '%') 
+        {
+            curr++;
+            
+            if (*curr == '%') {
+                int c = getter(&in);
+                if (c != '%') {
+                    if (c != EOF) ungetter(c, &in);
+                    va_end(args);
+                    return written;
+                }
+                curr++;
+                continue;
+            }
+            
+            FlagType typeOfFlag = flagTyper(curr);
+            int currWritten = 0;
+            
+            if (typeOfFlag == OTHER) {
+                // Нормальные флаги
+                currWritten = strBoringFlag(str, &curr, &args);
+
+            } else {
+                curr+= 2;
+                // Обработка кастомных флагов
+                currWritten = completeFlag(typeOfFlag, &in, &args);
+            }
+            
+            if (currWritten > 0) {
+                written += currWritten;
+            } else {
+                va_end(args);
+                return written;
+            }
+
+        } else {
+
+            int c = getter(&in);
             curr++;
         }
     }
