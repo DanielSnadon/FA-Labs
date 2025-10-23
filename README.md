@@ -13,6 +13,6 @@
 | 2 | 1 | 100% | ❌ | 21.10 | - |
 | 2 | 2 | 95% | ❌ | 21.10 | Done, but needs my revision. |
 | 2 | 3 | 90% | ❌ | 22.10 | Done, but needs my revision. |
-| 2 | 4 | 0% | ❌ | - | - |
+| 2 | 4 | 75% | ❌ | 23.10 | One function remains. |
 | 2 | 5 | 0% | ❌ | - | - |
 | 2 | 6 | 0% | ❌ | - | - |
