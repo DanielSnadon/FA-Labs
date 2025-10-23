@@ -20,7 +20,7 @@
     static const char *const MACOS_ERRORS[] = {
         "Success",
         "Not permitted",                // 1: EPERM
-        "No such file",                 // 2: ENOENT (немного другая формулировка)
+        "No such file",                 // 2: ENOENT
         "No process",                   // 3: ESRCH
         "Interrupted"                   // 4: EINTR
     };
@@ -195,9 +195,9 @@ int strncmp(const char *str1, const char *str2, size_t n) // g
             return 1;
         }        
 
-        if (*str1 == '\0' || *str2 == '\0') { //
-            return 0;                         // Убрать нас, если не верно :(
-        }                                     //
+        if (*str1 == '\0' || *str2 == '\0') {
+            return 0;
+        }
 
         str1++;
         str2++;
@@ -218,9 +218,9 @@ char *strncpy(char *dest, const char *src, size_t n) // h
     char *firstchar = dest;
 
     for (size_t i = 0; i < n; i++) {
-        if (*src == '\0') {     //
-            return firstchar;   // Убрать нас, если не верно :(
-        }                       //
+        if (*src == '\0') {
+            return firstchar;
+        }
 
         *dest = *src;
         
