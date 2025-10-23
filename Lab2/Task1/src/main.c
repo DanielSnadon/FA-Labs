@@ -53,5 +53,7 @@ int main(int argc, char* argv[]) {
         break;
     }
 
+    free(result);
+
     return 0;
 }
