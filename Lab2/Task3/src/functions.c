@@ -8,16 +8,16 @@
 
 typedef enum {
     OTHER,
-    ROMAN,             // %Ro
-    ZECKENDORF,      // %Zr
-    FROM_10_LOWER,   // %Cv
-    FROM_10_UPPER,   // %CV
-    TO_10_LOWER,     // %to
-    TO_10_UPPER,     // %TO
-    DUMP_INT,        // %mi
-    DUMP_UINT,       // %mu
-    DUMP_DOUBLE,     // %md
-    DUMP_FLOAT       // %mf
+    ROMAN, // %Ro
+    ZECKENDORF, // %Zr
+    FROM_10_LOWER, // %Cv
+    FROM_10_UPPER, // %CV
+    TO_10_LOWER, // %to
+    TO_10_UPPER, // %TO
+    DUMP_INT, // %mi
+    DUMP_UINT, // %mu
+    DUMP_DOUBLE, // %md
+    DUMP_FLOAT // %mf
 } FlagType;
 
 // Просто вспомогательные функции
@@ -67,7 +67,7 @@ int getValue(char c) {
     return -1;
 }
 
-// Функции анализа флагов
+// Функция анализа флагов
 
 FlagType flagTyper(const char* format) {
     const char * curr = format;
@@ -107,24 +107,6 @@ FlagType flagTyper(const char* format) {
     }
 
     return OTHER;
-}
-
-int getFlagLength(FlagType flag) {
-    switch (flag) {
-        case ROMAN:
-        case ZECKENDORF:
-        case FROM_10_LOWER:
-        case FROM_10_UPPER:
-        case TO_10_LOWER:
-        case TO_10_UPPER:
-        case DUMP_INT:
-        case DUMP_UINT:
-        case DUMP_DOUBLE:
-        case DUMP_FLOAT:
-            return 2;
-        default:
-            return -1;
-    }
 }
 
 // Функции флагов и их обёртки
@@ -170,14 +152,16 @@ int to10Flag(const char *number, int base, char *output, bool capitalize) {
     return sprintf(output, "%d", otv * sign);
 }
 
-int prelower_to10Flag(va_list args, char *output) { // Для %to
+int prelower_to10Flag(va_list args, char *output) // Для %to
+{ 
     char *str = va_arg(args, char *);
     int base = va_arg(args, int);
     
     return to10Flag(str, base, output, false);
 }
 
-int preupper_to10Flag(va_list args, char *output) { // Для %TO
+int preupper_to10Flag(va_list args, char *output) // Для %TO
+{ 
     char *str = va_arg(args, char *);
     int base = va_arg(args, int);
 
@@ -296,7 +280,7 @@ int zeckendorfFlag(unsigned int number, char *output)
 
     int outInd = 0;
     for (int i = 0; i < len; i++) {
-        output[outInd++] = otv[i];
+        output[outInd++] = otv[len - i - 1];
     }
 
     output[outInd++] = '1';
@@ -378,22 +362,26 @@ int dumpFlag(void *number, size_t typeSize, char *output)
     return currWrite - output;
 }
 
-int preDumpIntFlag(va_list args, char *output) { // Для %mi
+int preDumpIntFlag(va_list args, char *output) // Для %mi
+{
     int number = va_arg(args, int); 
     return dumpFlag(&number, sizeof(int), output);
 }
 
-int preDumpUIntFlag(va_list args, char *output) { // Для %mu
+int preDumpUIntFlag(va_list args, char *output) // Для %mu
+{
     unsigned int number = va_arg(args, unsigned int);
     return dumpFlag(&number, sizeof(unsigned int), output);
 }
 
-int preDumpDoubleFlag(va_list args, char *output) { // Для %md
+int preDumpDoubleFlag(va_list args, char *output) // Для %md
+{
     double number = va_arg(args, double);
     return dumpFlag(&number, sizeof(double), output);
 }
 
-int preDumpFloatFlag(va_list args, char *output) { // Для %mf
+int preDumpFloatFlag(va_list args, char *output) // Для %mf
+{
     double temp = va_arg(args, double);
     float number = (float)temp;
     return dumpFlag(&number, sizeof(float), output);
@@ -411,14 +399,12 @@ int boringFlag(const char **format, va_list args, char *output)
     
     const char *curr = *format;
     
-    while ((currWrite - flag < 127) && *curr != '\0' && strchr(standart, *curr) == NULL)
-    {
+    while ((currWrite - flag < 127) && *curr != '\0' && strchr(standart, *curr) == NULL) {
         *currWrite++ = *curr;
         curr++;
     }
 
-    if (*curr != '\0')
-    {
+    if (*curr != '\0') {
         *currWrite++ = *curr;
         curr++;
     }
