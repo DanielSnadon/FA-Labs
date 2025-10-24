@@ -6,10 +6,10 @@
     #define AMOUNT_OF_ERRORS 5
     static const char *const LINUX_ERRORS[] = {
         "Success",
-        "Operation not permitted",      // 1: EPERM
-        "No such file or directory",    // 2: ENOENT
-        "No such process",              // 3: ESRCH
-        "Interrupted system call"       // 4: EINTR
+        "Operation not permitted",
+        "No such file or directory",
+        "No such process",
+        "Interrupted system call"
     };
     
     #define ERRORS_ARRAY LINUX_ERRORS
@@ -19,10 +19,10 @@
     #define AMOUNT_OF_ERRORS 5
     static const char *const MACOS_ERRORS[] = {
         "Success",
-        "Not permitted",                // 1: EPERM
-        "No such file",                 // 2: ENOENT
-        "No process",                   // 3: ESRCH
-        "Interrupted"                   // 4: EINTR
+        "Not permitted",
+        "No such file",
+        "No process",
+        "Interrupted"
     };
     
     #define ERRORS_ARRAY MACOS_ERRORS
@@ -153,7 +153,7 @@ void *strncat(char *dest, const char *src, size_t n)  // e
         src++;
     }
 
-    return (void*)src;
+    return dest;
 }
 
 // Функция поиска первого вхождения во всей строке.

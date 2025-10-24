@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     // Ввести свои значения тут
 
     long long amountOfNums = 2; // Количество чисел
-    int base = 2; // Основание
+    int base = 8; // Основание
     
     // // //
 
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 
     // Ввести свои значения тут
 
-    ErrorCode answer = func(base, result, amountOfNums, 0.1);
+    ErrorCode answer = func(base, result, amountOfNums, 0.5, 0.75);
 
     // // //
 

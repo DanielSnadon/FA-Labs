@@ -51,7 +51,7 @@ ErrorCode func(const int base, bool* result, const int amountOfNumbers, ...) {
         long long znamenatel = 1e15;
 
         if (currentNumber * 1e15 - (double)chislitel > 1e-15) {
-            printf("Предупреждение: число №%d содержит большое количество знаков после запятой. Результат может быть неверным. \n", i + 1);
+            printf("Предупреждение: число №%d содержит бесконечное количество знаков после запятой в десятичном представлении. Результат может быть неверным. \n", i + 1);
         }
 
         long long temp1 = chislitel;
@@ -67,19 +67,27 @@ ErrorCode func(const int base, bool* result, const int amountOfNumbers, ...) {
 
         znamenatel /= (temp1 + temp2);
 
-        if (isPrime(znamenatel) && (base % znamenatel != 0)) {
-            result[i] = false;
-            continue;
-        }
-
         short int flag = 0;
 
-        for (long scan = 1; scan < (znamenatel / 2 + 1); scan++) {
-            if ((base % scan != 0) && isPrime(scan)) {
-                flag = 1;
-                break;
+        if (znamenatel % 2 == 0) {
+            if (base %2 != 0) {
+                result[i] = false;
+                continue;
             }
         }
+
+        for (long d = 3; d * d < znamenatel; d += 2) {
+            if (znamenatel % d == 0) {
+                if (base % d != 0) {
+                    flag = 1;
+                    break;
+                }
+                while (znamenatel % d == 0) {
+                    znamenatel /= d;
+                }
+            }
+        }
+
         if (flag == 1) {
             result[i] = false;
             continue;
