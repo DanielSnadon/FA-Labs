@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
     char *token;
     const char *razdelenie = "/";
     
-    printf("Token 1: %s \n", strtok(test8, razdelenie)); 
+    printf("Token 1: %s \n", strtok(NULL, razdelenie)); 
     
     printf("Token 2: %s \n", strtok(NULL, razdelenie)); 
     

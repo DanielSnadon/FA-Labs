@@ -10,8 +10,8 @@ int main(int argc, char* argv[]) {
     printf("Oversscanf (Строка)\n");
     
     // %Zr (Цекендорф) | %Ro (Римское) | %d (Десятичное)
-    const char *input_str = "11011 XIV 42";
-    const char *format_str = " %Zr %Ro %d";
+    const char *input_str = "11011 42 XIV";
+    const char *format_str = " %Zr %d %Ro";
     
     unsigned int val1 = 0;
     int val2 = 0;

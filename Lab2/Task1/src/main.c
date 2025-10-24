@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     // Ввести свои значения тут
 
     long long amountOfNums = 2; // Количество чисел
-    int base = 8; // Основание
+    int base = 3; // Основание
     
     // // //
 
