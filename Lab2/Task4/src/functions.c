@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 // Конструкция, ведущая себя как поток из файла и строка одновременно.
 // (в зависимости от надобности)
@@ -36,6 +37,33 @@ int ungetter(int c, universalInput *in) {
         return c;
     }
     return EOF;
+}
+
+int skipArg(char *input, va_list *args) {
+    char* flag = (input + 1);
+    switch (*flag) {
+        case ('d'):
+            int skip1 = va_arg(*args, int);
+            break;
+        case ('u'):
+            unsigned skip2 = va_arg(*args, unsigned);
+            break;
+        case ('x'):
+            unsigned skip3 = va_arg(*args, unsigned);
+            break;
+        case ('f'):
+            float skip4 = va_arg(*args, double);
+            break;
+        case ('l'):
+            double skip5 = va_arg(*args, double);
+            break;
+        case ('s'):
+            char* skip6 = va_arg(*args, char*);
+            break;
+        default:
+            break;
+        
+    }
 }
 
 // Типы флагов
@@ -178,6 +206,7 @@ int romanFlag(universalInput *in, int *out)
 
     while (c != EOF && count < 31) {
         if (getRomanValue(c) == -1) {
+            printf("Ouch!");
             ungetter(c, in);
             break;
         }
@@ -282,7 +311,7 @@ int baseFlag(universalInput *in, int *out, int base, bool capitalize)
 
 FlagType flagTyper(const char* format)
 {
-    const char * curr = format;
+    const char* curr = format;
     
     if (*curr == '\0' || *(curr + 1) == '\0') {
         return OTHER;
@@ -333,10 +362,13 @@ int fileBoringFlag(FILE *stream, const char **format, va_list *args)
 
     *format = curr;
 
-    return vfscanf(stream, flag, *args);
+    int result = vfscanf(stream, flag, *args);
+    skipArg(flag, args);
+
+    return result;
 }
 
-int strBoringFlag(const char *str, const char **format, va_list *args)
+int strBoringFlag(const char **str, const char **format, va_list *args)
 {
     char flag[128];    
     char *currWrite = flag;
@@ -345,7 +377,6 @@ int strBoringFlag(const char *str, const char **format, va_list *args)
     *currWrite++ = '%';
     
     const char *curr = *format;
-
     while ((currWrite - flag < 127) && *curr != '\0' && strchr(standart, *curr) == NULL) {
         *currWrite++ = *curr;
         curr++;
@@ -357,10 +388,30 @@ int strBoringFlag(const char *str, const char **format, va_list *args)
     }
 
     *currWrite = '\0';
-
     *format = curr;
 
-    return vsscanf(str, flag, *args);
+    const char* endOfStr = *str;
+    while (*endOfStr != '\0' && *endOfStr != ' ' && *endOfStr != '\t' && *endOfStr != '\n' && *endOfStr != '\r') {
+        endOfStr++;
+    }
+
+    size_t moment = endOfStr - *str;
+    char *tempStr = (char *)malloc(moment + 1);
+    if (tempStr == NULL) {
+        return -1;
+    }
+
+    strncpy(tempStr, *str, moment);
+    tempStr[moment] = '\0';
+
+    int result = vsscanf(tempStr, flag, *args);
+
+    skipArg(flag, args);
+
+    free(tempStr);
+    *str += moment;
+
+    return result;
 }
 
 // Распределитель
@@ -471,7 +522,7 @@ int oversscanf(const char *str, const char *format, ...)
             
             if (typeOfFlag == OTHER) {
                 // Нормальные флаги
-                currWritten = strBoringFlag(str, &curr, &args);
+                currWritten = strBoringFlag(&str, &curr, &args);
 
             } else {
                 curr+= 2;

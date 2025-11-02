@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
     const char test6[] = "I'm a \0liar.";
     const char test7[] = "I'm a \0good person.";
     char test8[] = "what/where/when";
+    char twst9[] = "";
 
     // Тесты функций:
 
@@ -147,7 +148,7 @@ int main(int argc, char* argv[]) {
     char *token;
     const char *razdelenie = "/";
     
-    printf("Token 1: %s \n", strtok(NULL, razdelenie)); 
+    printf("Token 1: %s \n", strtok("", razdelenie)); 
     
     printf("Token 2: %s \n", strtok(NULL, razdelenie)); 
     
