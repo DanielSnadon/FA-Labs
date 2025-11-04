@@ -14,7 +14,7 @@
 | 2 | 2 | 100% | ✔️ | 21.10 | - |
 | 2 | 3 | 100% | ✔️ | 22.10 | - |
 | 2 | 4 | 99%  | ❌ | 03.11 | Done, but needs revision on a clear mind. |
-| 2 | 5 | 99% | ❌  | 04.11 | Done, but needs revision on a clear mind. |
+| 2 | 5 | 99% | ❌  | 04.11 | Done, but needs polishing. |
 | 2 | 6 | 0% | ❌ | - | - |
 | 3 | 1 | 0% | ❌ | - | - |
 | 3 | 2 | 0% | ❌ | - | - |
