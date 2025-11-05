@@ -76,27 +76,6 @@ size_t amountOfChars(const char *str, size_t bytes)
     return symbolsCount;
 }
 
-// Поиск байтовой позиции 80ой буквы
-size_t findBreak(const char *line, size_t start, size_t maxChars)
-{
-    size_t bytePos = start;
-    size_t charCount = 0;
-
-    while (bytePos < strlen(line) && charCount < maxChars) {
-
-        short length = charLength(line[bytePos]);
-
-        if (length == 0 || bytePos + length > strlen(line)) {
-            break;
-        }
-
-        bytePos += length;
-        charCount++;
-    }
-
-    return bytePos;
-}
-
 // Форматирование подстроки
 ErrorCode formatLine(char *line, size_t byteLength, FILE *output)
 {
@@ -173,10 +152,9 @@ ErrorCode formatLine(char *line, size_t byteLength, FILE *output)
     size_t totalSpaces = 80 - lineCharLen + (wordCount - 1);
     size_t neededSpaces = totalSpaces - wordCount - 1;
     size_t bonusSpaces = 1 + neededSpaces / (wordCount - 1);
-    size_t freeSpaces = 1 + neededSpaces % (wordCount - 1);
+    size_t freeSpaces = neededSpaces % (wordCount - 1) + 1;
 
     char *reLine = malloc(321);
-
     if (reLine == NULL) {
         return ERROR_MEMORY_ALLOCATION;
     }
@@ -229,28 +207,15 @@ ErrorCode formatLine(char *line, size_t byteLength, FILE *output)
 
     reLine[rePos] = '\0';
     size_t firstCharPos = 0;
-    
-    while (firstCharPos < rePos) {
-        short int length  = charLength(reLine[firstCharPos]);
 
-        if (length > 0) {
-            
-            if (fprintf(output, "%s\n", reLine + firstCharPos) < 0) {
-
-                free(reLine);
-                return ERROR_INVALID_OUTPUT;
-            }
-
-            free(reLine);
-            return SUCCESS;
-        }
-
-        firstCharPos++;
+    if (fprintf(output, "%s\n", reLine + firstCharPos) < 0) {
+        free(reLine);
+        return ERROR_INVALID_OUTPUT;
     }
 
     free(reLine);
 
-    return ERROR_INVALID_OUTPUT;
+    return SUCCESS;
 }
 
 // Первоначальная обработка длинных строк: выкидываем лишние слова,
