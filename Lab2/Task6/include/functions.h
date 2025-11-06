@@ -7,6 +7,7 @@
 
 typedef enum {
     SUCCESS = 0,
+    SUCCESS_EXIT,
     UNKNOWN_FILE_TYPE,
     ERROR_NO_FILE_TYPE,
     ERROR_INVALID_FILE_POINTER,
@@ -21,9 +22,20 @@ typedef enum {
 
 ErrorCode isThatFileGood(const char *name);
 
+// Структура "Студент":
+
+typedef struct {
+    unsigned int id;
+    char* firstName;
+    char* lastName;
+    char* group;
+    unsigned char* grades;
+} Student;
+
 // Основные функции:
 
 void printMenu();
 ErrorCode menu(FILE *output, Student* students, const short int studentCount, const int *choice);
+ErrorCode readStudents(FILE* input, Student** students, int* studCount);
 
 #endif

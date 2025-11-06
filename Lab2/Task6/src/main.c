@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
             }
             break;
     }   
-    
+
     char *outputFileName = argv[2];
 
     switch(isThatFileGood(outputFileName)) {
@@ -69,19 +69,71 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // UNDER CONSTRUCTION HERE
+    Student* students = NULL;
+    int studentCount = 0;
 
-    // UNDER CONSTRUCTION HERE
-
-    // UNDER CONSTRUCTION HERE
-
+    ErrorCode readResult = readStudents(inputFile, &students, &studentCount);
     fclose(inputFile);
+
+    switch(readResult) {
+        case SUCCESS:
+            break;
+        case ERROR_INVALID_DATA:
+            printf("Ошибка: неверный формат данных во входном файле. \n");
+            fclose(outputFile);
+            return 1;
+        case ERROR_MEMORY_ALLOCATION:
+            printf("Ошибка: не удалось выделить необходимую память. \n");
+            fclose(outputFile);
+            return 1;
+        case ERROR_INVALID_FILE_POINTER:
+            printf("Ошибка: указатель не является валидным. \n");
+            fclose(outputFile);
+            return 1;
+        default:
+            printf("Ошибка: неизвестная ошибка. \n");
+            fclose(outputFile);
+            return 1;
+    }
+
+    int choice;
+    int running = 1;
+
+    while (running) {
+        printMenu();
+
+        if (scanf("%d", &choice) != 1) {
+            printf("Ошибка: неверный ввод. \n");
+            fclose(outputFile);
+            return 1;
+        }
+
+        switch(menu(outputFile, students, studentCount, &choice)) {
+            case SUCCESS:
+                break;
+            case SUCCESS_EXIT:
+                fclose(outputFile);
+                return 0;
+            case ERROR_INVALID_INPUT:
+                printf("Ошибка: неверный ввод. \n");
+                fclose(outputFile);
+                return 1;
+            case ERROR_INVALID_DATA:
+                printf("Ошибка: получены неверные данные. \n");
+                fclose(outputFile);
+                return 1;
+            case ERROR_MEMORY_ALLOCATION:
+                printf("Ошибка: не удалось выделить необходимую память. \n");
+                fclose(outputFile);
+                return 1;
+            case ERROR_UNKNOWN:
+                printf("Ошибка: неизвестная ошибка. \n");
+                fclose(outputFile);
+                return 1;
+        }
+    }
+
+    printf("Ошибка: неизвестная ошибка. \n");
     fclose(outputFile);
-    return 0;
+    return 1;
 }
-
-// To-Do List
-
-// - Translation? I kept errors on Russian from last task lol
-// - Polish Errors
-// - main.c

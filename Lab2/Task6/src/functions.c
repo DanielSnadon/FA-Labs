@@ -4,6 +4,23 @@
 #include <ctype.h>
 #include <math.h>
 
+// < Быстрый переход >
+
+// Вспомогательные функции
+// Выводы (принты)
+// Чтение студентов из файла
+// Поиски
+// Компараторы
+// Студенты, набравшие больше среднего
+// Связующая функция
+// Функция вывода меню
+
+// < Быстрый переход >
+
+
+
+// Вспомогательные функции
+
 // Проверка файла на валидность
 ErrorCode isThatFileGood(const char *name)
 {
@@ -27,16 +44,6 @@ ErrorCode isThatFileGood(const char *name)
     return UNKNOWN_FILE_TYPE;
 }
 
-// СТУДЕНТ
-typedef struct {
-    unsigned int id;
-    char* firstName;
-    char* lastName;
-    char* group;
-    unsigned char* grades;
-} Student;
-
-
 // Проверка на условие латинницы
 bool latinCheck(const char* str)
 {
@@ -51,7 +58,7 @@ bool latinCheck(const char* str)
 }
 
 // Средний баллъ
-float avarage(const Student* stud)
+double avarage(const Student* stud)
 {
     float sum = 0;
 
@@ -81,6 +88,8 @@ void freeAll(Student* studs, int count)
     free(studs);
 }
 
+// Выводы (принты)
+
 // Вывод определённого студента
 void fprintStudent(const Student* student, FILE* output, short int mode) {
     if (student == NULL || output == NULL) {
@@ -94,7 +103,7 @@ void fprintStudent(const Student* student, FILE* output, short int mode) {
             break;
 
         case(1):
-            fprintf(output, "%u: %s \t %s \t %s \t ",
+            fprintf(output, "%-3u: %-15s %-15s %-10s \t ",
                     student->id, student->firstName, student->lastName, student->group);
             for (int i = 0; i < 5; i++) {
                 fprintf(output, "%hhu ", student->grades[i]);
@@ -103,7 +112,7 @@ void fprintStudent(const Student* student, FILE* output, short int mode) {
             break;
 
         case(2):
-            fprintf(output, "ID: %u\nFull name: %s %s\nGroup: %s\n Avarage: %hhu\n",
+            fprintf(output, "\nID: %u\nFull name: %s %s\nGroup: %s\nAvarage: %f\n",
                     student->id, student->firstName, student->lastName, student->group, avarage(student));
             break;
     }
@@ -114,114 +123,109 @@ void fprintStudent(const Student* student, FILE* output, short int mode) {
 // Вывод всех студентов
 void fprintfAll(Student* studs, int count, FILE* output)
 {
+    fprintf(output, "\n");
     for (int i = 0; i < count; i++) {
         fprintStudent(&studs[i], output, 1);
     }
 }
 
 // Чтение студентов из файла
-Student* readStudents(FILE* input, int* studCount, ErrorCode* error)
+ErrorCode readStudents(FILE* input, Student** students, int* studCount)
 {
     if (input == NULL || studCount == NULL) {
-        if (error) {*error = ERROR_INVALID_FILE_POINTER; }
-        return NULL;
+        return ERROR_INVALID_FILE_POINTER;
     }
 
-    Student tempStud;
+    *students = NULL;
+    *studCount = 0;
 
     unsigned int id;
     char firstName[1024], lastName[1024], group[512]; // 256
     unsigned char grades[5];
 
-    *studCount = 0;
+    int counter = 0;
     while(fscanf(input,
                 "%u %s %s %s %hhu %hhu %hhu %hhu %hhu",
-                id, firstName, lastName, group,
+                &id, firstName, lastName, group,
                 &grades[0], &grades[1], &grades[2], &grades[3], &grades[4]) == 9) {
-        (*studCount)++;
+        counter++;
     }
 
-    if (*studCount == 0) {
-        if (error) {*error = ERROR_INVALID_DATA; }
-
-        return NULL;
+    if (counter == 0) {
+        return ERROR_INVALID_DATA;
     }
 
-    Student* students = malloc(*studCount * sizeof(Student));
-    if (!students) {
-        if (error) {*error = ERROR_MEMORY_ALLOCATION; }
-
-        return NULL;
+    Student* tempStudents = malloc(counter * sizeof(Student));
+    if (!tempStudents) {
+        return ERROR_MEMORY_ALLOCATION;
     }
 
     rewind(input);
 
-    for (int i = 0; i < *studCount; i++) {
+    for (int i = 0; i < counter; i++) {
 
         if (fscanf(input,
                 "%u %s %s %s %hhu %hhu %hhu %hhu %hhu",
-                id, firstName, lastName, group,
+                &id, firstName, lastName, group,
                 &grades[0], &grades[1], &grades[2], &grades[3], &grades[4]) != 9) {
 
             for (int j = 0; j < i; j++) {
-                freeStudent(&students[j]);
+                freeStudent(&tempStudents[j]);
             }
-            free(students);
-            if (error) {*error = ERROR_INVALID_DATA; }
+            free(tempStudents);
 
-            return NULL;
+            return ERROR_INVALID_DATA;
         }
 
         if (!latinCheck(firstName) || !latinCheck(lastName)) {
 
             for (int j = 0; j < i; j++) {
-                free(&students[j]);
+                freeStudent(&tempStudents[j]);
             }
-            free(students);
-            if (error) {*error = ERROR_INVALID_DATA; }
+            free(tempStudents);
 
-            return NULL;
+            return ERROR_INVALID_DATA;
         }
 
         for (int j = 0; j < 5; j++) {
             if (!(grades[j] >= 0 && grades[j] < 100)) {
 
                 for (int g = 0; g < i; g++) {
-                    freeStudent(&students[g]);
+                    freeStudent(&tempStudents[g]);
                 }
-                free(students);
-                if (error) {*error = ERROR_INVALID_DATA; }
+                free(tempStudents);
 
-                return NULL;
+                return ERROR_INVALID_DATA;
             }
         }
 
-        students[i].id = id;
-        students[i].firstName = malloc(strlen(firstName) + 1);
-        students[i].lastName = malloc(strlen(lastName) + 1);
-        students[i].group = malloc(strlen(group) + 1);
-        students[i].grades = malloc(5 * sizeof(unsigned char));
+        tempStudents[i].firstName = malloc(strlen(firstName) + 1);
+        tempStudents[i].lastName = malloc(strlen(lastName) + 1);
+        tempStudents[i].group = malloc(strlen(group) + 1);
+        tempStudents[i].grades = malloc(5 * sizeof(unsigned char));
 
-        if (!students[i].firstName || !students[i].lastName || !students->group[i] || !students->grades[i]) {
+        if (!tempStudents[i].firstName || !tempStudents[i].lastName || !tempStudents[i].group || !tempStudents[i].grades) {
 
             for (int j = 0; j <= i; j++) {
-                freeStudent(&students[j]);
+                freeStudent(&tempStudents[j]);
             }
 
-            free(students);
-            if (error) {*error = ERROR_MEMORY_ALLOCATION; }
-            return NULL;
+            free(tempStudents);
+
+            return ERROR_MEMORY_ALLOCATION;
         }
 
-        strcpy(students[i].firstName, firstName);
-        strcpy(students[i].lastName, lastName);
-        strcpy(students[i].group, group);
-        memcpy(students[i].grades, grades, 5 * sizeof(unsigned char));   
+        tempStudents[i].id = id;
+        strcpy(tempStudents[i].firstName, firstName);
+        strcpy(tempStudents[i].lastName, lastName);
+        strcpy(tempStudents[i].group, group);
+        memcpy(tempStudents[i].grades, grades, 5 * sizeof(unsigned char));   
     }
 
-    if (error) {*error = SUCCESS; }
+    *students = tempStudents;
+    *studCount = counter;
 
-    return students;
+    return SUCCESS;
 }
 
 // Поиски
@@ -356,20 +360,28 @@ Student* groupSearch(Student* students, int count, const char* group, int* found
 
 // Компараторы
 
-bool idComparator(const Student* a, const Student* b) {
-    return (a->id < b->id);
+int idComparator(const void* a, const void* b) {
+    const Student* studA = (const Student*)a;
+    const Student* studB = (const Student*)b;
+    return (studA->id > studB->id) - (studA->id < studB->id);
 }
 
-bool firstNameComparator(const Student* a, const Student* b) {
-    return (a->firstName < b->firstName);
+int firstNameComparator(const void* a, const void* b) {
+    const Student* studA = (const Student*)a;
+    const Student* studB = (const Student*)b;
+    return strcmp(studA->firstName, studB->firstName);
 }
 
-bool lastNameComparator(const Student* a, const Student* b) {
-    return (a->lastName < b->lastName);
+int lastNameComparator(const void* a, const void* b) {
+    const Student* studA = (const Student*)a;
+    const Student* studB = (const Student*)b;
+    return strcmp(studA->lastName, studB->lastName);
 }
 
-bool groupComparator(const Student* a, const Student* b) {
-    return (a->group < b->group);
+int groupComparator(const void* a, const void* b) {
+    const Student* studA = (const Student*)a;
+    const Student* studB = (const Student*)b;
+    return strcmp(studA->group, studB->group);
 }
 
 // Студенты, набравшие больше среднего
@@ -386,6 +398,8 @@ void goodSearch(Student* students, int count, FILE* output)
     }
     allAvg /= count;
 
+    fprintf(output, "\n[AVG: >%f]\n", allAvg);
+
     for (int i = 0; i < count; i++) {
         
         if (avarage(&students[i]) > allAvg) {
@@ -394,19 +408,25 @@ void goodSearch(Student* students, int count, FILE* output)
     }
 }
 
+// Связующая функция
+
 ErrorCode menu(FILE *output, Student* students, const short int studentCount, const int *choice) {
     if (choice == NULL) {
         return ERROR_INVALID_DATA;
     }
 
+    unsigned int id;
+    int found = 0;
+    Student* hits = NULL;
+    char firstName[1024], lastName[1024], group[512];
+
     switch (*choice) {
         case(1):
-            unsigned int id;
             printf("Student ID: ");
             scanf("%u", &id);
 
-            int found;
-            Student* hits = idSearch(students, studentCount, id, &found);
+            
+            hits = idSearch(students, studentCount, id, &found);
 
             if (found) {
                 printf("Found %d students:\n", found);
@@ -424,12 +444,10 @@ ErrorCode menu(FILE *output, Student* students, const short int studentCount, co
             break;
 
         case(2):
-            char* firstName;
             printf("Student first name: ");
             scanf("%s", &firstName);
 
-            int found;
-            Student* hits = firstNameSearch(students, studentCount, firstName, &found);
+            hits = firstNameSearch(students, studentCount, firstName, &found);
 
             if (found) {
                 printf("Found %d students:\n", found);
@@ -447,12 +465,10 @@ ErrorCode menu(FILE *output, Student* students, const short int studentCount, co
             break;
 
         case(3):
-            char* lastName;
             printf("Student last name: ");
             scanf("%s", &lastName);
 
-            int found;
-            Student* hits = lastNameSearch(students, studentCount, lastName, &found);
+            hits = lastNameSearch(students, studentCount, lastName, &found);
 
             if (found) {
                 printf("Found %d students:\n", found);
@@ -470,12 +486,10 @@ ErrorCode menu(FILE *output, Student* students, const short int studentCount, co
             break;
 
         case(4):
-            char* group;
             printf("Student group: ");
             scanf("%s", &group);
 
-            int found;
-            Student* hits = groupSearch(students, studentCount, group, &found);
+            hits = groupSearch(students, studentCount, group, &found);
 
             if (found) {
                 printf("Found %d students:\n", found);
@@ -514,17 +528,17 @@ ErrorCode menu(FILE *output, Student* students, const short int studentCount, co
            
         
         case(9):
-            unsigned int id;
             printf("Student ID: ");
             scanf("%u", &id);
 
-            int found;
-            Student* hits = idSearch(students, studentCount, id, &found);
+            hits = idSearch(students, studentCount, id, &found);
 
-            if (found >= 0) {
+            if (found > 0) {
                 fprintf(output, "Detailed student info:\n");
                 fprintStudent(&hits[0], output, 2);
                 printf("Student information written into the file.\n");
+                fflush(output);
+                free(hits);
 
             } else {
                 printf("Student not found.\n");
@@ -536,7 +550,7 @@ ErrorCode menu(FILE *output, Student* students, const short int studentCount, co
             fprintf(output, "Good students:\n");
             goodSearch(students, studentCount, output);
             printf("Good students information written into the file.\n");
-
+            fflush(output);
             break;
         
         case(11):
@@ -545,19 +559,23 @@ ErrorCode menu(FILE *output, Student* students, const short int studentCount, co
         
         case(12):
             fprintfAll(students, studentCount, output);
+            fflush(output);
+            printf("Student information written into the file.\n");
             break;
         
         case(0):
             freeAll(students, studentCount);
-            return SUCCESS;
+            return SUCCESS_EXIT;
 
         default:
             freeAll(students, studentCount);
             return ERROR_INVALID_INPUT;
     }
 
-    return ERROR_UNKNOWN;
+    return SUCCESS;
 }
+
+// Функция вывода меню
 
 void printMenu() {
     printf("\n <Student Manager> \n\n");
