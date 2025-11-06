@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     printf("Oversscanf (Строка)\n");
     
     // %Zr (Цекендорф) | %Ro (Римское) | %d (Десятичное)
-    const char *input_str = "11011 555 XIV";
+    const char *input_str = "11011 15 XIV";
     const char *format_str = " %Zr %d %Ro";
     
     unsigned int val1 = 0;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     int scanned1 = oversscanf(input_str, format_str, &val1, &val2, &val3);
 
     printf("%%Zr (11011) = %u\n", val1);
-    printf("%%d (42) = %d\n", val2);
+    printf("%%d (15) = %d\n", val2);
     printf("%%Ro (XIV) = %d\n", val3);
     
     printf("Вывод функции - %d\n", scanned1);
@@ -35,16 +35,16 @@ int main(int argc, char* argv[]) {
     }
 
     int val4 = 0; 
-    int val5 = 0;
+    float val5 = 0;
     int val6 = 0;
 
     // %CV (База 36, верхний регистр) | %d | %Ro (Римское)
-    const char *format_file = "%CV %d %Ro";
+    const char *format_file = "%CV %f %Ro";
     
     int scanned2 = overfscanf(file, format_file, 36, &val4, &val5, &val6);
 
     printf(" - %%CV (10A, база 36) = %d\n", val4);
-    printf(" - %%d (55) = %d\n", val5);
+    printf(" - %%f (0.5) = %lf\n", val5);
     printf(" - %%Ro (MCMXLV) = %d\n", val6);
     printf("Вывод функции - %d\n", scanned2);
     

@@ -39,33 +39,6 @@ int ungetter(int c, universalInput *in) {
     return EOF;
 }
 
-int skipArg(char *input, va_list *args) {
-    char* flag = (input + 1);
-    switch (*flag) {
-        case ('d'):
-            int skip1 = va_arg(*args, int);
-            break;
-        case ('u'):
-            unsigned skip2 = va_arg(*args, unsigned);
-            break;
-        case ('x'):
-            unsigned skip3 = va_arg(*args, unsigned);
-            break;
-        case ('f'):
-            float skip4 = va_arg(*args, double);
-            break;
-        case ('l'):
-            double skip5 = va_arg(*args, double);
-            break;
-        case ('s'):
-            char* skip6 = va_arg(*args, char*);
-            break;
-        default:
-            break;
-        
-    }
-}
-
 // Типы флагов
 
 typedef enum {
@@ -339,78 +312,244 @@ FlagType flagTyper(const char* format)
 
 int fileBoringFlag(FILE *stream, const char **format, va_list *args)
 {
-
-    char flag[128];    
-    char *currWrite = flag;
-    const char *standart = "diuoxXfFeEgGaAcspn%%";
-
-    *currWrite++ = '%';
+    const char *currFormat = *format;
+    char token[512];
+    int tokenLen = 0;
+    int result = 0;
+    int curr;
     
-    const char *curr = *format;
-
-    while ((currWrite - flag < 127) && *curr != '\0' && strchr(standart, *curr) == NULL) {
-        *currWrite++ = *curr;
-        curr++;
+    while ((curr = fgetc(stream)) != EOF && isspace(curr)) {
     }
-
-    if (*curr != '\0') {
-        *currWrite++ = *curr;
-        curr++;
+    
+    if (curr == EOF) {
+        return 0;
     }
+    
+    token[tokenLen++] = curr;
+    while ((curr = fgetc(stream)) != EOF && !isspace(curr) && tokenLen < 511) {
+        token[tokenLen++] = curr;
+    }
+    token[tokenLen] = '\0';
+    
+    if (tokenLen == 0 || tokenLen == 511) {
+        return 0;
+    }
+    
+    char *endPos = NULL;
+    
+    switch (*currFormat) {
+        case 'd': {
+            long value = strtol(token, &endPos, 10);
+        
+            if (endPos != token && *endPos == '\0') {
 
-    *currWrite = '\0';
+                int *output = va_arg(*args, int*);
+                *output = (int)value;
 
-    *format = curr;
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'u': {
+            unsigned long value = strtoul(token, &endPos, 10);
+            
+            if (endPos != token && *endPos == '\0') {
 
-    int result = vfscanf(stream, flag, *args);
-    skipArg(flag, args);
+                unsigned int *output = va_arg(*args, unsigned int*);
+                *output = (unsigned int)value;
 
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'x': {
+            unsigned long value = strtoul(token, &endPos, 16);
+            
+            if (endPos != token && *endPos == '\0') {
+
+                unsigned int *output = va_arg(*args, unsigned int*);
+                *output = (unsigned int)value;
+
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'f': {
+            double value = strtod(token, &endPos);
+            
+            if (endPos != token && *endPos == '\0') {
+
+                float *output = va_arg(*args, float*);
+                *output = (float)value;
+
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'l': {
+            if (currFormat[1] == 'f') {
+                double value = strtod(token, &endPos);
+                
+                if (endPos != token && *endPos == '\0') {
+
+                    double *output = va_arg(*args, double*);
+                    *output = value;
+
+                    result = 1;
+                }
+
+                (*format)++;
+            }
+            break;
+        }
+        
+        case 's': {
+            char *output = va_arg(*args, char*);
+
+            strcpy(output, token);
+
+            result = 1;
+            break;
+        }
+    }
+    
+    if (result > 0) {
+        (*format)++;
+    }
+    
     return result;
 }
 
 int strBoringFlag(const char **str, const char **format, va_list *args)
 {
-    char flag[128];    
-    char *currWrite = flag;
-    const char *standart = "diuoxXfFeEgGaAcspn%%";
+    const char *currFormat = *format;
+    const char *inputStr = *str;
+    const char *strStart = inputStr;
+    int result = 0;
 
-    *currWrite++ = '%';
+    while (isspace((unsigned char)*inputStr)) {
+        inputStr++;
+    }
     
-    const char *curr = *format;
-    while ((currWrite - flag < 127) && *curr != '\0' && strchr(standart, *curr) == NULL) {
-        *currWrite++ = *curr;
-        curr++;
+    if (*inputStr == '\0') {
+        return 0;
     }
-
-    if (*curr != '\0') {
-        *currWrite++ = *curr;
-        curr++;
+    
+    const char *tokenStart = inputStr;
+    const char *tokenEnd = inputStr;
+    while (*tokenEnd != '\0' && !isspace((unsigned char)*tokenEnd)) {
+        tokenEnd++;
     }
+    
+    size_t tokenLen = tokenEnd - tokenStart;
 
-    *currWrite = '\0';
-    *format = curr;
-
-    const char* endOfStr = *str;
-    while (*endOfStr != '\0' && *endOfStr != ' ' && *endOfStr != '\t' && *endOfStr != '\n' && *endOfStr != '\r') {
-        endOfStr++;
+    if (tokenLen == 0) {
+        return 0;
     }
-
-    size_t moment = endOfStr - *str;
-    char *tempStr = (char *)malloc(moment + 1);
-    if (tempStr == NULL) {
+    
+    char *token = (char *)malloc(tokenLen + 1);
+    if (!token) {
         return -1;
     }
 
-    strncpy(tempStr, *str, moment);
-    tempStr[moment] = '\0';
+    strncpy(token, tokenStart, tokenLen);
+    token[tokenLen] = '\0';
 
-    int result = vsscanf(tempStr, flag, *args);
+    char *endPos = NULL;
+    
+    
+    switch (*currFormat) {
+        case 'd': {
+            long value = strtol(token, &endPos, 10);
+            
+            if (endPos != token && *endPos == '\0') {
 
-    skipArg(flag, args);
+                int *output = va_arg(*args, int*);
+                *output = (int)value;
 
-    free(tempStr);
-    *str += moment;
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'u': {
+            unsigned long value = strtoul(token, &endPos, 10);
+            
+            if (endPos != token && *endPos == '\0') {
 
+                unsigned int *output = va_arg(*args, unsigned int*);
+                *output = (unsigned int)value;
+
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'x': {
+            unsigned long value = strtoul(token, &endPos, 16);
+            
+            if (endPos != token && *endPos == '\0') {
+
+                unsigned int *output = va_arg(*args, unsigned int*);
+                *output = (unsigned int)value;
+
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'f': {
+            double value = strtod(token, &endPos);
+            
+            if (endPos != token && *endPos == '\0') {
+
+                float *output = va_arg(*args, float*);
+                *output = (float)value;
+
+                result = 1;
+            }
+            break;
+        }
+        
+        case 'l': {
+            if (currFormat[1] == 'f') {
+                double value = strtod(token, &endPos);
+                
+                if (endPos != token && *endPos == '\0') {
+
+                    double *output = va_arg(*args, double*);
+                    *output = value;
+
+                    result = 1;
+                }
+
+                (*format)++;
+            }
+            break;
+        }
+        
+        case 's': {
+            char *output = va_arg(*args, char*);
+
+            result = 1;
+
+            break;
+        }
+    }
+    
+    free(token);
+    
+    if (result > 0) {
+        (*format)++;
+        *str = tokenEnd;
+    } else {
+        *str = strStart;
+    }
+    
     return result;
 }
 
