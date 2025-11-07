@@ -25,15 +25,17 @@ unsigned int addOne(unsigned int a) {
 
 // Вычесть 1
 unsigned int subtractOne(unsigned int a) {
-    unsigned int one = 1;
 
-    while (one) {
-        unsigned int carry = (~a) & one;
-        a =  a ^ one;
-        one = carry << 1;
-    }
+    return addOne(~addOne(addOne(~a)));
+    // unsigned int one = 1;
 
-    return a;
+    // while (one) {
+    //     unsigned int carry = (~a) & one;
+    //     a =  a ^ one;
+    //     one = carry << 1;
+    // }
+
+    // return a;
 }
 
 
