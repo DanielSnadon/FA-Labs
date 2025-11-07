@@ -1,11 +1,23 @@
 #include "functions.h"
 
+#include <stdlib.h>
+
 int check_brackets(const char *str) {
     if (str == NULL) {
         return -1;
     }
 
-    char stack[1024];
+    size_t maxSize = strlen(str);
+    if (maxSize == 0) {
+        return 0;
+    }
+
+    char *stack = (char *)malloc(maxSize * sizeof(char));
+    if (stack == NULL) {
+        return -1;
+    }
+
+    int result = 0;
 
     char openings[] = "({<[";
     char endings[] = ")}>]";
@@ -16,31 +28,30 @@ int check_brackets(const char *str) {
         char c = str[currPos];
 
         if (strchr(openings, c) != NULL) {
-            if (top >= 1023) {
-                return -1;
-            }
-
             stack[++top] = c;
 
         } else if (strchr(endings, c) != NULL) {
             if (top == -1) {
-                return -1;
+                result = 1;
+                break;
             }
 
             char* corrEnd = strchr(endings, c);
             short int index = corrEnd - endings;
 
             if (stack[top] != openings[index]) {
-                return 1;
+                result = 1;
+                break;
             }
 
             top--;
         }
     }
 
-    if (top != -1) {
-        return 1;
+    if (result == 0 && top != -1) {
+        result = 1;
     }
     
-    return 0;
+    free(stack);
+    return result;
 }
