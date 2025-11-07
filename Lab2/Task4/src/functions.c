@@ -419,6 +419,8 @@ int fileBoringFlag(FILE *stream, const char **format, va_list *args)
     
     if (result > 0) {
         (*format)++;
+        char trash;
+        ungetc(trash, stream);
     }
     
     return result;
