@@ -2,6 +2,7 @@
 #define VECTOR_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define VECTOR_TYPE int
 
