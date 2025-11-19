@@ -1,4 +1,5 @@
 #include "linked_list.h"
+#include <string.h>
 
 // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 
@@ -18,7 +19,7 @@ Node* createNode(LIST_TYPE value, Node *prev, Node *next)
     return newNode;
 }
 
-Node* findNode(LinkedList *list, size_t index)
+Node* findNode(const LinkedList *list, size_t index)
 {
     if (list == NULL || index >= list->size) {
         return NULL;
@@ -104,6 +105,9 @@ void push_back_list(LinkedList *list, LIST_TYPE value)
     }
 
     Node *newNode = createNode(value, list->tail, NULL);
+    if (newNode == NULL) {
+        return;
+    }
 
     if (list->size == 0) {
         list->head = newNode;
@@ -207,9 +211,16 @@ void insert_at_list(LinkedList *list, size_t index, LIST_TYPE value)
     Node *prevNode = nextNode->prev;
 
     Node *newNode = createNode(value, prevNode, nextNode);
+    if (newNode == NULL) {
+        return;
+    }
 
-    prevNode->next = newNode;
-    nextNode->prev = newNode;
+    if (prevNode != NULL) {
+        prevNode->next = newNode;
+    }
+    if (nextNode != NULL) {
+        nextNode->prev = newNode;
+    }
 
     list->size++;
 }
@@ -222,10 +233,11 @@ void delete_at_list(LinkedList *list, size_t index)
 
     if (index == 0) {
         pop_front_list(list);
+        return;
     }
-
-    if (index == list->size - 1) {
+    else if (index == list->size - 1) {
         pop_back_list(list);
+        return;
     }
 
     Node *dying = findNode(list, index);
@@ -316,7 +328,8 @@ LIST_TYPE dequeue(LinkedList *queue)
     return pop_front_list(queue);
 }
 
-LIST_TYPE peek_queue(const LinkedList *queue) {
+LIST_TYPE peek_queue(const LinkedList *queue)
+{
     if (queue == NULL || queue->size == 0) {
         printf("Ошибка: не удалось получить значение элемента. \n");
         return (LIST_TYPE){0};

@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_executable(main 
     src/main.c
-    src/linked-list.c
+    src/linked_list.c
     src/functions.c
 )
 
