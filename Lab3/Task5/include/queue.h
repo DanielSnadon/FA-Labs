@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include "structures.h"
+#include <stdlib.h>
 
 Node* mergeQueue(Node *q1, Node *q2);
 
