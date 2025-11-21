@@ -1,0 +1,37 @@
+Тестовые данные присутствуют в файлах 1.txt и 2.txt.
+
+Ожидаемый вывод:
+
+- - - 1.txt - - -
+
+Трассировочный файл:
+
+[1] A = 2 | A=2 | Assignment / Arithmetic operation
+[2] B = 3 | A=2, B=3 | Assignment / Arithmetic operation
+[3] C = A + B * 2 | A=2, B=3, C=8 | Assignment / Arithmetic operation
+[4] D = C ^ B | A=2, B=3, C=8, D=512 | Assignment / Arithmetic operation
+[5] print(D) | A=2, B=3, C=8, D=512 | Print()
+
+Вывод в консоль:
+512
+
+- - - 2.txt - - -
+
+Трассировочный файл:
+
+[1] A  =  10 | A=10 | Assignment / Arithmetic operation
+[2]  B=2    | A=10, B=2 | Assignment / Arithmetic operation
+[3] C = A +  B * 3 - A  / B | A=10, B=2, C=11 | Assignment / Arithmetic operation
+[4] print(C) | A=10, B=2, C=11 | Print()
+[6]   print(B ^ 4) | A=10, B=2, C=11 | Print()
+[8] D = 16 | A=10, B=2, C=11, D=16 | Assignment / Arithmetic operation
+[9] E = D / 3 | A=10, B=2, C=11, D=16, E=5 | Assignment / Arithmetic operation
+[11] print(E) | A=10, B=2, C=11, D=16, E=5 | Print()
+[13] F = D ^ 0 + 1 * 0 | A=10, B=2, C=11, D=16, E=5, F=1 | Assignment / Arithmetic operation
+[14] print(F) | A=10, B=2, C=11, D=16, E=5, F=1 | Print()
+
+Вывод в консоль:
+11
+16
+5
+1
