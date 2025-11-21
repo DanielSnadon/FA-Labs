@@ -146,28 +146,18 @@ void simulateTick(MailService *service)
         currStation->currentMails--;
 
         if (mail.status == STATUS_MOVING) {
-            mail.status = STATUS_IN_WAY;
-            
             currStation->mails = addQueue(currStation->mails, mail);
             currStation->currentMails++;
-            mail.priority = 0 - mail.priority;
-
-            writeLog(service, "Письмо ID:%u (Приор: %d) получено в ID:%u в этом тике и оказалось самым приоритетным на данный момент. Никаких действий не выполнено.",
-                    mail.id, mail.priority, currStation->id);
 
             continue;
-        } else {
-            resetStatuses(currStation->mails); 
         }
 
-        if (mail.status != STATUS_IN_WAY) {
+        if (mail.status != STATUS_IN_WAY && mail.status != STATUS_MOVING) {
             mail.priority++;
             
             currStation->mails = addQueue(currStation->mails, mail);
             currStation->currentMails++;
-            
-            writeLog(service, "Письмо ID:%u (Статус: %s) проигнорировано, остаётся в пункте ID:%u.",
-                    mail.id, stringStatus(mail.status), currStation->id);
+                
             continue;
         }
 
@@ -183,7 +173,6 @@ void simulateTick(MailService *service)
 
                 writeLog(service, "Письмо ID:%u (Приор: %d) ДОСТИГЛО пункта назначения ID:%u и ожидает получения.",
                          mail.id, mail.priority, nextStationId);
-                mail.priority = 0;
                 mail.status = STATUS_DELIVERED;
 
             } else {
@@ -206,6 +195,18 @@ void simulateTick(MailService *service)
             writeLog(service, "Письмо ID %u (Приор: %d) ЗАДЕРЖАНО в ID %u. Нет доступных маршрутов/соседей.",
                      mail.id, mail.priority, currStation->id);
         }
+
+    }
+
+    for (size_t i = 0; i < service->count; i++) {
+
+        Station *currStation = &service->stations[i];
+
+        if (isQueueEmpty(currStation->mails)) {
+            continue;
+        }
+
+        resetStatuses(currStation->mails); 
     }
 }
 
