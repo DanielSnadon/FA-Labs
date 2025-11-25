@@ -1,5 +1,5 @@
-# Федосов Д.А. - М8О-212БВ-24
-### 4TH PACK COMING SOON...
+# Fedosov D.A. - М8О-212БВ-24
+### IS IT FINALLY OVER?
 
 | Pack | Task | Completion% | Accepted? | Last Update | Notes |
 |---|---|------|----|-------|---|
