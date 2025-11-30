@@ -1,5 +1,5 @@
 # Fedosov D.A. - М8О-212БВ-24
-### IS IT FINALLY OVER?
+### IT IS OVER.
 
 | Pack | Task | Completion% | Accepted? | Last Update | Notes |
 |---|---|------|----|-------|---|
