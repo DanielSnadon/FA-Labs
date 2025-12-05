@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 
     while (fibHeap.size > 0) {
         int min = peek(&fibHeap);
-        pop(&fibHeap);
+        del(&fibHeap);
         printf("Извлечён элемент - %d \n", min);
     }
 

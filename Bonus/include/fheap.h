@@ -19,15 +19,13 @@ typedef struct {
     FNode* min;
 } FibonacciHeap;
 
-FNode* createFNode(int x);
-
 FibonacciHeap createFibonacciHeap();
 
 FNode* merge(FNode* n1, FNode* n2);
 
 int add(FibonacciHeap *h, int x);
 
-int pop(FibonacciHeap *h);
+int del(FibonacciHeap *h);
 
 int peek(FibonacciHeap *h);
 

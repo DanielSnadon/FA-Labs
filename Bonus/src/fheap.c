@@ -1,5 +1,7 @@
 #include "fheap.h"
 
+// Вспомогательные функции
+
 void insertNode(FNode* new, FNode* dst)
 {
     if (new == NULL || dst == NULL) {
@@ -40,6 +42,8 @@ FNode* createFNode(int x)
 
     return new;
 }
+
+// Основные функции
 
 FibonacciHeap createFibonacciHeap()
 {
@@ -95,7 +99,7 @@ int add(FibonacciHeap *h, int x)
     return 0;
 }
 
-int pop(FibonacciHeap *h)
+int del(FibonacciHeap *h)
 {
     
 
@@ -174,7 +178,9 @@ void freeFHeap(FibonacciHeap *h)
     h->size = 0;
 }
 
-void unite(FibonacciHeap *h, FNode* newChild, FNode* parent)
+// Консолидация и вспомогательное соединение родителя и ребёнка
+
+void unite(FNode* newChild, FNode* parent)
 {
     removeNode(newChild);
 
@@ -237,7 +243,7 @@ void consolidate(FibonacciHeap *h)
 
             degrees[deg] = NULL;
 
-            unite(h, newChild, parent);
+            unite(newChild, parent);
 
             x = parent;
             deg = x->degree;
